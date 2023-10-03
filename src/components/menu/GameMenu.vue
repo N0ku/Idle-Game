@@ -1,7 +1,11 @@
 <template>
   <div class="container-button">
-    <button>INSCRIPTION</button>
-    <button>CONNEXION</button>
+    <router-link to="/register">
+      <button>Register</button>
+    </router-link>
+    <router-link to="/login">
+      <button>Login</button>
+    </router-link>
   </div>
 </template>
 <style scoped>
