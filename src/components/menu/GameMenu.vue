@@ -21,6 +21,7 @@ button {
   border-radius: 5px;
   transition: all 500ms ease-in-out;
   color: grey;
+  cursor: pointer;
 }
 button:hover {
   background-color: #4caf50a8;
