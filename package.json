@@ -12,6 +12,8 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "gsap": "^3.12.2",
+    "imagesloaded": "^5.0.0",
     "pinia": "^2.1.6",
     "roving-ux": "^1.0.5",
     "sass": "^1.68.0",
