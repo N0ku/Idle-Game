@@ -1,6 +1,7 @@
 <script setup lang="ts">
 
 import {reactive, ref} from "vue";
+import CardDrawer from "@/components/game/drawer/CardDrawer.vue";
 
 let open = reactive({ value: false})
 let right = true
@@ -44,13 +45,33 @@ function toogle(){
             v-if="open.value"
         >
           <div class="grid w-80 grid-rows-3 grid-flow-col gap-4">
-            <div class=" text-center font-bold text-black text-xl">Vue Générale</div>
-            <slot></slot>
+            <div class="content-center">
+              <div class="text-center font-bold text-black text-xl">Ressource</div>
+              <div class="w-full h-full grid grid-rows-4 grid-flow-col gap-2">
+                <div class="w-32 h-10 m-2">
+                  <CardDrawer mode="ressource"></CardDrawer>
+                </div>
+              </div>
+            </div>
+            <div class="content-center">
+              <div class="text-center font-bold text-black text-xl">Usine</div>
+              <div class="w-full h-full grid grid-rows-4 grid-flow-col gap-2">
+                <div class="w-2/5 h-10 m-2">
+                  <CardDrawer mode="usine"></CardDrawer>
+                </div>
+              </div>
+            </div>
+            <div class="content-center">
+              <div class="text-center font-bold text-black text-xl">Bonus</div>
+              <div class="w-full h-full grid grid-rows-4 grid-flow-col gap-2">
+                <div class="w-2/5 h-10 m-2">
+                  <span class="inline-block w-24 bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">Gain +3%</span>
+                </div>
+              </div>
+            </div>
           </div>
-
         </div>
       </div>
-
     </div>
 
 </template>
