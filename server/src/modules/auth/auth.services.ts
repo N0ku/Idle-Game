@@ -6,7 +6,7 @@ import { WithId } from "mongodb";
 export async function register(body: AuthRegisterBody) {
     const alreadyExist = await Users.findOne({ username: body.username })
     if (alreadyExist) {
-        return { success: false, message: 'User already exists' }
+        return { status: false, message: 'User already exists' }
     }
     
     const hashedPassword = crypto.createHash('sha256').update(body.password).digest('hex')
