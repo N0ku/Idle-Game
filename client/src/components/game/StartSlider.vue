@@ -1,5 +1,5 @@
 <template>
-    <div class="starter-container container">
+    <div class="starter-container">
         <h1
             class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
             It's Time to choose your first factory</h1>
@@ -42,9 +42,10 @@ export default {
     }
 }
 </script>
+
 <style lang="scss">
 .starter-container {
-    position: relative;
+    position: fixed;
     display: flex;
     flex-flow: column nowrap;
     justify-content: center;
@@ -52,6 +53,7 @@ export default {
     height: 100vh;
     width: 100%;
     z-index: 100;
+    right: 0;
     background: rgba(0, 0, 0, 0.5);
 
     .slider-container {
