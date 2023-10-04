@@ -1,5 +1,11 @@
 <script setup lang="ts">
-const props = defineProps(['mode'])
+import {Factory} from "@/global/implements";
+
+const props = defineProps({
+  mode : String,
+  factory : Factory
+})
+console.log(props)
 </script>
 
 <template>
@@ -22,7 +28,9 @@ const props = defineProps(['mode'])
       <img class="h-[2rem] w-full" src="src/assets/icone/bois.png" alt="card 1" />
     </div>
     <div class="text-sm text-gray-800 grid content-center">
-      <span>Niveau 4</span>
+      <span>
+        Niveau {{props.factory.level}}
+      </span>
     </div>
   </div>
 
