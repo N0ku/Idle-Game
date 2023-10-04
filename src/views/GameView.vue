@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import "../assets/GameView.scss"
-import StartSlider from "@/components/game/StartSlider.vue"
+import StartSlider from "../components/game/StartSlider.vue"
+
+
+
+
 </script>
 
 <template lang="">
