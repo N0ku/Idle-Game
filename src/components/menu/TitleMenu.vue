@@ -30,6 +30,7 @@
   animation-delay: calc(0.1s * var(--i));
   background: linear-gradient(5deg, #795548, #4caf50a8);
   -webkit-background-clip: text;
+  background-clip: text;
   color: transparent;
 }
 @keyframes animate {
