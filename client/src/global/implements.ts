@@ -2,7 +2,7 @@
 
 import {TestClasses} from "./classes/template"
 import type { TestInterface } from "./interface/template";
-import type {  FactoryInfo } from "./interface/interfaceFactoryInfo";
+import type {  FactoryInfo } from "./interface/interfaceFactory";
 
 import { enumTest } from "./enums/template";
 import { Products, TypeFactory } from "./enums/enumFactory";
