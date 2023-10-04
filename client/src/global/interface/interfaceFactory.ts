@@ -5,7 +5,7 @@ export interface FactoryInfo {
     productName: Implements.Products;
     factoryType: Implements.TypeFactory;
     level?: number;
-    id?: number;
+    id?: string;
     id_localisation?:number;
     production: number;
 }
