@@ -22,4 +22,13 @@ In 2 different terminals
   npm run dev
 ```
 
+#Lauch Docker
 
+```
+docker-compose up
+```
+#Mongo with Docker Interface 
+
+````
+http://localhost:8081/
+```
