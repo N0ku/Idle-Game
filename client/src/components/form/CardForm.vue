@@ -72,6 +72,8 @@ const props = defineProps(['page'])
 import { RegisterFormTypes } from '../../types/form/Register.types'
 import Swal from 'sweetalert2'
 import axios, { AxiosResponse, AxiosError } from 'axios'
+import { useRouter } from 'vue-router'
+const router = useRouter()
 console.log(props.page)
 
 let newTask: RegisterFormTypes = {
@@ -96,36 +98,32 @@ function handleFormSubmit() {
       password: newTask.password
     })
     .then((response: AxiosResponse<any>) => {
-      // Gérer la réponse du serveur si nécessaire
       if (response.data.success) {
-        if (props.page === 'register') {
-          Swal.fire({
-            icon: 'success',
-            title: 'Succès',
-            text: 'Account created successfully !',
-            timer: 3000
-          })
-          newTask.password = ''
-          newTask.username = ''
-          return
-        }
-         Swal.fire({
-            icon: 'success',
-            title: 'Succès',
-            text: 'Login !',
-            timer: 3000
-          })
-          newTask.password = ''
-          newTask.username = ''
-          return
+        const successMessage =
+          props.page === 'register' ? 'Account created successfully !' : 'Login !'
+
+        Swal.fire({
+          icon: 'success',
+          title: 'Succès',
+          text: successMessage,
+          timer: 3000
+        }).then(() => {
+          if (props.page !== 'register') {
+            router.push('/game')
+          }
+        })
+
+        newTask.password = ''
+        newTask.username = ''
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Erreur',
+          text: response.data.message,
+          timer: 3000
+        })
+        console.log(response.data) // Affiche la réponse du serveur
       }
-      Swal.fire({
-        icon: 'error',
-        title: 'Erreur',
-        text: response.data.message,
-        timer: 3000
-      })
-      console.log(response.data) // Affiche la réponse du serveur
     })
     .catch((error: AxiosError) => {
       // Gérer les erreurs de l'appel Axios
