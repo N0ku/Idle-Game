@@ -1,6 +1,8 @@
 <template>
     <div class="starter-container container">
-        <p>It's time to choose your first resource to produce</p>
+        <h1
+            class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
+            It's Time to choose your first factory</h1>
         <div class="slider-container">
             <div class="slider-item" v-for="(item, index) in items" :key="index" v-on:click="handleClickItem(item.id)">
                 <img :src="item.image" alt="logo" />
