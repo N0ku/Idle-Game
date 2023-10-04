@@ -1,11 +1,15 @@
 <script setup lang="ts">
 
-import {reactive, ref} from "vue";
+import {reactive} from "vue";
 import CardDrawer from "@/components/game/drawer/CardDrawer.vue";
+import {Factory} from "@/global/classes/Factory";
+import {Products, TypeFactory} from "@/global/enums/enumFactory";
 
 let open = reactive({ value: false})
 let right = true
-
+let fullFactory : Factory[] = [{id:'feef', factoryType:TypeFactory.WoodProduction, id_localisation: 2, production: 20, level: 5, productName: Products.Wood},
+  {id:'feef', factoryType:TypeFactory.WoodProduction, id_localisation: 2, production: 20, level: 2, productName: Products.Wood},
+  {id:'feef', factoryType:TypeFactory.WoodProduction, id_localisation: 2, production: 20, level: 1, productName: Products.Wood}]
 function toogle(){
   console.log('r')
   open.value = !open.value;
@@ -56,8 +60,8 @@ function toogle(){
             <div class="content-center">
               <div class="text-center font-bold text-black text-xl">Usine</div>
               <div class="w-full h-full grid grid-rows-4 grid-flow-col gap-2">
-                <div class="w-2/5 h-10 m-2">
-                  <CardDrawer mode="usine"></CardDrawer>
+                <div class="w-2/5 h-10 m-2" v-for="factory in fullFactory">
+                  <CardDrawer mode="usine" :factory="factory"></CardDrawer>
                 </div>
               </div>
             </div>
