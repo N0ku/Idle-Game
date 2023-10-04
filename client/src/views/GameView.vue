@@ -1,16 +1,26 @@
-<script setup lang="ts">
-import "../assets/GameView.scss"
-import StartSlider from "../components/game/StartSlider.vue"
-import DrawerGlobalView from "@/components/game/drawer/DrawerGlobalView.vue";
+<template>
+  <div class="game-container">
+    <StartSlider :start="start" @itemClicked="handleItemClicked" v-if="start"/>
+    <DrawerGlobalView></DrawerGlobalView>
+  </div>
+</template>
 
+<script setup lang="ts">
+import StartSlider from "../components/game/StartSlider.vue";
+import DrawerGlobalView from "@/components/game/drawer/DrawerGlobalView.vue";
+import type { Item } from '@/types/Item';
+import { ref } from "vue";
+
+let start = ref(true);
+
+let handleItemClicked = (item: Item): void => {
+  start.value = false;   
+  //TODO: replace item with a ressource
+  console.log(item);
+  
+};
 </script>
 
-<template lang="">
-    <div class="game-container">
-        <StartSlider />
-     <DrawerGlobalView></DrawerGlobalView>
-    </div>
-</template>
 <style lang="scss">
 .game-container {
   width: 100%;
