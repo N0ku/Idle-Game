@@ -1,3 +1,6 @@
+<script setup lang="ts">
+import CardForm from '../components/form/CardForm.vue'
+</script>
 <template>
-    <h1>Login</h1>
+  <CardForm page="login" />
 </template>
