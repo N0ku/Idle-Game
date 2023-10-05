@@ -10,7 +10,7 @@ export class Trade{
 
     constructor(id: string,product: Products, quantity: number, price: number, sellerId: string, buyerId? : string | null) {
         this.id = id;
-        this.product = product;
+        this.productName = product;
         this.quantity = quantity;
         this.price = price;
         this.sellerId = sellerId;
