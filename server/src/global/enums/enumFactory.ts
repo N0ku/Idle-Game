@@ -1,4 +1,4 @@
-import { Product } from './../../../../client/src/global/classes/Products';
+
 export enum Products {
   Wood = "Wood",
   Stone = "Stone",
@@ -9,26 +9,26 @@ export enum Products {
 }
 
 export class ProductsExtensions {
-  public static GetImage(product: Products) {
+  public static GetImage(product: Products | undefined) {
     switch (product) {
       case Products.Wood:
-        return "wood.png";
+        return "src/assets/img/products/wood.png";
       case Products.Stone:
         return "stone.png";
       case Products.Weed:
-        return "weed.png";
+        return "src/assets/img/products/weed.png";
       case Products.CBD:
-        return "cbd.png";
+        return "src/assets/img/products/cbd.png";
       case Products.Water:
-        return "water.png";
+        return "src/assets/img/products/water.png";
       case Products.Fertilizer:
-        return "fertilizer.png";
+        return "src/assets/img/products/fertilizer.png";
       default:
         return;
     }
   }
 
-  public static GetPrice(product: Products) {
+  public static GetPrice(product: Products | undefined) {
     switch (product) {
       case Products.Wood:
         return 1;
@@ -63,7 +63,7 @@ export class TypeFactoryExtensions {
       case TypeFactory.WoodProduction:
         return "src/assets/img/wood.png";
       case TypeFactory.StoneProduction:
-        return "stone.png";
+        return "src/assets/img/factories/stone_factories.png";
       case TypeFactory.WeedProduction:
         return "weed.png";
       case TypeFactory.CBDProduction:
@@ -77,7 +77,7 @@ export class TypeFactoryExtensions {
     }
   }
 
-  public static GetPrice(factory: TypeFactory, level: number) {
+  public static GetPrice(factory: TypeFactory | undefined, level: number) {
     switch (factory) {
       case TypeFactory.WoodProduction:
         return 100.0 * level;
