@@ -4,6 +4,7 @@ import {reactive} from "vue";
 import CardDrawer from "@/components/game/drawer/CardDrawer.vue";
 import {Factory} from "@/global/classes/Factory";
 import {Products, TypeFactory} from "@/global/enums/enumFactory";
+import {Product} from "@/global/classes/Products";
 
 let open = reactive({value: false})
 let view = reactive({value: 'global'})
@@ -49,6 +50,40 @@ let fullFactory: Factory[] = [{
     level: 1,
     productName: Products.Wood
   }]
+
+
+let allProduct : Product[] = [{
+  name : Products.Water,
+  illustration : 'src/assets/img/DALL·E 2023-10-03 16.53.31 - create a pot in pixel art 16x16 .png',
+  description : 'd',
+  price : 20
+},{
+  name : Products.Water,
+  illustration : 'src/assets/img/DALL·E 2023-10-03 16.53.31 - create a pot in pixel art 16x16 .png',
+  description : 'd',
+  price : 20
+},{
+  name : Products.Water,
+  illustration : 'src/assets/img/DALL·E 2023-10-03 16.53.31 - create a pot in pixel art 16x16 .png',
+  description : 'd',
+  price : 20
+},{
+  name : Products.Water,
+  illustration : 'src/assets/img/DALL·E 2023-10-03 16.53.31 - create a pot in pixel art 16x16 .png',
+  description : 'd',
+  price : 20
+},{
+  name : Products.Water,
+  illustration : 'src/assets/img/DALL·E 2023-10-03 16.53.31 - create a pot in pixel art 16x16 .png',
+  description : 'd',
+  price : 20
+},{
+  name : Products.Water,
+  illustration : 'src/assets/img/DALL·E 2023-10-03 16.53.31 - create a pot in pixel art 16x16 .png',
+  description : 'd',
+  price : 20
+},
+]
 
 function toogle() {
   open.value = !open.value;
@@ -132,8 +167,8 @@ function handleView(viewChoice: string) {
                   <div class="text-center rounded-full  bg-green-400 font-bold text-white p-1 text-xl">Ressources</div>
               </div>
               <div class="w-full h-full grid grid-rows-4 grid-flow-col gap-2">
-                <div class="w-32 h-10 m-2">
-                  <CardDrawer mode="ressource"></CardDrawer>
+                <div class="w-32 h-10 m-2" v-for="product in allProduct">
+                  <CardDrawer mode="ressource" :product="product"></CardDrawer>
                 </div>
               </div>
             </div>
