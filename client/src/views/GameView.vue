@@ -1,7 +1,7 @@
 <template>
   <div class="game-container">
     <StartSlider :start="start" @itemClicked="handleItemClicked" v-if="start"/>
-    <DrawerGlobalView></DrawerGlobalView>
+    <DrawerGlobalView/>
   </div>
 </template>
 
