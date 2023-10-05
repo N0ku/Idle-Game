@@ -29,6 +29,7 @@ export function userRoutes(app: Express) {
   );
 
   app.get("/users/token/:token", async (req: Request<{ token: string }, unknown, unknown>, res: Response) => {
+    console.log(req.params.token)
     const result = await getUserByToken(req.params.token);    
     res.json(result);
   }

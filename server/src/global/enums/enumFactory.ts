@@ -64,15 +64,15 @@ export class TypeFactoryExtensions {
       case TypeFactory.StoneProduction:
         return "src/assets/img/factories/stone_factories.png";
       case TypeFactory.WeedProduction:
-        return "weed.png";
+        return "src/assets/img/factories/weed_factories.png";
       case TypeFactory.CBDProduction:
-        return "cbd.png";
+        return "src/assets/img/factories/cbd_factories.png";
       case TypeFactory.WaterProduction:
         return "water.png";
       case TypeFactory.FertilizerProduction:
         return "fertilizer.png";
       default:
-        return "fertilizer.png";
+        return "";
     }
   }
 

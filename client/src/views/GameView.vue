@@ -2,9 +2,15 @@
   <div class="game-container">
     <ButtonMarketPlace @open-marketplace="openMarketPlace" class="z-50" />
 
-    <StartSlider :start="start" :currentStep="counterStep" @itemClicked="handleItemClicked" v-if="start" />
-    <DrawerGlobalView></DrawerGlobalView>
-    <FactoryItem />
+    <StartSlider
+      :start="start"
+      :currentStep="counterStep"
+      @itemClicked="handleItemClicked"
+      v-if="start"
+    />
+
+    <FactoryContainer v-if="!start" :factories="allFactories" />
+    <DrawerGlobalView v-if="!start" :factories="allFactories" />
 
     <MarketPlace v-if="showMarketPlace" @close-marketplace="closeMarketPlace"> </MarketPlace>
   </div>
@@ -17,8 +23,8 @@ import DrawerGlobalView from '@/components/game/drawer/DrawerGlobalView.vue'
 import { useUserStore } from '@/stores/datastore'
 import MarketPlace from '@/components/menu/MarketPlace.vue'
 import { ref, reactive } from 'vue'
-import { Factory, Products, TypeFactory } from '../../../server/src/global/implements'
-import FactoryItem from '@/components/game/FactoryItem.vue'
+import { Factory, Products, TypeFactory,Product } from '../../../server/src/global/implements'
+import FactoryContainer from '@/components/game/factory/FactoryContainer.vue'
 
 const userStore = useUserStore()
 
@@ -133,8 +139,21 @@ const closeMarketPlace = () => {
 }
 
 const factories = reactive<Factory[]>(userStore.getFactories)
-console.log(factories)
+const products = reactive<Product[]>(userStore.getProducts)
+console.log(userStore.getId)
 
+const allFactories = factories.map(
+  (item) =>
+    new Factory(
+      item.productName,
+      item.factoryType,
+      item.userId,
+      item.production,
+      item.level,
+      item._id,
+      item.id_localisation
+    )
+)
 if (factories.length === 0) {
   start.value = true
 }
