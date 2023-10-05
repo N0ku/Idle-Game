@@ -3,18 +3,20 @@ import * as Implements from '../interface/interfaceFactory';
 export class Factory implements Implements.FactoryInfo{
     productName: Products;
     factoryType: TypeFactory;
+    userId: string;
+    production: number;
     level?: number | undefined;
     id?: string | undefined;
     id_localisation?: number | undefined;
-    production: number ;
 
-    constructor(productName: Products, factoryType: TypeFactory, level?: number, id?: string, id_localisation?: number, production: number = 0){
+    constructor(productName: Products, factoryType: TypeFactory,  userId: string, production: number,level?: number, id?: string, id_localisation?: number){
         this.productName = productName;
         this.factoryType = factoryType;
         this.level = level;
         this.id = id;
         this.id_localisation = id_localisation;
         this.production = production;
+        this.userId = userId;
     }
 
     getFactory(): Factory{

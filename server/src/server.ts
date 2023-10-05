@@ -2,7 +2,10 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import { registerAuthRoutes } from "./modules/auth/auth.controller";
+import { factoryRoutes } from "./modules/factory/factory.controller";
 import { isLogin } from "./modules/auth/auth.middleware";
+import { userRoutes } from "./modules/user/user.controller";
+import { productRoutes } from "./modules/product/product.controller";
 
 export function initWebServer() {
   // Creation du serveur http
@@ -23,10 +26,14 @@ export function initWebServer() {
 
   // Add isLogin middleware
   app.use(isLogin);
-
+  
   // On enregistre nos controllers
   registerAuthRoutes(app);
+  factoryRoutes(app);
+  userRoutes(app);
+  productRoutes(app);
 
+  
   // On ecoute sur le port configuré avec le .env
   app.listen(process.env.NODE_PORT, () => {
     console.log(`Listening on http://localhost:${process.env.NODE_PORT}`);

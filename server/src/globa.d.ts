@@ -1,10 +1,10 @@
-import { WithId } from 'mongodb';
-import { SimpleUser } from './types/auth.types'
+import { WithId } from "mongodb";
+import { User } from "../../global/implements";
 
 declare global {
-    namespace Express {
-      export interface Request {
-        user?: WithId<SimpleUser> | null;
-      }
+  namespace Express {
+    export interface Request {
+      user?: WithId<User> | null;
     }
+  }
 }

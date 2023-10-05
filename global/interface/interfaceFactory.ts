@@ -8,6 +8,7 @@ export interface FactoryInfo {
     id?: string;
     id_localisation?:number;
     production: number;
+    userId: string;
 }
   
 // export const WoodFactory: FactoryInfo = {

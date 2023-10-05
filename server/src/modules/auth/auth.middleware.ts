@@ -16,7 +16,7 @@ export async function isLogin(
     next();
     return;
   } else if (req.cookies) {
-    console.log(req.cookies);
+    console.log(req.cookies);    
     const token = req.cookies["token"];
     if (token) {
       const user = await findByToken(token);

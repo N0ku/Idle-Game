@@ -7,9 +7,7 @@ let open = reactive({ value: false})
 let right = true
 
 function toogle(){
-  console.log('r')
   open.value = !open.value;
-  console.log(open)
 }
 </script>
 
