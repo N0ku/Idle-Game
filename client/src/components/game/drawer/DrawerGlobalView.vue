@@ -1,17 +1,12 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 
 import { reactive } from "vue";
 import CardDrawer from "@/components/game/drawer/CardDrawer.vue";
 import { Products, TypeFactory, Factory } from "../../../../../server/src/global/implements";
 
-let open = reactive({ value: false })
-let view = reactive({ value: 'global' })
-let right = true;
-
-
-let fullFactory: Factory[] = [];
-fullFactory.push(new Factory(Products.Stone, TypeFactory.StoneProduction, "0", 10, 1, undefined, 1));
-fullFactory.push(new Factory(Products.Wood, TypeFactory.WoodProduction, "0", 10, 1, undefined, 1));
+let open = reactive({value: false})
+let view = reactive({value: 'global'})
+let right = true
 
 function toogle() {
   open.value = !open.value;
@@ -22,85 +17,149 @@ function handleView(viewChoice: string) {
 </script>
 
 <template>
-  <!--Sidebar with Dimmer -->
+  <!-- Sidebar -->
   <div class="fixed inset-0 flex z-40">
-    <!-- Sidebar -->
-    <div class="absolute w-50 flex top-0 h-screen z-20 "
-      :class="[right ? 'right-0 flex-row' : 'left-0 flex-row-reverse']">
+    <div
+        :class="[right ? 'right-0 flex-row' : 'left-0 flex-row-reverse']"
+        class="absolute w-50 flex top-0 h-screen z-20"
+    >
       <!--Drawer -->
-      <button @click="toogle"
-        class="w-8 h-40 p-1 my-auto rounded text-white bg-gray-700 text-center focus:outline-none hover:bg-gray-800 transition-color rounded-l-full  duration-300">
-        <span :class="[open.value ? '-rotate-180' : '']" class="block transform origin-center font-bold">
+      <button
+          class="w-8 h-40 p-1 my-auto rounded text-white bg-gray-700 text-center focus:outline-none hover:bg-gray-800 transition-color rounded-l-full duration-300"
+          @click="toogle"
+      >
+        <span
+            :class="[open.value ? '-rotate-180' : '']"
+            class="block transform origin-center font-bold"
+        >
           <!-- Chevron Icone -->
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-            class="w-6 h-6">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+          <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M15.75 19.5L8.25 12l7.5-7.5" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
-
         </span>
       </button>
-      <div class=" bg-gray-800 w-2 border-l-4 border-gray-700 flex top-0 h-screen z-20">
-
-      </div>
+      <div class="bg-gray-800 w-2 border-l-4 border-gray-700 flex top-0 h-screen z-20"></div>
       <!-- Sidebar Content -->
-      <div class="transition-all  w-80 duration-700 bg-gray-800 flex" v-if="open.value">
-        <div class=" w-80">
+      <div v-if="open.value" class="transition-all w-80 duration-700 bg-gray-800 flex">
+        <!-- Boutton pour handle les view -->
+        <div class="w-80">
           <div class="w-80 h-12 flex justify-center mt-1">
-            <div class="group ">
+            <div class="group">
               <!-- Bouton de gauche -->
               <button
-                class="rounded-l-xl bg-gray-700 hover:bg-gray-800 border-gray-900 border-2 text-white font-bold py-2 px-4"
-                @click="handleView('global')">
+                  :class="[view.value == 'global' ? 'bg-gray-800' : 'bg-gray-700']"
+                  class="rounded-l-xl border-gray-900 border-2 text-white font-bold py-2 px-4"
+                  @click="handleView('global')"
+              >
                 Global
+              </button>
+
+              <!-- Bouton du milieu -->
+              <button
+                  :class="[view.value == 'bonus' ? 'bg-gray-800' : 'bg-gray-700']"
+                  class="border-gray-900 border-2 text-white font-bold py-2 px-4"
+                  @click="handleView('bonus')"
+              >
+                Bonus
               </button>
 
               <!-- Bouton de droite -->
               <button
-                class="rounded-r-xl bg-gray-700 hover:bg-gray-800 border-gray-900 border-2 text-white font-bold py-2 px-4"
-                @click="handleView('bonus')">
-                Bonus
+                  :class="[view.value == 'history' ? 'bg-gray-800' : 'bg-gray-700']"
+                  class="rounded-r-xl border-gray-900 border-2 text-white font-bold py-2 px-4"
+                  @click="handleView('history')"
+              >
+                Historique
               </button>
             </div>
           </div>
 
-          <div class="grid grid-rows-2 mt-2" v-if="view.value == 'global'">
+          <!-- View Onglet -->
+
+          <!-- Global View -->
+          <div v-if="view.value == 'global'" class="grid grid-rows-2 mt-16">
+            <!-- Ressource Layout -->
             <div class="content-center">
-              <div class="text-center font-bold text-white text-xl">Ressource</div>
-              <div class="w-full h-full grid grid-rows-4 grid-flow-col gap-2">
-                <div class="w-32 h-10 m-2">
-                  <CardDrawer mode="ressource"></CardDrawer>
+              <div class="grid justify-center mb-2">
+                <div class="text-center rounded-full bg-green-400 font-bold text-white p-1 text-xl">
+                  Ressources
+                </div>
+              </div>
+              <div class="w-9/12 overflow-x-auto grid grid-rows-4 grid-flow-col gap-2">
+                <!-- v-for="product in allProduct" -->
+                <div class="w-32 h-10 m-2" >
+                  <!-- :product="product" -->
+                  <CardDrawer mode="ressource"  />
                 </div>
               </div>
             </div>
+
+            <!-- Bonus Layout -->
             <div class="content-center mt-8">
-              <div class=" grid justify-center">
-                <div class=" w-40 ">
-                  <div class="text-center rounded-full w-24 bg-orange-400 font-bold text-white  text-xl">Usine</div>
+              <div class="grid justify-center mb-2">
+                <div
+                    class="text-center rounded-full bg-orange-400 font-bold text-white p-1 text-xl"
+                >
+                  Usine
                 </div>
               </div>
-
-              <div class="w-full h-full grid grid-rows-4 grid-flow-col gap-2">
-                <div class="w-2/5 h-10 m-2" v-for="(factory, index) in fullFactory" :key="index">
-                  <CardDrawer mode="usine" :factory="factory"></CardDrawer>
+              <div class="w-9/12 overflow-x-auto grid grid-rows-4 grid-flow-col gap-2">
+                <!-- v-for="factory in fullFactory" -->
+                <div  class="w-32 h-10 m-2">
+                  <!-- :factory="factory" -->
+                  <CardDrawer  mode="usine" />
                 </div>
               </div>
             </div>
-
           </div>
 
-          <div class="grid grid-rows-2 gap-4 mt-2" v-if="view.value == 'bonus'">
-            <div class="content-center ">
-              <div class="text-center font-bold text-white text-xl">Bonus Actif</div>
+          <!-- Bonus View -->
+          <div v-if="view.value == 'bonus'" class="grid grid-rows-2 gap-4 mt-2">
+            <!-- Bonus Layout -->
+            <div class="content-center">
+              <div class="grid justify-center mb-2">
+                <div class="text-center rounded-full bg-blue-400 font-bold text-white p-1 text-xl">
+                  Bonus Actif
+                </div>
+              </div>
               <div class="w-full h-full grid grid-rows-4 grid-flow-col gap-2">
                 <div class="w-2/5 h-10 m-2">
                   <span
-                    class="inline-block w-24 bg-gray-200 border-r-4 border-b-4 shadow-lg perspective bg-white rounded-full px-3 py-1 text-sm font-semibold text-gray-700 transform hover:scale-105 hover:shadow-xl transition-transform duration-300">Gain
-                    +3%</span>
+                      class="inline-block w-24 bg-gray-200 border-r-4 border-b-4 shadow-lg perspective bg-white rounded-full px-3 py-1 text-sm font-semibold text-gray-700 transform hover:scale-105 hover:shadow-xl transition-transform duration-300"
+                  >Gain +3%</span
+                  >
                 </div>
               </div>
             </div>
+          </div>
 
-
+          <!-- Historique View -->
+          <div v-if="view.value == 'history'" class="grid grid-rows-2 gap-4 mt-2">
+            <div class="content-center">
+              <div class="grid justify-center mb-2">
+                <div class="text-center rounded-full bg-red-400 font-bold text-white p-1 text-xl">
+                  Historique des achats
+                </div>
+              </div>
+              <div class="w-full h-full grid grid-rows-4 grid-flow-col gap-2">
+                <div class="w-54 h-15 m-2">
+                  <CardDrawer mode="transfert"></CardDrawer>
+                </div>
+                <div class="w-54 h-15 m-2">
+                  <CardDrawer mode="transfert"></CardDrawer>
+                </div>
+                <div class="w-54 h-15 m-2">
+                  <CardDrawer mode="transfert"></CardDrawer>
+                </div>
+              </div>
+            </div>
           </div>
 
         </div>
@@ -110,18 +169,8 @@ function handleView(viewChoice: string) {
 </template>
 
 <style scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 1s ease-out;
-}
-
 .group {
   display: inline-flex;
   overflow: hidden;
-}
-
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
 }
 </style>
