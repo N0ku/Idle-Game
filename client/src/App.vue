@@ -18,16 +18,22 @@ if (hasValidToken) {
     axios.get(`${import.meta.env.VITE_APP_BACKEND_URL}/users/token/${hasValidToken}`).then((response) => {
       const user = response.data.user
       if (user) {
-        userStore.setFactories({ factories: user.factories })
-        userStore.setId({ id: user._id })
-        userStore.setUsername({ name: user.username })
-        userStore.setPurchases({ purchases: user.purchases })
-        userStore.setSells({ sells: user.sells })
-        userStore.setMoney({ money: user.money })
-        
+        axios
+          .get(`${import.meta.env.VITE_APP_BACKEND_URL}/factories/user/${user._id}`)
+          .then((response) => {
+            userStore.setId({ id: user._id })
+            userStore.setUsername({ name: user.username })
+            userStore.setPurchases({ purchases: user.purchases })
+            userStore.setSells({ sells: user.sells })
+            userStore.setMoney({ money: user.money })
+            userStore.setFactories({ factories: response.data.factories })
+
+            isLoading.value = false;
+          })
+
         router.push('/game')
       }
-      isLoading.value = false; // Data has been fetched, hide the loader
+      // Data has been fetched, hide the loader
     })
   });
 }
@@ -36,7 +42,7 @@ else {
 }
 </script>
 <template>
-<div class="flex justify-center items-center h-screen" v-if="isLoading">
+  <div class="flex justify-center items-center h-screen" v-if="isLoading">
     <div role="status">
       <svg aria-hidden="true" class="w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
         viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -49,10 +55,10 @@ else {
       </svg>
       <span class="sr-only">Loading...</span>
     </div>
-  </div> 
+  </div>
 
-   <div v-else id="web">
+  <div v-else id="web">
     <router-view />
-  </div> 
-  </template>
+  </div>
+</template>
 <style scoped></style>

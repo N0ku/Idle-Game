@@ -59,6 +59,8 @@ let handleItemClicked = (product: any): void => {
     default:
       break;
   }
+  console.log(newFactory);
+  
   userStore.addFactory({ factory: newFactory });
   counterStep.value++;
   if (counterStep.value > 3) {
@@ -76,6 +78,8 @@ const closeMarketPlace = () => {
 };
 
 const factories = reactive<Factory[]>(userStore.getFactories);
+console.log(factories);
+
 
 if (factories.length === 0) {
   start.value = true;

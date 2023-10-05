@@ -55,6 +55,7 @@ export function factoryRoutes(app: Express) {
     "/factories/user/:id",
     async (req: Request<{ id: string }, unknown, unknown>, res: Response) => {
       const result = await getFactoriesByUserId(req.params.id);
+      
       res.json(result);
     }
   );
