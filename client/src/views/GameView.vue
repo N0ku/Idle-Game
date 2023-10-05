@@ -30,7 +30,7 @@ let handleItemClicked = (product: Product): void => {
   start.value = false;
   let newFactory = new Factory(product.name, TypeFactory.StoneProduction, "0", 10, 1, undefined, 1);
   userStore.addFactory({ factory: newFactory });
-
+}
 
 const openMarketPlace = () => {
   showMarketPlace.value = true;
