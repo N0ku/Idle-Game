@@ -26,14 +26,17 @@ export function initWebServer() {
 
   // Add isLogin middleware
   app.use(isLogin);
-  
+
   // On enregistre nos controllers
   registerAuthRoutes(app);
   factoryRoutes(app);
   userRoutes(app);
   productRoutes(app);
 
-  
+  app.get("/", (_req, res) => {
+    res.json({ message: "Hello World" });
+  });
+
   // On ecoute sur le port configuré avec le .env
   app.listen(process.env.NODE_PORT, () => {
     console.log(`Listening on http://localhost:${process.env.NODE_PORT}`);

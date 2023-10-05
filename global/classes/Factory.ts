@@ -1,6 +1,5 @@
-import type { Products, TypeFactory } from '../implements';
-import * as Implements from '../interface/interfaceFactory';
-export class Factory implements Implements.FactoryInfo{
+import type { Products, TypeFactory, FactoryInfo } from '../implements';
+export class Factory implements FactoryInfo{
     productName: Products;
     factoryType: TypeFactory;
     userId: string;

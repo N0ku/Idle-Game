@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import * as Implements from '../../../global/implements'
+import { UserStage, Factory } from '../../../global/implements'
 import axios from 'axios'
 
 ////////////////////////////////////////////////////////////////
@@ -12,7 +12,7 @@ import axios from 'axios'
 ////////////////////////////////////////////////////////////////
 
 export const useUserStore = defineStore('User', {
-  state: (): Implements.UserStage => ({
+  state: (): UserStage => ({
     id: '',
     username: '',
     email: '',
@@ -22,7 +22,7 @@ export const useUserStore = defineStore('User', {
     sells: undefined
   }),
   getters: {
-    getFactories(state): Implements.Factory[] {
+    getFactories(state): Factory[] {
       return state.factories
     },
     getId(state): string {
@@ -42,7 +42,7 @@ export const useUserStore = defineStore('User', {
     }
   },
   actions: {
-    setFactories({ factories }: { factories: Implements.Factory[] }) {
+    setFactories({ factories }: { factories: Factory[] }) {
       this.factories = factories
     },
     setId({ id }: { id: string }) {
@@ -60,13 +60,13 @@ export const useUserStore = defineStore('User', {
     setSells({ sells }: { sells: undefined }) {
       this.sells = sells
     },
-    addFactory({ factory }: { factory: Implements.Factory }) {
+    addFactory({ factory }: { factory: Factory }) {
       this.factories.push(factory)
     },
     removeFactory({ id }: { id: string }) {
       this.factories = this.factories.filter((factory) => factory.id !== id)
     },
-    updateFactory({ factory }: { factory: Implements.Factory }) {
+    updateFactory({ factory }: { factory: Factory }) {
       this.factories = this.factories.map((f) => {
         if (f.id === factory.id) {
           return factory
