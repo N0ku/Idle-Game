@@ -1,5 +1,6 @@
-import { defineStore } from "pinia";
-import * as Implements from '../global/implements';
+import { defineStore } from 'pinia'
+import { UserStage, Factory } from '../../../server/src/global/implements'
+import axios from 'axios'
 
 ////////////////////////////////////////////////////////////////
 
@@ -10,64 +11,103 @@ import * as Implements from '../global/implements';
 
 ////////////////////////////////////////////////////////////////
 
+export const useUserStore = defineStore('User', {
+  state: (): UserStage => ({
+    id: '',
+    username: '',
+    email: '',
+    password: '',
+    factories: [],
+    purchases: undefined,
+    sells: undefined
+  }),
+  getters: {
+    getFactories(state): Factory[] {
+      return state.factories
+    },
+    getId(state): string {
+      return state.id
+    },
+    getUsername(state): string {
+      return state.username
+    },
+    getEmail(state): string {
+      return state.email
+    },
+    getPurchases(state): undefined {
+      return state.purchases
+    },
+    getSells(state): undefined {
+      return state.sells
+    }
+  },
+  actions: {
+    setFactories({ factories }: { factories: Factory[] }) {
+      this.factories = factories
+    },
+    setId({ id }: { id: string }) {
+      this.id = id
+    },
+    setUsername({ name }: { name: string }) {
+      this.username = name
+    },
+    setEmail({ email }: { email: string }) {
+      this.email = email
+    },
+    setPurchases({ purchases }: { purchases: undefined }) {
+      this.purchases = purchases
+    },
+    setSells({ sells }: { sells: undefined }) {
+      this.sells = sells
+    },
+    addFactory({ factory }: { factory: Factory }) {
+      axios.post(`${import.meta.env.VITE_APP_BACKEND_URL}/factories`, factory).then((response) => {
+        this.factories.push(response.data)
+      })
+    },
+    removeFactory({ id }: { id: string }) {
+      axios.delete(`${import.meta.env.VITE_APP_BACKEND_URL}/factories/${id}`).then(() => {
+        this.factories = this.factories.filter((factory) => factory.id !== id)
+      })
+    },
+    updateFactory({ factory }: { factory: Factory }) {
+      axios
+        .put(`${import.meta.env.VITE_APP_BACKEND_URL}/factories/${factory.id}`, factory)
+        .then((response) => {
+          this.factories = this.factories.map((factory) => {
+            if (factory.id === response.data.id) {
+              return response.data
+            }
+            return factory
+          })
+        })
+    },
 
-export const useTodoCard = defineStore("TodoCard", {
-  // state: (): TodoCardStoreStage => ({
-  //   products: [],
-  // }),
-  // getters: {
-  //   getProducts(state): TodoCard[] {
-  //     return state.products;
-  //   },
-  // },
-  // actions: {
-  //   setProducts({ products }: { products: TodoCard[] }) {
-  //     this.products = products;
-  //   },
-  //   addProduct({ product }: { product: TodoCard }) {
-  //     this.products.push(product);
-  //   },
-  //   removeProduct({ id }: { id: number }) {
-  //     this.products = this.products.filter((product) => product.id !== id);
-  //   },
-  // },
-});
-
-export const useTodoList = defineStore("TodoList", {
-  // state: (): TodoListStoreStage => ({
-  //   allLists: [],
-  //   showModal: false,
-  //   showModalDelete: false
-  // }),
-  // getters: {
-  //   getLists(state): TodoList[] {
-  //     return state.allLists;
-  //   },
-  //   getShowModal(state): boolean {
-  //     return state.showModal;
-  //   },
-  //   getShowModalDelete(state): boolean {
-  //     return state.showModalDelete;
-  //   },
-  // },
-  // actions: {
-  //   setLists({ allLists }: { allLists: TodoList[] }) {
-  //     this.allLists = allLists;
-  //   },
-  //   addList({ list }: { list: TodoList }) {
-  //     let copyLists = { ...list };
-  //     copyLists.id = this.allLists.length + 1;
-  //     this.allLists.push(copyLists);
-  //     console.log(this.allLists);
-  //   },
-  //   removeList({ id }: { id: number }) {
-  //     this.allLists = this.allLists.filter((list) => list.id !== id);
-  //   },
-  //   setShowModal({ showModal }: { showModal: boolean }) {
-  //     this.showModal = showModal;
-  //   },
-  //   setShowModalDelete({ showModalDelete }: { showModalDelete: boolean }) {
-  //     this.showModalDelete = showModalDelete;
-  //   },
-  // },
-});
+    fetchUserFactories() {
+      axios.get(`${import.meta.env.VITE_APP_BACKEND_URL}/factories/${this.id}`).then((response) => {
+        this.factories = response.data
+      })
+    },
+    fetchPurchase() {
+      axios.get(`${import.meta.env.VITE_APP_BACKEND_URL}/purchase/${this.id}`).then((response) => {
+        this.purchases = response.data
+      })
+    },
+    fetchSells() {
+      axios.get(`${import.meta.env.VITE_APP_BACKEND_URL}/sells/${this.id}`).then((response) => {
+        this.sells = response.data
+      })
+    },
+    fetchUser({ id }: { id: string }) {
+      axios.get(`${import.meta.env.VITE_APP_BACKEND_URL}/user/${id}`).then((response) => {
+        this.id = response.data.id
+        this.username = response.data.name
+        this.email = response.data.email
+        this.password = response.data.password
+        this.fetchPurchase()
+        this.fetchSells()
+        this.fetchUserFactories()
+      })
+    }
+  }
+})

@@ -8,6 +8,7 @@ initDb()
         // on lance le serveur web
         import('./server').then(({ initWebServer }) => {
             initWebServer()
+            
         })
     })
     // si pas co à la DB

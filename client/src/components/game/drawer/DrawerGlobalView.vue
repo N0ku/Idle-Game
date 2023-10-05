@@ -1,94 +1,16 @@
 <script lang="ts" setup>
 
-import {reactive} from "vue";
+import { reactive } from "vue";
 import CardDrawer from "@/components/game/drawer/CardDrawer.vue";
-import {Factory} from "@/global/classes/Factory";
-import {Products, TypeFactory} from "@/global/enums/enumFactory";
-import {Product} from "@/global/classes/Products";
+import { Products, TypeFactory, Factory } from "../../../../../server/src/global/implements";
 
 let open = reactive({value: false})
 let view = reactive({value: 'global'})
 let right = true
-let fullFactory: Factory[] = [{
-  id: 'feef',
-  factoryType: TypeFactory.WoodProduction,
-  id_localisation: 2,
-  production: 20,
-  level: 5,
-  productName: Products.Wood
-},
-  {
-    id: 'feef',
-    factoryType: TypeFactory.WoodProduction,
-    id_localisation: 2,
-    production: 20,
-    level: 2,
-    productName: Products.Wood
-  },
-  {
-    id: 'feef',
-    factoryType: TypeFactory.WoodProduction,
-    id_localisation: 2,
-    production: 20,
-    level: 1,
-    productName: Products.Wood
-  },
-  {
-    id: 'feef',
-    factoryType: TypeFactory.WoodProduction,
-    id_localisation: 2,
-    production: 20,
-    level: 1,
-    productName: Products.Wood
-  },
-
-  {
-    id: 'feef',
-    factoryType: TypeFactory.WoodProduction,
-    id_localisation: 2,
-    production: 20,
-    level: 1,
-    productName: Products.Wood
-  }]
-
-
-let allProduct : Product[] = [{
-  name : Products.Water,
-  illustration : 'src/assets/img/DALL·E 2023-10-03 16.53.31 - create a pot in pixel art 16x16 .png',
-  description : 'd',
-  price : 20
-},{
-  name : Products.Water,
-  illustration : 'src/assets/img/DALL·E 2023-10-03 16.53.31 - create a pot in pixel art 16x16 .png',
-  description : 'd',
-  price : 20
-},{
-  name : Products.Water,
-  illustration : 'src/assets/img/DALL·E 2023-10-03 16.53.31 - create a pot in pixel art 16x16 .png',
-  description : 'd',
-  price : 20
-},{
-  name : Products.Water,
-  illustration : 'src/assets/img/DALL·E 2023-10-03 16.53.31 - create a pot in pixel art 16x16 .png',
-  description : 'd',
-  price : 20
-},{
-  name : Products.Water,
-  illustration : 'src/assets/img/DALL·E 2023-10-03 16.53.31 - create a pot in pixel art 16x16 .png',
-  description : 'd',
-  price : 20
-},{
-  name : Products.Water,
-  illustration : 'src/assets/img/DALL·E 2023-10-03 16.53.31 - create a pot in pixel art 16x16 .png',
-  description : 'd',
-  price : 20
-},
-]
 
 function toogle() {
   open.value = !open.value;
 }
-
 function handleView(viewChoice: string) {
   view.value = viewChoice
 }
@@ -171,8 +93,10 @@ function handleView(viewChoice: string) {
                 </div>
               </div>
               <div class="w-9/12 overflow-x-auto grid grid-rows-4 grid-flow-col gap-2">
-                <div class="w-32 h-10 m-2" v-for="product in allProduct">
-                  <CardDrawer mode="ressource" :product="product" />
+                <!-- v-for="product in allProduct" -->
+                <div class="w-32 h-10 m-2" >
+                  <!-- :product="product" -->
+                  <CardDrawer mode="ressource"  />
                 </div>
               </div>
             </div>
@@ -187,8 +111,10 @@ function handleView(viewChoice: string) {
                 </div>
               </div>
               <div class="w-9/12 overflow-x-auto grid grid-rows-4 grid-flow-col gap-2">
-                <div v-for="factory in fullFactory" class="w-32 h-10 m-2">
-                  <CardDrawer :factory="factory" mode="usine" />
+                <!-- v-for="factory in fullFactory" -->
+                <div  class="w-32 h-10 m-2">
+                  <!-- :factory="factory" -->
+                  <CardDrawer  mode="usine" />
                 </div>
               </div>
             </div>
@@ -235,6 +161,7 @@ function handleView(viewChoice: string) {
               </div>
             </div>
           </div>
+
         </div>
       </div>
     </div>
