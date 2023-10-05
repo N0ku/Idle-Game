@@ -24,7 +24,7 @@
 .wavy span {
   position: relative;
   display: inline-block;
-  font-size: 6em;
+  font-size: calc(5vw + 1vw);
   text-transform: uppercase;
   animation: animate 1.5s ease-in-out infinite;
   animation-delay: calc(0.1s * var(--i));

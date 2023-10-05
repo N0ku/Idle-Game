@@ -1,3 +1,9 @@
+<script setup lang="ts">
+import CardForm from '../components/form/CardForm.vue'
+import {isLogin} from '../global/function/Redirect'
+
+isLogin()
+</script>
 <template>
-    <h1>Login</h1>
+  <CardForm page="login" />
 </template>
