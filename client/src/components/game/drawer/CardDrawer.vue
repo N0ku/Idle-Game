@@ -34,6 +34,18 @@ console.log(props)
     </div>
   </div>
 
+  <!-- Mode Transfert-->
+  <div v-if="props.mode == 'transfert'" class="border border-r-4 border-b-4 rounded-lg shadow-lg transform hover:scale-105 hover:shadow-xl transition-transform duration-300 perspective w-full bg-white	 h-full grid grid-cols-2 ">
+    <div class="">
+      <img class="h-[2rem] w-full" src="src/assets/icone/bois.png" alt="card 1" />
+    </div>
+    <div class="text-sm text-gray-800 grid content-center">
+      <span>
+        Niveau
+      </span>
+    </div>
+  </div>
+
 
 </template>
 
