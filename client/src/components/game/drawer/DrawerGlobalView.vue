@@ -31,6 +31,23 @@ let fullFactory: Factory[] = [{
     production: 20,
     level: 1,
     productName: Products.Wood
+  },
+  {
+    id: 'feef',
+    factoryType: TypeFactory.WoodProduction,
+    id_localisation: 2,
+    production: 20,
+    level: 1,
+    productName: Products.Wood
+  },
+
+  {
+    id: 'feef',
+    factoryType: TypeFactory.WoodProduction,
+    id_localisation: 2,
+    production: 20,
+    level: 1,
+    productName: Products.Wood
   }]
 
 function toogle() {
@@ -111,7 +128,9 @@ function handleView(viewChoice: string) {
 
             <!-- Ressource Layout -->
             <div class="content-center">
-              <div class="text-center font-bold text-white text-xl">Ressource</div>
+              <div class=" grid justify-center mb-2">
+                  <div class="text-center rounded-full  bg-green-400 font-bold text-white p-1 text-xl">Ressources</div>
+              </div>
               <div class="w-full h-full grid grid-rows-4 grid-flow-col gap-2">
                 <div class="w-32 h-10 m-2">
                   <CardDrawer mode="ressource"></CardDrawer>
@@ -121,10 +140,8 @@ function handleView(viewChoice: string) {
 
             <!-- Bonus Layout -->
             <div class="content-center mt-8">
-              <div class=" grid justify-center">
-                <div class=" w-40 ">
-                  <div class="text-center rounded-full w-24 bg-orange-400 font-bold text-white  text-xl">Usine</div>
-                </div>
+              <div class=" grid justify-center mb-2 ">
+                  <div class="text-center rounded-full  bg-orange-400 font-bold text-white p-1 text-xl">Usine</div>
               </div>
               <div class="w-full h-full grid grid-rows-4 grid-flow-col gap-2">
                 <div v-for="factory in fullFactory" class="w-2/5 h-10 m-2">
@@ -139,7 +156,9 @@ function handleView(viewChoice: string) {
 
             <!-- Bonus Layout -->
             <div class="content-center ">
-              <div class="text-center font-bold text-white text-xl">Bonus Actif</div>
+              <div class=" grid justify-center mb-2 ">
+                <div class="text-center rounded-full  bg-blue-400 font-bold text-white p-1 text-xl">Bonus Actif</div>
+              </div>
               <div class="w-full h-full grid grid-rows-4 grid-flow-col gap-2">
                 <div class="w-2/5 h-10 m-2">
                   <span
@@ -154,7 +173,9 @@ function handleView(viewChoice: string) {
           <!-- Historique View -->
           <div v-if="view.value == 'history'" class="grid grid-rows-2 gap-4 mt-2">
             <div class="content-center ">
-              <div class="text-center font-bold text-white text-xl mb-2">Historique des Achats</div>
+              <div class=" grid justify-center mb-2 ">
+                <div class="text-center rounded-full  bg-red-400 font-bold text-white p-1 text-xl">Historique des achats</div>
+              </div>
               <div class="w-full h-full grid grid-rows-4 grid-flow-col gap-2 ">
                 <div class="w-54 h-15 m-2">
                   <CardDrawer mode="transfert"></CardDrawer>
