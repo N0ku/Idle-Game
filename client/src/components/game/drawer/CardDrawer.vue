@@ -5,7 +5,9 @@ import {
   TypeFactoryExtensions,
   ProductsExtensions
 } from '../../../../../server/src/global/implements'
-import {Trade} from "../../../../../server/src/global/interface/Trade";
+import { Trade } from '../../../../../server/src/global/interface/Trade';
+
+
 
 const props = defineProps({
   mode : String,

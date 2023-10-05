@@ -8,7 +8,7 @@ export enum Products {
 }
 
 export class ProductsExtensions {
-  public static GetImage(product: Products | undefined) {
+  public static GetImage(product: Products ) {
     switch (product) {
       case Products.Wood:
         return "src/assets/img/products/wood.png";
@@ -75,8 +75,28 @@ export class TypeFactoryExtensions {
         return "";
     }
   }
-
   public static GetPrice(factory: TypeFactory | undefined, level: number) {
+    switch (factory) {
+      case TypeFactory.WoodProduction:
+        return 100.0 * level;
+      case TypeFactory.StoneProduction:
+        return 150.0 * level;
+      case TypeFactory.WeedProduction:
+        return 200.0 * level;
+      case TypeFactory.CBDProduction:
+        return 250.0 * level;
+      case TypeFactory.WaterProduction:
+        return 50.0 * level;
+      case TypeFactory.FertilizerProduction:
+        return 75.0 * level;
+      default:
+        return;
+    }
+  }
+  public static GetPriceUpgrade(
+    factory: TypeFactory | undefined,
+    level: number
+  ) {
     switch (factory) {
       case TypeFactory.WoodProduction:
         return 100.0 * Math.pow(2, level - 1);
