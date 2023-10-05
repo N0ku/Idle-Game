@@ -2,12 +2,7 @@
   <div class="game-container">
     <ButtonMarketPlace @open-marketplace="openMarketPlace" class="z-50" />
 
-    <StartSlider
-      :start="start"
-      :currentStep="counterStep"
-      @itemClicked="handleItemClicked"
-      v-if="start"
-    />
+    <StartSlider :start="start" :currentStep="counterStep" @itemClicked="handleItemClicked" v-if="start" />
     <DrawerGlobalView></DrawerGlobalView>
     <FactoryItem />
 
@@ -21,12 +16,12 @@ import StartSlider from '../components/game/StartSlider.vue'
 import DrawerGlobalView from '@/components/game/drawer/DrawerGlobalView.vue'
 import { useUserStore } from '@/stores/datastore'
 import MarketPlace from '@/components/menu/MarketPlace.vue'
-import type { Item } from '@/types/Item'
 import { ref, reactive } from 'vue'
 import { Factory, Products, TypeFactory } from '../../../server/src/global/implements'
 import FactoryItem from '@/components/game/FactoryItem.vue'
 
 const userStore = useUserStore()
+
 
 let start = ref(false)
 let counterStep = ref(1)
