@@ -66,15 +66,21 @@ export const useUserStore = defineStore('User', {
       })
     },
     removeFactory({ id }: { id: string }) {
-      this.factories = this.factories.filter((factory: { id: string }) => factory.id !== id)
+      axios.delete(`${import.meta.env.VITE_APP_BACKEND_URL}/factories/${id}`).then(() => {
+        this.factories = this.factories.filter((factory) => factory.id !== id)
+      })
     },
     updateFactory({ factory }: { factory: Factory }) {
-      this.factories = this.factories.map((f: { id: any }) => {
-        if (f.id === factory.id) {
-          return factory
-        }
-        return f
-      })
+      axios
+        .put(`${import.meta.env.VITE_APP_BACKEND_URL}/factories/${factory.id}`, factory)
+        .then((response) => {
+          this.factories = this.factories.map((factory) => {
+            if (factory.id === response.data.id) {
+              return response.data
+            }
+            return factory
+          })
+        })
     },
 
     fetchUserFactories() {
