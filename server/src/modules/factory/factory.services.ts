@@ -6,9 +6,9 @@ import { db } from "../../db/mongo";
 export async function createFactory(body: Factory) {
   const Factories: Collection<Factory> = db!.collection("factories");
 
-  await Factories.insertOne(body);
+  const result = await Factories.insertOne(body);
 
-  return { success: true };
+  return result;
 }
 
 export async function getFactories() {

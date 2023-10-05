@@ -11,8 +11,12 @@ import { Factory } from "../../global/implements";
 import { ObjectId } from "mongodb";
 
 export function factoryRoutes(app: Express) {
-
-  app.get("/factories", getFactories);
+  app.get(
+    "/factories",
+    async (_req: Request<unknown, unknown, unknown>, res: Response) =>
+      
+      res.json(await getFactories())
+  );
 
   app.post(
     "/factories",
