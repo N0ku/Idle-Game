@@ -1,22 +1,24 @@
 <script lang="ts" setup>
+import { reactive } from 'vue'
+import CardDrawer from '@/components/game/drawer/CardDrawer.vue'
+import { Products, TypeFactory, Factory } from '../../../../../server/src/global/implements'
 
-import { reactive } from "vue";
-import CardDrawer from "@/components/game/drawer/CardDrawer.vue";
-import { Products, TypeFactory, Factory } from "../../../../../server/src/global/implements";
-import { useUserStore } from "@/stores/datastore";
-const userStore = useUserStore()
+const userId = '651ea4dd468911b45082ae68'
 
+const fullFactory = [
+  new Factory(Products.Wood, TypeFactory.WoodProduction, userId, 100, 1, '1', 1),
+  new Factory(Products.Stone, TypeFactory.StoneProduction, userId, 150, 2, '2', 2),
+  new Factory(Products.Weed, TypeFactory.WeedProduction, userId, 200, 3, '3', 3),
+  new Factory(Products.CBD, TypeFactory.CBDProduction, userId, 250, 4, '4', 4),
+  new Factory(Products.Water, TypeFactory.WaterProduction, userId, 50, 5, '5', 5),
+  new Factory(Products.Fertilizer, TypeFactory.FertilizerProduction, userId, 75, 6, '6', 6)
+]
 let open = reactive({ value: false })
 let view = reactive({ value: 'global' })
-let right = true;
-
-
-let fullFactory: Factory[] = [];
-fullFactory.push(new Factory(Products.Stone, TypeFactory.StoneProduction, userStore.getId, 10, 1, undefined, 1));
-fullFactory.push(new Factory(Products.Wood, TypeFactory.WoodProduction, userStore.getId, 10, 1, undefined, 1));
+let right = true
 
 function toogle() {
-  open.value = !open.value;
+  open.value = !open.value
 }
 function handleView(viewChoice: string) {
   view.value = viewChoice
@@ -27,26 +29,26 @@ function handleView(viewChoice: string) {
   <!-- Sidebar -->
   <div class="fixed inset-0 flex z-40">
     <div
-        :class="[right ? 'right-0 flex-row' : 'left-0 flex-row-reverse']"
-        class="absolute w-50 flex top-0 h-screen z-20"
+      :class="[right ? 'right-0 flex-row' : 'left-0 flex-row-reverse']"
+      class="absolute w-50 flex top-0 h-screen z-20"
     >
       <!--Drawer -->
       <button
-          class="w-8 h-40 p-1 my-auto rounded text-white bg-gray-700 text-center focus:outline-none hover:bg-gray-800 transition-color rounded-l-full duration-300"
-          @click="toogle"
+        class="w-8 h-40 p-1 my-auto rounded text-white bg-gray-700 text-center focus:outline-none hover:bg-gray-800 transition-color rounded-l-full duration-300"
+        @click="toogle"
       >
         <span
-            :class="[open.value ? '-rotate-180' : '']"
-            class="block transform origin-center font-bold"
+          :class="[open.value ? '-rotate-180' : '']"
+          class="block transform origin-center font-bold"
         >
           <!-- Chevron Icone -->
           <svg
-              class="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.5"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
+            class="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
           >
             <path d="M15.75 19.5L8.25 12l7.5-7.5" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
@@ -61,27 +63,27 @@ function handleView(viewChoice: string) {
             <div class="group">
               <!-- Bouton de gauche -->
               <button
-                  :class="[view.value == 'global' ? 'bg-gray-800' : 'bg-gray-700']"
-                  class="rounded-l-xl border-gray-900 border-2 text-white font-bold py-2 px-4"
-                  @click="handleView('global')"
+                :class="[view.value == 'global' ? 'bg-gray-800' : 'bg-gray-700']"
+                class="rounded-l-xl border-gray-900 border-2 text-white font-bold py-2 px-4"
+                @click="handleView('global')"
               >
                 Global
               </button>
 
               <!-- Bouton du milieu -->
               <button
-                  :class="[view.value == 'bonus' ? 'bg-gray-800' : 'bg-gray-700']"
-                  class="border-gray-900 border-2 text-white font-bold py-2 px-4"
-                  @click="handleView('bonus')"
+                :class="[view.value == 'bonus' ? 'bg-gray-800' : 'bg-gray-700']"
+                class="border-gray-900 border-2 text-white font-bold py-2 px-4"
+                @click="handleView('bonus')"
               >
                 Bonus
               </button>
 
               <!-- Bouton de droite -->
               <button
-                  :class="[view.value == 'history' ? 'bg-gray-800' : 'bg-gray-700']"
-                  class="rounded-r-xl border-gray-900 border-2 text-white font-bold py-2 px-4"
-                  @click="handleView('history')"
+                :class="[view.value == 'history' ? 'bg-gray-800' : 'bg-gray-700']"
+                class="rounded-r-xl border-gray-900 border-2 text-white font-bold py-2 px-4"
+                @click="handleView('history')"
               >
                 Historique
               </button>
@@ -101,9 +103,9 @@ function handleView(viewChoice: string) {
               </div>
               <div class="w-9/12 overflow-x-auto grid grid-rows-4 grid-flow-col gap-2">
                 <!-- v-for="product in allProduct" -->
-                <div class="w-32 h-10 m-2" >
+                <div class="w-32 h-10 m-2">
                   <!-- :product="product" -->
-                  <CardDrawer mode="ressource"  />
+                  <CardDrawer mode="ressource" />
                 </div>
               </div>
             </div>
@@ -112,16 +114,16 @@ function handleView(viewChoice: string) {
             <div class="content-center mt-8">
               <div class="grid justify-center mb-2">
                 <div
-                    class="text-center rounded-full bg-orange-400 font-bold text-white p-1 text-xl"
+                  class="text-center rounded-full bg-orange-400 font-bold text-white p-1 text-xl"
                 >
                   Usine
                 </div>
               </div>
               <div class="w-9/12 overflow-x-auto grid grid-rows-4 grid-flow-col gap-2">
                 <!-- v-for="factory in fullFactory" -->
-                <div  class="w-32 h-10 m-2">
+                <div class="w-32 h-10 m-2" v-for="factory in fullFactory">
                   <!-- :factory="factory" -->
-                  <CardDrawer  mode="usine" />
+                  <CardDrawer mode="usine" :factory="factory" />
                 </div>
               </div>
             </div>
@@ -139,8 +141,8 @@ function handleView(viewChoice: string) {
               <div class="w-full h-full grid grid-rows-4 grid-flow-col gap-2">
                 <div class="w-2/5 h-10 m-2">
                   <span
-                      class="inline-block w-24 bg-gray-200 border-r-4 border-b-4 shadow-lg perspective bg-white rounded-full px-3 py-1 text-sm font-semibold text-gray-700 transform hover:scale-105 hover:shadow-xl transition-transform duration-300"
-                  >Gain +3%</span
+                    class="inline-block w-24 bg-gray-200 border-r-4 border-b-4 shadow-lg perspective bg-white rounded-full px-3 py-1 text-sm font-semibold text-gray-700 transform hover:scale-105 hover:shadow-xl transition-transform duration-300"
+                    >Gain +3%</span
                   >
                 </div>
               </div>
@@ -168,7 +170,6 @@ function handleView(viewChoice: string) {
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>
