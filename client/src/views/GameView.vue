@@ -1,9 +1,12 @@
 <template>
   <div class="game-container">
-    <StartSlider :start="start" @itemClicked="handleItemClicked" v-if="start"/>
-    <ButtonMarketPlace />
+    <ButtonMarketPlace @open-marketplace="openMarketPlace" class="z-50" />
+
+    <StartSlider :start="start" @itemClicked="handleItemClicked" v-if="start" />
     <DrawerGlobalView></DrawerGlobalView>
 
+    <MarketPlace v-if="showMarketPlace" @close-marketplace="closeMarketPlace">
+    </MarketPlace>
   </div>
 </template>
 
@@ -11,16 +14,25 @@
 import ButtonMarketPlace from "../components/game/ButtonMarketPlace.vue";
 import StartSlider from "../components/game/StartSlider.vue";
 import DrawerGlobalView from "@/components/game/drawer/DrawerGlobalView.vue";
+import MarketPlace from "@/components/menu/MarketPlace.vue";
 import type { Item } from '@/types/Item';
 import { ref } from "vue";
 
 let start = ref(true);
+let showMarketPlace = ref(false);
 
 let handleItemClicked = (item: Item): void => {
   start.value = false;   
-  //TODO: replace item with a ressource
+  // TODO: replace item with a resource
   console.log(item);
-  
+};
+
+const openMarketPlace = () => {
+  showMarketPlace.value = true;
+};
+
+const closeMarketPlace = () => {
+  showMarketPlace.value = false;
 };
 </script>
 
