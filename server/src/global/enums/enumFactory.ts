@@ -1,3 +1,4 @@
+import { Product } from './../../../../client/src/global/classes/Products';
 export enum Products {
   Wood,
   Stone,
@@ -57,8 +58,8 @@ export enum TypeFactory {
 }
 
 export class TypeFactoryExtensions {
-  public static GetImage(this: TypeFactory | undefined) {
-    switch (this) {
+  public static GetImage(product: TypeFactory | undefined) {
+    switch (product) {
       case TypeFactory.WoodProduction:
         return "src/assets/img/wood.png";
       case TypeFactory.StoneProduction:
