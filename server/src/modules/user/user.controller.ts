@@ -1,5 +1,5 @@
 import { Express, Request, Response } from "express";
-import { getUserById, updateUser, addFactoryToUser } from "./user.services";
+import { getUserById, updateUser, addFactoryToUser,getUserByToken } from "./user.services";
 import { ObjectId } from "mongodb";
 import { Factory, User } from "../../global/implements";
 
@@ -26,5 +26,11 @@ export function userRoutes(app: Express) {
       const result = await addFactoryToUser(new ObjectId(req.params.id), req.body);
       res.json(result);
     }
+  );
+
+  app.get("/users/token/:token", async (req: Request<{ token: string }, unknown, unknown>, res: Response) => {
+    const result = await getUserByToken(req.params.token);    
+    res.json(result);
+  }
   );
 }

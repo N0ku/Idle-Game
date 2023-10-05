@@ -7,6 +7,9 @@ export async function createFactory(body: Factory) {
   
   const Factories: Collection<Factory> = db!.collection("factories");
 
+  console.log(body);
+  body.userId = new ObjectId(body.userId);
+
   const result = await Factories.insertOne(body);
 
   return result;
