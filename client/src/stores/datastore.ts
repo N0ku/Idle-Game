@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { UserStage,Factory } from '../../../server/src/global/implements'
+import { UserStage, Factory } from '../../../server/src/global/implements'
 import axios from 'axios'
 
 ////////////////////////////////////////////////////////////////
@@ -61,7 +61,9 @@ export const useUserStore = defineStore('User', {
       this.sells = sells
     },
     addFactory({ factory }: { factory: Factory }) {
-      console.log(factory)
+      axios.post(`${import.meta.env.VITE_APP_BACKEND_URL}/factories`, factory).then((response) => {
+        this.factories.push(response.data)
+      })
     },
     removeFactory({ id }: { id: string }) {
       this.factories = this.factories.filter((factory: { id: string }) => factory.id !== id)
