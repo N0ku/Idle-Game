@@ -17,7 +17,7 @@ console.log(props)
 <template>
   <!-- Mode ressource -->
   <div
-    v-if="props.mode == 'ressource'"
+    v-if="props.mode == 'ressource' && props.product "
     class="border border-r-4 border-b-4 rounded-lg shadow-lg transform hover:scale-105 hover:shadow-xl transition-transform duration-300 perspective w-full bg-white h-full grid grid-cols-3"
   >
     <div class="">
@@ -28,16 +28,16 @@ console.log(props)
       />
     </div>
     <div class="text-sm text-gray-800 grid content-center">
-      <span>49</span>
+      <span>{{props.product?.quantity}}</span>
     </div>
     <div class="text-sm text-green-800 grid content-center">
-      <span>+20</span>
+      <span>{{ProductsExtensions.GetPrice(props.product?.name)}}</span>
     </div>
   </div>
 
   <!-- Mode Usine-->
   <div
-    v-if="props.mode == 'usine'"
+    v-if="props.mode == 'usine' && props.factory"
     class="border border-r-4 border-b-4 rounded-lg shadow-lg transform hover:scale-105 hover:shadow-xl transition-transform duration-300 perspective w-full bg-white h-full grid grid-cols-2"
   >
     <div class="">

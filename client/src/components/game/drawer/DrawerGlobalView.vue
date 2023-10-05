@@ -1,7 +1,12 @@
 <script lang="ts" setup>
 import { reactive } from 'vue'
 import CardDrawer from '@/components/game/drawer/CardDrawer.vue'
-import { Products, TypeFactory, Factory } from '../../../../../server/src/global/implements'
+import {
+  Products,
+  Product,
+  TypeFactory,
+  Factory
+} from '../../../../../server/src/global/implements'
 
 const userId = '651ea4dd468911b45082ae68'
 
@@ -12,6 +17,13 @@ const fullFactory = [
   new Factory(Products.CBD, TypeFactory.CBDProduction, userId, 250, 4, '4', 4),
   new Factory(Products.Water, TypeFactory.WaterProduction, userId, 50, 5, '5', 5),
   new Factory(Products.Fertilizer, TypeFactory.FertilizerProduction, userId, 75, 6, '6', 6)
+]
+const allProduct: Product[] = [
+  new Product(Products.Wood, 10.0, 'Wood product', 100),
+  new Product(Products.Stone, 15.0, 'Stone product', 50),
+  new Product(Products.Weed, 20.0, 'Weed product', 25),
+  new Product(Products.Water, 20.0, 'Water product', 25)
+
 ]
 let open = reactive({ value: false })
 let view = reactive({ value: 'global' })
@@ -102,10 +114,9 @@ function handleView(viewChoice: string) {
                 </div>
               </div>
               <div class="w-9/12 overflow-x-auto grid grid-rows-4 grid-flow-col gap-2">
-                <!-- v-for="product in allProduct" -->
-                <div class="w-32 h-10 m-2">
-                  <!-- :product="product" -->
-                  <CardDrawer mode="ressource" />
+                <!--  -->
+                <div class="w-32 h-10 m-2" v-for="(product, index) in allProduct" :key="index">
+                  <CardDrawer mode="ressource" :product="product" />
                 </div>
               </div>
             </div>
