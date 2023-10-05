@@ -33,7 +33,7 @@ console.log(props)
       <span>{{props.product?.quantity}}</span>
     </div>
     <div class="text-sm text-green-800 grid content-center">
-      <span>{{ProductsExtensions.GetPrice(props.product?.name)}}</span>
+      <span>{{ProductsExtensions.GetPrice(props.product?.name)}} $</span>
     </div>
   </div>
 
