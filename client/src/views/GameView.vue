@@ -22,12 +22,12 @@ import StartSlider from '../components/game/StartSlider.vue'
 import DrawerGlobalView from '@/components/game/drawer/DrawerGlobalView.vue'
 import { useUserStore } from '@/stores/datastore'
 import MarketPlace from '@/components/menu/MarketPlace.vue'
-import type { Item } from '@/types/Item'
 import { ref, reactive } from 'vue'
 import { Factory, Products, TypeFactory,Product } from '../../../server/src/global/implements'
 import FactoryContainer from '@/components/game/factory/FactoryContainer.vue'
 
 const userStore = useUserStore()
+
 
 let start = ref(false)
 let counterStep = ref(1)
