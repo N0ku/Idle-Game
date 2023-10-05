@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { UserStage, Factory } from '../../../server/src/global/implements'
+import { UserStage, Factory, Product } from '../../../server/src/global/implements'
 import axios from 'axios'
 
 ////////////////////////////////////////////////////////////////
@@ -18,6 +18,8 @@ export const useUserStore = defineStore('User', {
     email: '',
     password: '',
     factories: [],
+    money: 0,
+    products: [],
     purchases: undefined,
     sells: undefined
   }),
@@ -39,13 +41,19 @@ export const useUserStore = defineStore('User', {
     },
     getSells(state): undefined {
       return state.sells
+    },
+    getMoney(state): number {
+      return state.money
+    },
+    getProducts(state): Product[] {
+      return state.products
     }
   },
   actions: {
     setFactories({ factories }: { factories: Factory[] }) {
       this.factories = factories
     },
-    setId({ id }: { id: string}) {
+    setId({ id }: { id: string }) {
       this.id = id
     },
     setUsername({ name }: { name: string }) {
@@ -60,9 +68,21 @@ export const useUserStore = defineStore('User', {
     setSells({ sells }: { sells: undefined }) {
       this.sells = sells
     },
+    setMoney({ money }: { money: number }) {
+      this.money = money
+    },
+    setProducts({ products }: { products: Product[] }) {
+      this.products = products
+    },
     addFactory({ factory }: { factory: Factory }) {
       axios.post(`${import.meta.env.VITE_APP_BACKEND_URL}/factories`, factory).then((response) => {
         this.factories.push(response.data)
+      })
+    },
+    addProduct({ product }: { product: Product }) {
+      this.products.push(product)
+      axios.put(`${import.meta.env.VITE_APP_BACKEND_URL}/users/${this.id}`, {
+        products: this.products
       })
     },
     removeFactory({ id }: { id: string }) {
@@ -83,10 +103,12 @@ export const useUserStore = defineStore('User', {
         })
     },
 
-    async fetchUserFactories() {
-      axios.get(`${import.meta.env.VITE_APP_BACKEND_URL}/factories/user/${this.id}`).then((response) => {
-        this.factories = response.data
-      })
+    async fetchUserFactories(id: string) {
+      axios
+        .get(`${import.meta.env.VITE_APP_BACKEND_URL}/factories/user/${id}`)
+        .then((response) => {
+          this.factories = response.data          
+        })
     },
     async fetchPurchase() {
       axios.get(`${import.meta.env.VITE_APP_BACKEND_URL}/purchase/${this.id}`).then((response) => {
@@ -98,16 +120,18 @@ export const useUserStore = defineStore('User', {
         this.sells = response.data
       })
     },
-    async fetchUser(id: string) {      
+    async fetchUser(id: string) {
       axios.get(`${import.meta.env.VITE_APP_BACKEND_URL}/users/${id}`).then((response) => {
         const user = response.data.user
         this.id = user._id
         this.username = user.username
         this.email = user.email
         this.password = user.password
-        this.factories = user.factories
- /*        this.fetchPurchase()
-        this.fetchSells() */        
+        this.money = user.money
+        this.products = user.products
+        this.fetchUserFactories(user._id)
+        /*        this.fetchPurchase()
+        this.fetchSells() */
       })
     }
   }
