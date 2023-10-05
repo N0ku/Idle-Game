@@ -7,16 +7,22 @@ import {
   deleteFactory,
   getFactoriesByUserId,
 } from "./factory.services";
-import { Factory } from "../../../../global/implements";
+import { Factory } from "../../global/implements";
 import { ObjectId } from "mongodb";
 
 export function factoryRoutes(app: Express) {
+
   app.get("/factories", getFactories);
+
   app.post(
     "/factories",
     async (req: Request<unknown, unknown, Factory>, res: Response) => {
-      const result = await createFactory(req.body);
-      res.json(result);
+      try {
+        const result = await createFactory(req.body);
+        res.json(result);
+      } catch (error) {
+        console.log(error);
+      }
     }
   );
   app.get(

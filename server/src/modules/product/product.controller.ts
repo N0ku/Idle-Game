@@ -5,7 +5,7 @@ import {
   updateProduct,
 } from "./product.services";
 import { Express, Request, Response } from "express";
-import { Product } from "../../../../global/implements";
+import { Product } from "../../global/implements";
 import { ObjectId } from "mongodb";
 
 export function productRoutes(app: Express) {

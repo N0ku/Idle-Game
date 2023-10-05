@@ -1,6 +1,6 @@
-import { db } from "@/db/mongo";
+import { db } from "../../db/mongo";
 import { ObjectId } from "mongodb";
-import { Product } from "../../../../global/implements";
+import { Product } from "../../global/implements";
 
 export async function createProduct(body: Product) {
   const Products = db!.collection<Product>("products");
@@ -21,7 +21,7 @@ export async function getProducts() {
 export async function getProductById(id: ObjectId) {
   const Products = db!.collection<Product>("products");
 
-  const product = await Products.findOne({ _id: new ObjectId(id) });
+  const product = await Products.findOne({ _id: id });
 
   return { product };
 }
@@ -29,7 +29,7 @@ export async function getProductById(id: ObjectId) {
 export async function updateProduct(id: ObjectId, body: Product) {
   const Products = db!.collection<Product>("products");
 
-  await Products.updateOne({ _id: new ObjectId(id) }, { $set: body });
+  await Products.updateOne({ _id: id }, { $set: body });
 
   return { success: true };
 }
@@ -37,7 +37,7 @@ export async function updateProduct(id: ObjectId, body: Product) {
 export async function deleteProduct(id: ObjectId) {
   const Products = db!.collection<Product>("products");
 
-  await Products.deleteOne({ _id: new ObjectId(id) });
+  await Products.deleteOne({ _id: id });
 
   return { success: true };
 }

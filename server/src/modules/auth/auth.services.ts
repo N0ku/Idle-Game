@@ -1,10 +1,10 @@
 import crypto from "crypto";
-import { WithId } from "mongodb";
-import { db } from "@/db/mongo";
-import { User } from "../../../../global/implements";
+import { Collection, WithId } from "mongodb";
+import type { Factory, Success, User } from "../../global/implements";
+import { db } from "../../db/mongo";
 
 export async function register(body: User) {
-  const Users = db!.collection<User>("users");
+  const Users: Collection<User> = db!.collection("users");
   const alreadyExist = await Users.findOne({ username: body.username });
   if (alreadyExist) {
     return { status: false, message: "User already exists" };
@@ -16,14 +16,49 @@ export async function register(body: User) {
     .digest("hex");
   const token = crypto.randomBytes(32).toString("hex");
 
-  const newUser: User = new User(
-    body.username,
-    body.email,
-    hashedPassword,
-    [],
-    [],
-    token
-  );
+  const newUser: User = {
+    username: body.username,
+    password: hashedPassword,
+    email: "mailexemple@gmail.com",
+    token: token,
+    factories: [],
+    getUser: function (): User {
+      return this;
+    },
+    getFactories: function (): Factory[] | undefined {
+      return this.factories;
+    },
+    getSuccess: function (): Success[] | undefined {
+      return this.success;
+    },
+    getId: function (): string | undefined {
+      return this.id;
+    },
+    getUsername: function (): string {
+      return this.username;
+    },
+    getEmail: function (): string {
+      return this.email;
+    },
+    getPassword: function (): string {
+      return this.password;
+    },
+    setFactories: function (factories: Factory[]): void {
+      this.factories = factories;
+    },
+    setSuccess: function (success: Success[]): void {
+      this.success = success;
+    },
+    setId: function (id: string): void {
+      this.id = id;
+    },
+    setUsername: function (username: string): void {
+      this.username = username;
+    },
+    setEmail: function (email: string): void {
+      this.email = email;
+    },
+  };
 
   await Users.insertOne(newUser);
 
@@ -31,7 +66,7 @@ export async function register(body: User) {
 }
 
 export async function login(body: User) {
-  const Users = db!.collection<User>("users");
+  const Users: Collection<User> = db!.collection("users");
   const user = await Users.findOne({ username: body.username });
   if (!user) {
     return { success: false, message: "Bad password" };
@@ -52,9 +87,9 @@ export async function login(body: User) {
 }
 
 export function findByToken(token: string) {
-  const Users = db!.collection<User>("users");
-  return Users.findOne<WithId<User>>(
+  const Users: Collection<User> = db!.collection("users");
+  return Users.findOne(
     { token },
     { projection: { password: 0, token: 0 } }
-  );
+  ) as Promise<WithId<User> | null>;
 }

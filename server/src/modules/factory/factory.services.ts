@@ -1,9 +1,10 @@
-import { db } from "@/db/mongo";
+import type { Collection } from "mongodb";
+import type { Factory } from "../../global/implements";
 import { ObjectId } from "mongodb";
-import { Factory } from "../../../../global/implements";
+import { db } from "../../db/mongo";
 
 export async function createFactory(body: Factory) {
-  const Factories = db!.collection<Factory>("factories");
+  const Factories: Collection<Factory> = db!.collection("factories");
 
   await Factories.insertOne(body);
 
@@ -11,15 +12,15 @@ export async function createFactory(body: Factory) {
 }
 
 export async function getFactories() {
-  const Factories = db!.collection<Factory>("factories");
-
+  const Factories: Collection<Factory> = db!.collection("factories");
+  
   const factories = await Factories.find().toArray();
 
   return { factories };
 }
 
 export async function getFactoryById(id: ObjectId) {
-  const Factories = db!.collection<Factory>("factories");
+  const Factories: Collection<Factory> = db!.collection("factories");
 
   const factory = await Factories.findOne({ _id: new ObjectId(id) });
 
@@ -27,7 +28,7 @@ export async function getFactoryById(id: ObjectId) {
 }
 
 export async function updateFactory(id: ObjectId, body: Factory) {
-  const Factories = db!.collection<Factory>("factories");
+  const Factories: Collection<Factory> = db!.collection("factories");
 
   await Factories.updateOne({ _id: new ObjectId(id) }, { $set: body });
 
@@ -35,7 +36,7 @@ export async function updateFactory(id: ObjectId, body: Factory) {
 }
 
 export async function deleteFactory(id: ObjectId) {
-  const Factories = db!.collection<Factory>("factories");
+  const Factories: Collection<Factory> = db!.collection("factories");
 
   await Factories.deleteOne({ _id: new ObjectId(id) });
 
@@ -43,7 +44,7 @@ export async function deleteFactory(id: ObjectId) {
 }
 
 export async function getFactoriesByUserId(id: string) {
-  const Factories = db!.collection<Factory>("factories");
+  const Factories: Collection<Factory> = db!.collection("factories");
 
   const factories = await Factories.find({ userId: id }).toArray();
 

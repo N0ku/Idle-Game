@@ -1,5 +1,5 @@
-import { User, Factory } from "../../../../global/implements";
-import { db } from "@/db/mongo";
+import { User, Factory } from "../../global/implements";
+import { db } from "../../db/mongo";
 import { ObjectId } from "mongodb";
 
 export async function getUserById(id: ObjectId) {

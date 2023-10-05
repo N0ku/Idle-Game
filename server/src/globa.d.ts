@@ -1,5 +1,5 @@
 import { WithId } from "mongodb";
-import { User } from "../../global/implements";
+import { User } from "./global/implements";
 
 declare global {
   namespace Express {

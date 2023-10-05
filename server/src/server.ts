@@ -2,8 +2,8 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import { registerAuthRoutes } from "./modules/auth/auth.controller";
-import { factoryRoutes } from "./modules/factory/factory.controller";
 import { isLogin } from "./modules/auth/auth.middleware";
+import { factoryRoutes } from "./modules/factory/factory.controller";
 import { userRoutes } from "./modules/user/user.controller";
 import { productRoutes } from "./modules/product/product.controller";
 

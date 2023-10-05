@@ -1,7 +1,7 @@
 import { Express, Request, Response } from "express";
 import { getUserById, updateUser, addFactoryToUser } from "./user.services";
 import { ObjectId } from "mongodb";
-import { Factory, User } from "../../../../global/implements";
+import { Factory, User } from "../../global/implements";
 
 export function userRoutes(app: Express) {
   app.get(

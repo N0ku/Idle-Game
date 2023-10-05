@@ -1,7 +1,7 @@
 import { Express, Request, Response } from "express";
 import { login, register } from "./auth.services";
 import { requireLogin } from "./auth.middleware";
-import { User } from "../../../../global/implements";
+import { User } from "../../global/implements";
 
 export function registerAuthRoutes(app: Express) {
   // on enregistre une route /auth/register

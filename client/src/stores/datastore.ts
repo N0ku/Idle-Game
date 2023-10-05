@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { UserStage, Factory } from '../../../global/implements'
+import { UserStage, Factory } from '../../../server/src/global/implements'
 import axios from 'axios'
 
 ////////////////////////////////////////////////////////////////
