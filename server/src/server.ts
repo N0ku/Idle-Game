@@ -3,6 +3,9 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import { registerAuthRoutes } from "./modules/auth/auth.controller";
 import { isLogin } from "./modules/auth/auth.middleware";
+import { factoryRoutes } from "./modules/factory/factory.controller";
+import { userRoutes } from "./modules/user/user.controller";
+import { productRoutes } from "./modules/product/product.controller";
 
 export function initWebServer() {
   // Creation du serveur http
@@ -26,6 +29,13 @@ export function initWebServer() {
 
   // On enregistre nos controllers
   registerAuthRoutes(app);
+  factoryRoutes(app);
+  userRoutes(app);
+  productRoutes(app);
+
+  app.get("/", (_req, res) => {
+    res.json({ message: "Hello World" });
+  });
 
   // On ecoute sur le port configuré avec le .env
   app.listen(process.env.NODE_PORT, () => {

@@ -8,16 +8,19 @@
 <script setup lang="ts">
 import StartSlider from "../components/game/StartSlider.vue";
 import DrawerGlobalView from "@/components/game/drawer/DrawerGlobalView.vue";
+import { useUserStore } from "@/stores/datastore";
 import type { Item } from '@/types/Item';
 import { ref } from "vue";
+
+const userStore = useUserStore();
+
 
 let start = ref(true);
 
 let handleItemClicked = (item: Item): void => {
   start.value = false;   
   //TODO: replace item with a ressource
-  console.log(item);
-  
+  console.log(userStore.getFactories);
 };
 </script>
 

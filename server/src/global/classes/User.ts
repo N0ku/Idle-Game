@@ -2,19 +2,20 @@ import type { Factory,Success } from '../implements';
 
 export class User {
     id?: string | undefined;
-    name: string;
+    username: string;
     email: string;
     password: string;
     factories?: Factory[] | undefined;
     success?: Success[] | undefined;
+    token?: string | undefined;
 
-    constructor(name: string, email: string, password: string, factories?: Factory[], success?: Success[], id?: string) {
-        this.name = name;
+    constructor(username: string, email: string, password: string, factories?: Factory[], success?: Success[], token?: string) {
+        this.username = username;
         this.email = email;
         this.password = password;
         this.factories = factories;
         this.success = success;
-        this.id = id;
+        this.id = token;
     }
 
     getUser(): User {
@@ -33,8 +34,8 @@ export class User {
         return this.id;
     }
 
-    getName(): string {
-        return this.name;
+    getUsername(): string {
+        return this.username;
     }
 
     getEmail(): string {
@@ -57,8 +58,8 @@ export class User {
         this.id = id;
     }
 
-    setName(name: string): void {
-        this.name = name;
+    setUsername(username: string): void {
+        this.username = username;
     }
 
     setEmail(email: string): void {
