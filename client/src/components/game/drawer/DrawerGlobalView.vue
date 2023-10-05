@@ -120,9 +120,7 @@ function handleView(viewChoice: string) {
                 </div>
               </div>
               <div class="w-9/12 overflow-x-auto grid grid-rows-4 grid-flow-col gap-2">
-                <!-- v-for="factory in fullFactory" -->
-                <div class="w-32 h-10 m-2" v-for="factory in fullFactory">
-                  <!-- :factory="factory" -->
+                <div class="w-32 h-10 m-2" v-for="(factory, index) in fullFactory" :key="index">
                   <CardDrawer mode="usine" :factory="factory" />
                 </div>
               </div>

@@ -1,4 +1,4 @@
-import type { Products } from '../implements';
+import type { Products, } from '../implements';
 
 export class Product {
   name: Products;

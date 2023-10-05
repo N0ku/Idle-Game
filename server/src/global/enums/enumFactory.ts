@@ -9,7 +9,7 @@ export enum Products {
 }
 
 export class ProductsExtensions {
-  public static GetImage(product: Products) {
+  public static GetImage(product: Products | undefined) {
     switch (product) {
       case Products.Wood:
         return "wood.png";
