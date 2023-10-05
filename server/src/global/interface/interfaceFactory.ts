@@ -1,3 +1,4 @@
+import { ObjectId } from 'mongodb';
 import * as Implements from '../implements';
 
 
@@ -5,10 +6,10 @@ export interface FactoryInfo {
     productName: Implements.Products;
     factoryType: Implements.TypeFactory;
     level?: number;
-    id?: string;
+    id?: string | ObjectId;
     id_localisation?:number;
     production: number;
-    userId: string;
+    userId: ObjectId | string;
 }
   
 // export const WoodFactory: FactoryInfo = {

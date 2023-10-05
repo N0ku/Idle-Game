@@ -44,10 +44,11 @@ export async function deleteFactory(id: ObjectId) {
   return { success: true };
 }
 
+
 export async function getFactoriesByUserId(id: string) {
   const Factories: Collection<Factory> = db!.collection("factories");
 
-  const factories = await Factories.find({ userId: id }).toArray();
+  const factories = await Factories.find({ userId: id}).toArray();
 
   return { factories };
 }
