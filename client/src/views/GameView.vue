@@ -18,13 +18,13 @@ import { useUserStore } from "@/stores/datastore";
 import MarketPlace from "@/components/menu/MarketPlace.vue";
 import type { Item } from '@/types/Item';
 import { ref,reactive } from "vue";
-import { Factory,Product,TypeFactory } from "../../../server/src/global/implements";
+import { Factory,Products,TypeFactory } from "../../../server/src/global/implements";
 
 
 const userStore = useUserStore();
 
 
-let start = ref(true);
+let start = ref(false);
 let counterStep = ref(1);
 
 let handleItemClicked = (product: any): void => {
@@ -76,6 +76,7 @@ const closeMarketPlace = () => {
 };
 
 const factories = reactive<Factory[]>(userStore.getFactories);
+}
 </script>
 
 <style lang="scss">
