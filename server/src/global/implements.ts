@@ -11,11 +11,17 @@ import type { FactoryInfo } from './interface/interfaceFactory'
 import type { UserStage } from './interface/userStage.interface'
 
 import { enumTest } from './enums/template'
-import { Products, TypeFactory } from './enums/enumFactory'
+import { Products, TypeFactory, ProductsExtensions,TypeFactoryExtensions } from "./enums/enumFactory";
 
 export { Factory, User, TestClasses, Product, Success } // Ne pas oublier de export !!
 export type { TestInterface, FactoryInfo } // Ne pas oublier de export!!
-export { enumTest, Products, TypeFactory } // Ne pas oublier de export!!
+export {
+  enumTest,
+  Products,
+  TypeFactory,
+  ProductsExtensions,
+  TypeFactoryExtensions,
+}; // Ne pas oublier de export!!
 export type { UserStage } // Ne pas oublier de export!!
 
 // Pour import implements :  import * as Implements from '../global/implements';

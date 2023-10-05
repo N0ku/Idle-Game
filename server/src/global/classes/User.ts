@@ -1,68 +1,85 @@
-import type { Factory,Success } from '../implements';
+import type { Factory, Success, Product } from "../implements";
 
 export class User {
-    id?: string | undefined;
-    username: string;
-    email: string;
-    password: string;
-    factories?: Factory[] | undefined;
-    success?: Success[] | undefined;
-    token?: string | undefined;
+  id?: string | undefined;
+  username: string;
+  password: string;
+  factories?: Factory[] | undefined;
+  success?: Success[] | undefined;
+  token?: string | undefined;
+  money: number = 0;
+  products: Product[] = [];
 
-    constructor(username: string, email: string, password: string, factories?: Factory[], success?: Success[], token?: string) {
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.factories = factories;
-        this.success = success;
-        this.id = token;
-    }
+  constructor(
+    username: string,
+    password: string,
+    factories?: Factory[],
+    success?: Success[],
+    token?: string,
+    money: number = 0,
+    products: Product[] = []
+  ) {
+    this.username = username;
+    this.password = password;
+    this.money = money;
+    this.products = products;
+    this.factories = factories;
+    this.success = success;
+    this.id = token;
+  }
 
-    getUser(): User {
-        return this;
-    }
+  getUser(): User {
+    return this;
+  }
 
-    getFactories(): Factory[] | undefined {
-        return this.factories;
-    }
+  getFactories(): Factory[] | undefined {
+    return this.factories;
+  }
 
-    getSuccess(): Success[] | undefined {
-        return this.success;
-    }
+  getSuccess(): Success[] | undefined {
+    return this.success;
+  }
 
-    getId(): string | undefined {
-        return this.id;
-    }
+  getId(): string | undefined {
+    return this.id;
+  }
 
-    getUsername(): string {
-        return this.username;
-    }
+  getUsername(): string {
+    return this.username;
+  }
 
-    getEmail(): string {
-        return this.email;
-    }
+  getPassword(): string {
+    return this.password;
+  }
 
-    getPassword(): string {
-        return this.password;
-    }
+  setFactories(factories: Factory[]): void {
+    this.factories = factories;
+  }
 
-    setFactories(factories: Factory[]): void {
-        this.factories = factories;
-    }
+  setSuccess(success: Success[]): void {
+    this.success = success;
+  }
 
-    setSuccess(success: Success[]): void {
-        this.success = success;
-    }
+  setId(id: string): void {
+    this.id = id;
+  }
 
-    setId(id: string): void {
-        this.id = id;
-    }
+  setUsername(username: string): void {
+    this.username = username;
+  }
+  getMoney(): number {
+    return this.money;
+  }
 
-    setUsername(username: string): void {
-        this.username = username;
-    }
+  setMoney(money: number): void {
+    this.money = money;
+  }
 
-    setEmail(email: string): void {
-        this.email = email;
-    }
+  getProducts(): Product[] {
+    return this.products;
+  }
+
+  setProducts(products: Product[]): void {
+    this.products = products;
+  }
 }

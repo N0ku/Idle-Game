@@ -1,6 +1,6 @@
 import crypto from "crypto";
 import { Collection, WithId } from "mongodb";
-import type { Factory, Success, User } from "../../global/implements";
+import type { Factory, Success, User, Product } from "../../global/implements";
 import { db } from "../../db/mongo";
 
 export async function register(body: User) {
@@ -19,9 +19,10 @@ export async function register(body: User) {
   const newUser: User = {
     username: body.username,
     password: hashedPassword,
-    email: "mailexemple@gmail.com",
+    money: 15,
     token: token,
     factories: [],
+    products:[],
     getUser: function (): User {
       return this;
     },
@@ -36,9 +37,6 @@ export async function register(body: User) {
     },
     getUsername: function (): string {
       return this.username;
-    },
-    getEmail: function (): string {
-      return this.email;
     },
     getPassword: function (): string {
       return this.password;
@@ -55,8 +53,20 @@ export async function register(body: User) {
     setUsername: function (username: string): void {
       this.username = username;
     },
-    setEmail: function (email: string): void {
-      this.email = email;
+    getMoney(): number {
+      return this.money;
+    },
+
+    setMoney(money: number): void {
+      this.money = money;
+    },
+
+    getProducts(): Product[] {
+      return this.products;
+    },
+
+    setProducts(products: Product[]): void {
+      this.products = products;
     },
   };
 
