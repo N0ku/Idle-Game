@@ -29,9 +29,32 @@ const allProduct: Product[] = [
 ]
 
 const fullSell : Trade[] = [
-  {id:'dzdzdzd', productName: Products.Water, price:30, buyerId: '877Ec-zdzd-zdz', quantity: 20, sellerId: 'zfezfzefef'},
-  {id:'dzdzdzd', productName: Products.Water, price:30, buyerId: '877Ec-zdzd-zdz', quantity: 20, sellerId: 'zfezfzefef'},
-  {id:'dzdzdzd', productName: Products.Water, price:30, buyerId: '877Ec-zdzd-zdz', quantity: 20, sellerId: 'zfezfzefef'}
+new Trade(
+    'dzdzdzd',
+    Products.Wood,
+    30,
+     20,
+    '877Ec-zdzd-zdz'
+    ,
+    'zfezfzefef'
+), new Trade(
+      'dzdzdzd',
+      Products.Water,
+      30,
+      20,
+      '877Ec-zdzd-zdz'
+      ,
+      'zfezfzefef'
+  ),
+  new Trade(
+      'dzdzdzd',
+      Products.Water,
+      30,
+      20,
+      '877Ec-zdzd-zdz'
+      ,
+      'zfezfzefef'
+  )
 ]
 let open = reactive({ value: false })
 let view = reactive({ value: 'global' })
@@ -171,12 +194,12 @@ function handleView(viewChoice: string) {
             <div class="content-center">
               <div class="grid justify-center mb-2">
                 <div class="text-center rounded-full bg-red-400 font-bold text-white p-1 text-xl">
-                  Historique des achats
+                  Historique des ventes
                 </div>
               </div>
               <div class="w-full h-full grid grid-rows-4 grid-flow-col gap-2">
-                <div class="w-54 h-15 m-2" v-for="trade in fullSell">
-                  <CardDrawer mode="transfert" :trade="trade"></CardDrawer>
+                <div class="w-54 h-10  m-2" v-for="(trade, index) in fullSell" :key="index">
+                  <CardDrawer mode="transfert" :trade="trade" ></CardDrawer>
                 </div>
 
               </div>

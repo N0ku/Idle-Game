@@ -1,4 +1,6 @@
 import {Products} from "@/global/enums/enumFactory";
+import * as console from "console";
+import {Timestamp} from "mongodb";
 
 export class Trade{
     id : string
@@ -7,14 +9,27 @@ export class Trade{
     price: number
     sellerId : string
     buyerId? : string | null
+    createdAt : Date
 
-    constructor(id: string,product: Products, quantity: number, price: number, sellerId: string, buyerId? : string | null) {
+
+    constructor(id: string, product: Products, quantity: number, price: number, sellerId: string, buyerId? : string | null) {
+        //Definition de la date
+        const currentDate = new Date(Date.now());
+        const day : number = currentDate.getDate();
+        const month :number = currentDate.getMonth() + 1; // Les mois sont indexés à partir de zéro, donc on ajoute 1
+        const year : number = currentDate.getFullYear();
+
         this.id = id;
-        this.product = product;
+        this.productName = product;
         this.quantity = quantity;
         this.price = price;
         this.sellerId = sellerId;
         this.buyerId = buyerId
+        this.createdAt = `${day}/${month}/${year}`
+    }
+
+    getPriceClean() : number{
+        return this.price - (this.price * 0.03)
     }
 
 }
