@@ -61,13 +61,15 @@ export const useUserStore = defineStore('User', {
       this.sells = sells
     },
     addFactory({ factory }: { factory: Factory }) {
-      this.factories.push(factory)
+      axios.post(`${import.meta.env.VITE_APP_BACKEND_URL}/factories`, factory).then((response) => {
+        this.factories.push(response.data)
+      })
     },
     removeFactory({ id }: { id: string }) {
-      this.factories = this.factories.filter((factory) => factory.id !== id)
+      this.factories = this.factories.filter((factory: { id: string }) => factory.id !== id)
     },
     updateFactory({ factory }: { factory: Factory }) {
-      this.factories = this.factories.map((f) => {
+      this.factories = this.factories.map((f: { id: any }) => {
         if (f.id === factory.id) {
           return factory
         }

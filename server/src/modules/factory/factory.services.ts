@@ -4,6 +4,7 @@ import { ObjectId } from "mongodb";
 import { db } from "../../db/mongo";
 
 export async function createFactory(body: Factory) {
+  
   const Factories: Collection<Factory> = db!.collection("factories");
 
   const result = await Factories.insertOne(body);
@@ -13,7 +14,7 @@ export async function createFactory(body: Factory) {
 
 export async function getFactories() {
   const Factories: Collection<Factory> = db!.collection("factories");
-  
+
   const factories = await Factories.find().toArray();
 
   return { factories };

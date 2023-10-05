@@ -5,9 +5,9 @@
             It's Time to choose your first factory</h1>
         <div class="slider-container">
             <div class="slider-item" v-for="(item, index) in items" :key="index" v-on:click="handleItemClicked(item)">
-                <img :src="item.image" alt="logo" />
+                <img :src="item.illustration" alt="logo" />
                 <div class="slider-item-content">
-                    <h3>{{ item.title }}</h3>
+                    <h3>{{ item.name }}</h3>
                     <p>{{ item.description }}</p>
                 </div>
             </div>
@@ -16,35 +16,27 @@
 </template>
 
 <script setup lang="ts">
-import type { Item } from '@/types/Item';
-
+import { Product, Products } from '../../../../server/src/global/implements';
 
 defineProps<{
     start: boolean
 }>();
 
 const emit = defineEmits<{
-    itemClicked: [item: Item]
+    itemClicked: [product: Product]
 }>();
 
-const handleItemClicked = (item: Item): void => {    
-    emit('itemClicked', item);
+const handleItemClicked = (product: Product): void => {
+    emit('itemClicked', product);
 };
 
 
 
-let items: Item[] = [{
-    id: 0,
-    title: 'Wood',
-    description: 'Wood is a resource that can be gathered from trees. It is used to build structures and craft items.',
-    image: 'https://cdn.discordapp.com/attachments/1158387777868660736/1159071706435047465/DALLE_2023-10-03_16.52.57_-_create_a_piece_of_wood_in_pixel_art_16x16.png?ex=651e8d25&is=651d3ba5&hm=606703238170b8dddde8722c5761d98bc6df6deb418408fc187a9b99bf125db3&'
-},
-{
-    id: 1,
-    title: 'Stone',
-    description: 'Stone is a resource that can be gathered from rocks. It is used to build structures and craft items.',
-    image: 'https://static.vecteezy.com/system/resources/previews/022/285/230/original/sharp-stone-in-pixel-art-style-vector.jpg'
-}];
+let items: Product[] = [
+    { name: Products.CBD, illustration: "", description: 'test', price: 10 },
+    { name: Products.Fertilizer, illustration: "", description: 'Hellooooo', price: 20 },
+
+];
 
 </script>
 
@@ -122,4 +114,4 @@ let items: Item[] = [{
         }
     }
 }
-</style>
+</style>../../../../global/implements

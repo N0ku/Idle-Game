@@ -14,7 +14,7 @@ export function productRoutes(app: Express) {
     async (_req: Request<unknown, unknown, unknown>, res: Response) =>
       res.json(await getProducts())
   );
-  
+
   app.get(
     "/products/:id",
     async (req: Request<{ id: ObjectId }, unknown, unknown>, res: Response) => {
