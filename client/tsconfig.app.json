@@ -1,6 +1,6 @@
 {
   "extends": "@vue/tsconfig/tsconfig.dom.json",
-  "include": ["env.d.ts", "src/**/*", "src/**/*.vue", "../global"],
+  "include": ["env.d.ts", "src/**/*", "src/**/*.vue", "../server/src/global"],
   "exclude": ["src/**/__tests__/*"],
   "compilerOptions": {
     "verbatimModuleSyntax": false,

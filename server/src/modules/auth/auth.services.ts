@@ -67,7 +67,7 @@ export async function register(body: User) {
 
 export async function login(body: User) {
   const Users: Collection<User> = db!.collection("users");
-  
+
   const user = await Users.findOne({ username: body.username });
   if (!user) {
     return { success: false, message: "Bad password" };

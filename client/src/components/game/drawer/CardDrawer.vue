@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {Factory} from "@/global/implements";
+import { Factory } from '../../../../../server/src/global/implements';
 
 const props = defineProps({
   mode : String,
@@ -29,7 +29,7 @@ console.log(props)
     </div>
     <div class="text-sm text-gray-800 grid content-center">
       <span>
-        Niveau {{props.factory.level}}
+        <!-- Niveau {{props.factory.level}} -->
       </span>
     </div>
   </div>

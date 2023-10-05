@@ -13,7 +13,7 @@ export async function createFactory(body: Factory) {
 
 export async function getFactories() {
   const Factories: Collection<Factory> = db!.collection("factories");
-  
+
   const factories = await Factories.find().toArray();
 
   return { factories };

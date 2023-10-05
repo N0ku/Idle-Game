@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import CardForm from '../components/form/CardForm.vue'
-import {isLogin} from '../global/function/Redirect'
+/* import {isLogin} from '../global/function/Redirect'
 
-isLogin()
+isLogin() */
 </script>
 <template>
   <CardForm page="register" />

@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { UserStage, Factory } from '../../../server/src/global/implements'
+import { UserStage,Factory } from '../../../server/src/global/implements'
 import axios from 'axios'
 
 ////////////////////////////////////////////////////////////////
@@ -61,13 +61,13 @@ export const useUserStore = defineStore('User', {
       this.sells = sells
     },
     addFactory({ factory }: { factory: Factory }) {
-      this.factories.push(factory)
+      console.log(factory)
     },
     removeFactory({ id }: { id: string }) {
-      this.factories = this.factories.filter((factory) => factory.id !== id)
+      this.factories = this.factories.filter((factory: { id: string }) => factory.id !== id)
     },
     updateFactory({ factory }: { factory: Factory }) {
-      this.factories = this.factories.map((f) => {
+      this.factories = this.factories.map((f: { id: any }) => {
         if (f.id === factory.id) {
           return factory
         }
