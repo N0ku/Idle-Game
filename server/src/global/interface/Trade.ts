@@ -1,6 +1,5 @@
 import {Products} from "@/global/enums/enumFactory";
-import * as console from "console";
-import {Timestamp} from "mongodb";
+
 
 export class Trade{
     id : string
@@ -9,7 +8,7 @@ export class Trade{
     price: number
     sellerId : string
     buyerId? : string | null
-    createdAt : Date
+    createdAt : string
 
 
     constructor(id: string, product: Products, quantity: number, price: number, sellerId: string, buyerId? : string | null) {
