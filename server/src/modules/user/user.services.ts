@@ -28,3 +28,11 @@ export async function addFactoryToUser(id: ObjectId, body: Factory) {
 
   return { success: true };
 }
+
+export async function getUserByToken(token: string) {
+  
+  const Users = db!.collection<User>("users");
+  const user = await Users.findOne({ token: token });
+  
+  return { user };
+}
