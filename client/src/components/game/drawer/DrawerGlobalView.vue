@@ -2,6 +2,7 @@
 import { reactive } from 'vue'
 import CardDrawer from '@/components/game/drawer/CardDrawer.vue'
 import { Products, TypeFactory, Factory } from '../../../../../server/src/global/implements'
+import {Trade} from "../../../../../server/src/global/interface/Trade";
 
 const userId = '651ea4dd468911b45082ae68'
 
@@ -12,6 +13,12 @@ const fullFactory = [
   new Factory(Products.CBD, TypeFactory.CBDProduction, userId, 250, 4, '4', 4),
   new Factory(Products.Water, TypeFactory.WaterProduction, userId, 50, 5, '5', 5),
   new Factory(Products.Fertilizer, TypeFactory.FertilizerProduction, userId, 75, 6, '6', 6)
+]
+
+const fullSell : Trade[] = [
+  {id:'dzdzdzd', productName: Products.Water, price:30, buyerId: '877Ec-zdzd-zdz', quantity: 20, sellerId: 'zfezfzefef'},
+  {id:'dzdzdzd', productName: Products.Water, price:30, buyerId: '877Ec-zdzd-zdz', quantity: 20, sellerId: 'zfezfzefef'},
+  {id:'dzdzdzd', productName: Products.Water, price:30, buyerId: '877Ec-zdzd-zdz', quantity: 20, sellerId: 'zfezfzefef'}
 ]
 let open = reactive({ value: false })
 let view = reactive({ value: 'global' })
@@ -158,15 +165,10 @@ function handleView(viewChoice: string) {
                 </div>
               </div>
               <div class="w-full h-full grid grid-rows-4 grid-flow-col gap-2">
-                <div class="w-54 h-15 m-2">
-                  <CardDrawer mode="transfert"></CardDrawer>
+                <div class="w-54 h-15 m-2" v-for="trade in fullSell">
+                  <CardDrawer mode="transfert" :trade="trade"></CardDrawer>
                 </div>
-                <div class="w-54 h-15 m-2">
-                  <CardDrawer mode="transfert"></CardDrawer>
-                </div>
-                <div class="w-54 h-15 m-2">
-                  <CardDrawer mode="transfert"></CardDrawer>
-                </div>
+
               </div>
             </div>
           </div>

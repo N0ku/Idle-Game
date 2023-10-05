@@ -1,11 +1,11 @@
 import { Product } from './../../../../client/src/global/classes/Products';
 export enum Products {
-  Wood,
-  Stone,
-  Weed,
-  CBD,
-  Water,
-  Fertilizer,
+  Wood = "Wood",
+  Stone = "Stone",
+  Weed = "Weed",
+  CBD = "CBD",
+  Water = "Water",
+  Fertilizer = "Fertilizer",
 }
 
 export class ProductsExtensions {
