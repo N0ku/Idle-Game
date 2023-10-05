@@ -1,14 +1,15 @@
+import { ObjectId } from 'mongodb';
 import type { Products, TypeFactory, FactoryInfo } from '../implements';
 export class Factory implements FactoryInfo{
     productName: Products;
     factoryType: TypeFactory;
-    userId: string;
+    userId: string | ObjectId;
     production: number;
     level?: number | undefined;
     id?: string | undefined;
     id_localisation?: number | undefined;
 
-    constructor(productName: Products, factoryType: TypeFactory,  userId: string, production: number,level?: number, id?: string, id_localisation?: number){
+    constructor(productName: Products, factoryType: TypeFactory,  userId: ObjectId | string, production: number,level?: number, id?: string, id_localisation?: number){
         this.productName = productName;
         this.factoryType = factoryType;
         this.level = level;

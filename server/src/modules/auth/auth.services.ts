@@ -1,6 +1,6 @@
 import crypto from "crypto";
 import { Collection, WithId } from "mongodb";
-import type { Factory, Success, User } from "../../global/implements";
+import { User } from "../../global/implements";
 import { db } from "../../db/mongo";
 
 export async function register(body: User) {
@@ -22,42 +22,6 @@ export async function register(body: User) {
     email: "mailexemple@gmail.com",
     token: token,
     factories: [],
-    getUser: function (): User {
-      return this;
-    },
-    getFactories: function (): Factory[] | undefined {
-      return this.factories;
-    },
-    getSuccess: function (): Success[] | undefined {
-      return this.success;
-    },
-    getId: function (): string | undefined {
-      return this.id;
-    },
-    getUsername: function (): string {
-      return this.username;
-    },
-    getEmail: function (): string {
-      return this.email;
-    },
-    getPassword: function (): string {
-      return this.password;
-    },
-    setFactories: function (factories: Factory[]): void {
-      this.factories = factories;
-    },
-    setSuccess: function (success: Success[]): void {
-      this.success = success;
-    },
-    setId: function (id: string): void {
-      this.id = id;
-    },
-    setUsername: function (username: string): void {
-      this.username = username;
-    },
-    setEmail: function (email: string): void {
-      this.email = email;
-    },
   };
 
   await Users.insertOne(newUser);
@@ -85,7 +49,7 @@ export async function login(body: User) {
 
   await Users.updateOne({ _id: user._id }, { $set: { token } });
 
-  return { success: true, token };
+  return { success: true, token, id: user._id };
 }
 
 export function findByToken(token: string) {

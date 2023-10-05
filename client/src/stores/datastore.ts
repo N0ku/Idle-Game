@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { UserStage, Factory } from '../../../server/src/global/implements'
 import axios from 'axios'
+import { ObjectId } from 'mongodb'
 
 ////////////////////////////////////////////////////////////////
 
@@ -45,7 +46,7 @@ export const useUserStore = defineStore('User', {
     setFactories({ factories }: { factories: Factory[] }) {
       this.factories = factories
     },
-    setId({ id }: { id: string }) {
+    setId({ id }: { id: string}) {
       this.id = id
     },
     setUsername({ name }: { name: string }) {
@@ -83,30 +84,31 @@ export const useUserStore = defineStore('User', {
         })
     },
 
-    fetchUserFactories() {
-      axios.get(`${import.meta.env.VITE_APP_BACKEND_URL}/factories/${this.id}`).then((response) => {
+    async fetchUserFactories() {
+      axios.get(`${import.meta.env.VITE_APP_BACKEND_URL}/factories/user/${this.id}`).then((response) => {
         this.factories = response.data
       })
     },
-    fetchPurchase() {
+    async fetchPurchase() {
       axios.get(`${import.meta.env.VITE_APP_BACKEND_URL}/purchase/${this.id}`).then((response) => {
         this.purchases = response.data
       })
     },
-    fetchSells() {
+    async fetchSells() {
       axios.get(`${import.meta.env.VITE_APP_BACKEND_URL}/sells/${this.id}`).then((response) => {
         this.sells = response.data
       })
     },
-    fetchUser({ id }: { id: string }) {
-      axios.get(`${import.meta.env.VITE_APP_BACKEND_URL}/user/${id}`).then((response) => {
-        this.id = response.data.id
-        this.username = response.data.name
-        this.email = response.data.email
-        this.password = response.data.password
-        this.fetchPurchase()
-        this.fetchSells()
-        this.fetchUserFactories()
+    async fetchUser(id: string) {      
+      axios.get(`${import.meta.env.VITE_APP_BACKEND_URL}/users/${id}`).then((response) => {
+        const user = response.data.user
+        this.id = user._id
+        this.username = user.username
+        this.email = user.email
+        this.password = user.password
+        this.factories = user.factories
+ /*        this.fetchPurchase()
+        this.fetchSells() */        
       })
     }
   }

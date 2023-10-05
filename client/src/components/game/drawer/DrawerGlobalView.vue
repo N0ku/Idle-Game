@@ -3,6 +3,8 @@
 import { reactive } from "vue";
 import CardDrawer from "@/components/game/drawer/CardDrawer.vue";
 import { Products, TypeFactory, Factory } from "../../../../../server/src/global/implements";
+import { useUserStore } from "@/stores/datastore";
+const userStore = useUserStore()
 
 let open = reactive({ value: false })
 let view = reactive({ value: 'global' })
@@ -10,8 +12,8 @@ let right = true;
 
 
 let fullFactory: Factory[] = [];
-fullFactory.push(new Factory(Products.Stone, TypeFactory.StoneProduction, "0", 10, 1, undefined, 1));
-fullFactory.push(new Factory(Products.Wood, TypeFactory.WoodProduction, "0", 10, 1, undefined, 1));
+fullFactory.push(new Factory(Products.Stone, TypeFactory.StoneProduction, userStore.getId, 10, 1, undefined, 1));
+fullFactory.push(new Factory(Products.Wood, TypeFactory.WoodProduction, userStore.getId, 10, 1, undefined, 1));
 
 function toogle() {
   open.value = !open.value;
