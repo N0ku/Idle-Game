@@ -79,17 +79,17 @@ export class TypeFactoryExtensions {
   public static GetPrice(factory: TypeFactory | undefined, level: number) {
     switch (factory) {
       case TypeFactory.WoodProduction:
-        return 100.0 * level;
+        return 100.0 * Math.pow(2, level - 1);
       case TypeFactory.StoneProduction:
-        return 150.0 * level;
+        return 150.0 * Math.pow(2, level - 1);
       case TypeFactory.WeedProduction:
-        return 200.0 * level;
+        return 200.0 * Math.pow(2, level - 1);
       case TypeFactory.CBDProduction:
-        return 250.0 * level;
+        return 250.0 * Math.pow(2, level - 1);
       case TypeFactory.WaterProduction:
-        return 50.0 * level;
+        return 50.0 * Math.pow(2, level - 1);
       case TypeFactory.FertilizerProduction:
-        return 75.0 * level;
+        return 75.0 * Math.pow(2, level - 1);
       default:
         return;
     }
