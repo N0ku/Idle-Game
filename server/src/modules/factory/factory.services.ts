@@ -6,11 +6,11 @@ import { db } from "../../db/mongo";
 export async function createFactory(body: Factory) {
   
   const Factories: Collection<Factory> = db!.collection("factories");
-
-  console.log(body);
   body.userId = new ObjectId(body.userId);
 
-  const result = await Factories.insertOne(body);
+  await Factories.insertOne(body);
+
+  const result = await Factories.findOne(body);
 
   return result;
 }

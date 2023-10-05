@@ -1,12 +1,12 @@
 <template>
   <div class="game-container">
-    <ButtonMarketPlace @open-marketplace="openMarketPlace" class="z-50" />
-
-    <StartSlider :start="start" @itemClicked="handleItemClicked" v-if="start" />
+    <!--     <ButtonMarketPlace @open-marketplace="openMarketPlace" class="z-50" />
+ -->
+    <StartSlider :start="start" :currentStep=counterStep @itemClicked="handleItemClicked" v-if="start" />
     <DrawerGlobalView></DrawerGlobalView>
-
+    <!-- 
     <MarketPlace v-if="showMarketPlace" @close-marketplace="closeMarketPlace">
-    </MarketPlace>
+    </MarketPlace> -->
   </div>
 </template>
 
@@ -17,8 +17,8 @@ import DrawerGlobalView from "@/components/game/drawer/DrawerGlobalView.vue";
 import { useUserStore } from "@/stores/datastore";
 import MarketPlace from "@/components/menu/MarketPlace.vue";
 import type { Item } from '@/types/Item';
-import { ref,reactive } from "vue";
-import { Factory,Products,TypeFactory } from "../../../server/src/global/implements";
+import { ref, reactive } from "vue";
+import { Factory, Products, TypeFactory } from "../../../server/src/global/implements";
 
 
 const userStore = useUserStore();
@@ -59,12 +59,12 @@ let handleItemClicked = (product: any): void => {
     default:
       break;
   }
-
   userStore.addFactory({ factory: newFactory });
   counterStep.value++;
   if (counterStep.value > 3) {
     start.value = false;
   }
+}
 let showMarketPlace = ref(false);
 
 const openMarketPlace = () => {
@@ -76,7 +76,11 @@ const closeMarketPlace = () => {
 };
 
 const factories = reactive<Factory[]>(userStore.getFactories);
+
+if (factories.length === 0) {
+  start.value = true;
 }
+
 </script>
 
 <style lang="scss">
