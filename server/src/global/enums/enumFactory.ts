@@ -1,4 +1,3 @@
-
 export enum Products {
   Wood = "Wood",
   Stone = "Stone",
@@ -14,7 +13,7 @@ export class ProductsExtensions {
       case Products.Wood:
         return "src/assets/img/products/wood.png";
       case Products.Stone:
-        return "stone.png";
+        return "src/assets/img/products/stone.jpg";
       case Products.Weed:
         return "src/assets/img/products/weed.png";
       case Products.CBD:
