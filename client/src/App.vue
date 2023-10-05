@@ -5,7 +5,6 @@ import Cookies from 'js-cookie'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
 import { useUserStore } from './stores/datastore'
-import LoaderUser from './LoaderUser.vue'
 
 const isLoading = ref(false);
 

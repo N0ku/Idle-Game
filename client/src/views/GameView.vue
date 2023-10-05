@@ -121,8 +121,6 @@ let handleItemClicked = (product: any): void => {
     default:
       break
   }
-  console.log(newFactory)
-
   userStore.addFactory({ factory: newFactory })
   counterStep.value++
   if (counterStep.value > 3) {
