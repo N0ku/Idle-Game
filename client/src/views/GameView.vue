@@ -33,6 +33,7 @@ let start = ref(false)
 let counterStep = ref(1)
 
 let handleItemClicked = (product: any): void => {
+  
   let factoryType: TypeFactory = TypeFactory.WoodProduction
   let newFactory: Factory = new Factory(
     product.name,
@@ -140,7 +141,6 @@ const closeMarketPlace = () => {
 
 const factories = reactive<Factory[]>(userStore.getFactories)
 const products = reactive<Product[]>(userStore.getProducts)
-console.log(userStore.getId)
 
 const allFactories = factories.map(
   (item) =>
@@ -157,6 +157,7 @@ const allFactories = factories.map(
 if (factories.length === 0) {
   start.value = true
 }
+
 </script>
 
 <style lang="scss">
