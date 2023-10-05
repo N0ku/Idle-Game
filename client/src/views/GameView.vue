@@ -24,7 +24,7 @@ import { useUserStore } from '@/stores/datastore'
 import MarketPlace from '@/components/menu/MarketPlace.vue'
 import type { Item } from '@/types/Item'
 import { ref, reactive } from 'vue'
-import { Factory, Products, TypeFactory } from '../../../server/src/global/implements'
+import { Factory, Products, TypeFactory,Product } from '../../../server/src/global/implements'
 import FactoryContainer from '@/components/game/factory/FactoryContainer.vue'
 
 const userStore = useUserStore()
@@ -139,7 +139,8 @@ const closeMarketPlace = () => {
 }
 
 const factories = reactive<Factory[]>(userStore.getFactories)
-console.log(userStore.getProducts)
+const products = reactive<Product[]>(userStore.getProducts)
+console.log(userStore.getId)
 
 const allFactories = factories.map(
   (item) =>

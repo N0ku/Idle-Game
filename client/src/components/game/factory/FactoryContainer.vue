@@ -2,6 +2,7 @@
   <div class="slider-container">
     <div class="slider top-full left-30 p-4 z-25">
       <div class="factory rounded-full" v-for="(factory, index) in props.factories" :key="index">
+        <!--  !TODO  v-if for Upgrade -->
         <div class="menu">
           <button
             type="button"
@@ -51,24 +52,39 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 
 img {
-  max-width: 70%;
   height: auto;
 }
 </style>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 import { Factory, TypeFactoryExtensions } from '../../../../../server/src/global/implements'
+import { useUserStore } from '@/stores/datastore'
 const props = defineProps({
   factories: {
     type: Array as () => Factory[]
   }
 })
+const userStore = useUserStore()
 
 function toggleUpgrade(factory: Factory) {
-  console.log(factory)
+  const rawLevel = factory.getLevel()
+  const currentLevel = typeof rawLevel === 'number' ? rawLevel : 1
+  const nextLevel = currentLevel + 1
+  const upgradedFactory = new Factory(
+    factory.productName,
+    factory.factoryType,
+    factory.userId,
+    factory.production,
+    nextLevel,
+    factory.id,
+    factory.id_localisation
+  )
+  console.log(upgradedFactory);
+  
+  userStore.updateFactory({ factory: upgradedFactory })
 }
 </script>
