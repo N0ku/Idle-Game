@@ -74,8 +74,6 @@ import Swal from 'sweetalert2'
 import axios, { AxiosResponse, AxiosError } from 'axios'
 import { useRouter } from 'vue-router'
 const router = useRouter()
-console.log(props.page)
-
 let newTask: RegisterFormTypes = {
   username: '',
   password: ''
@@ -109,6 +107,10 @@ function handleFormSubmit() {
           timer: 3000
         }).then(() => {
           if (props.page !== 'register') {
+            const token = response.data.token
+            console.log(token)
+            document.cookie = `token_little_garden=${token};`
+            // Rediriger vers la page '/game'
             router.push('/game')
           }
         })
@@ -122,7 +124,7 @@ function handleFormSubmit() {
           text: response.data.message,
           timer: 3000
         })
-        console.log(response.data) // Affiche la réponse du serveur
+        return // Affiche la réponse du serveur
       }
     })
     .catch((error: AxiosError) => {
