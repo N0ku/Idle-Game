@@ -1,6 +1,6 @@
 import crypto from "crypto";
 import { Collection, WithId } from "mongodb";
-import { User } from "../../global/implements";
+import type { Factory, Success, User, Product } from "../../global/implements";
 import { db } from "../../db/mongo";
 
 export async function register(body: User) {
@@ -19,9 +19,55 @@ export async function register(body: User) {
   const newUser: User = {
     username: body.username,
     password: hashedPassword,
-    email: "mailexemple@gmail.com",
+    money: 15,
     token: token,
     factories: [],
+    products:[],
+    getUser: function (): User {
+      return this;
+    },
+    getFactories: function (): Factory[] | undefined {
+      return this.factories;
+    },
+    getSuccess: function (): Success[] | undefined {
+      return this.success;
+    },
+    getId: function (): string | undefined {
+      return this.id;
+    },
+    getUsername: function (): string {
+      return this.username;
+    },
+    getPassword: function (): string {
+      return this.password;
+    },
+    setFactories: function (factories: Factory[]): void {
+      this.factories = factories;
+    },
+    setSuccess: function (success: Success[]): void {
+      this.success = success;
+    },
+    setId: function (id: string): void {
+      this.id = id;
+    },
+    setUsername: function (username: string): void {
+      this.username = username;
+    },
+    getMoney(): number {
+      return this.money;
+    },
+
+    setMoney(money: number): void {
+      this.money = money;
+    },
+
+    getProducts(): Product[] {
+      return this.products;
+    },
+
+    setProducts(products: Product[]): void {
+      this.products = products;
+    },
   };
 
   await Users.insertOne(newUser);
