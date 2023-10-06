@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { UserStage, Factory, Product } from '../../../server/src/global/implements'
+import { UserStage, Factory, Product, Success } from '../../../server/src/global/implements'
 import axios from 'axios'
 
 ////////////////////////////////////////////////////////////////
@@ -20,6 +20,7 @@ export const useUserStore = defineStore('User', {
     factories: [],
     money: 0,
     products: [],
+    success: [],
     purchases: undefined,
     sells: undefined
   }),
@@ -47,7 +48,11 @@ export const useUserStore = defineStore('User', {
     },
     getProducts(state): Product[] {
       return state.products
+    },
+    getSuccess(state): Success[] {
+      return state.success
     }
+
   },
   actions: {
     setFactories({ factories }: { factories: Factory[] }) {
@@ -73,6 +78,12 @@ export const useUserStore = defineStore('User', {
     },
     setProducts({ products }: { products: Product[] }) {
       this.products = products
+    },
+    setSuccess({ success }: { success: Success[] }) {
+      this.success = success
+    },
+    addSuccess({ success }: { success: Success }) {
+      this.success.push(success)
     },
     addFactory({ factory }: { factory: Factory }) {
       axios.post(`${import.meta.env.VITE_APP_BACKEND_URL}/factories`, factory).then((response) => {
@@ -130,6 +141,7 @@ export const useUserStore = defineStore('User', {
         this.password = user.password
         this.money = user.money
         this.products = user.products
+        this.success = user.success
         this.fetchUserFactories(user._id)
         /*        this.fetchPurchase()
         this.fetchSells() */

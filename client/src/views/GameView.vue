@@ -2,12 +2,7 @@
   <div class="game-container">
     <ButtonMarketPlace @open-marketplace="openMarketPlace" class="z-50" />
 
-    <StartSlider
-      :start="start"
-      :currentStep="counterStep"
-      @itemClicked="handleItemClicked"
-      v-if="start"
-    />
+    <StartSlider :start="start" :currentStep="counterStep" @itemClicked="handleItemClicked" v-if="start" />
 
     <FactoryContainer v-if="!start" :factories="allFactories" />
     <DrawerGlobalView v-if="!start" :factories="allFactories" />
@@ -42,11 +37,20 @@ socket.on('updateProduct', (product) => {
   console.log(product);
 });
 
+socket.on('updateSuccess', (success) => { 
+  if (userStore.getSuccess) {
+    if (!userStore.getSuccess.includes(success)) {
+      userStore.addSuccess({ success: success })
+      console.log(success);
+    }
+  }
+});
+
 onUnmounted(() => {
   socket.emit('disconnect', userStore.getId);
   socket.disconnect();
 });
- 
+
 
 let handleItemClicked = (product: any): void => {
 

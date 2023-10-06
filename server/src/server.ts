@@ -62,6 +62,7 @@ export async function initWebServer() {
     users.forEach((user) => {
       if (clients.has(user._id.toString())) {
         clients.get(user._id.toString())?.emit("updateProduct", user.products);
+        clients.get(user._id.toString())?.emit("updateSuccess", user.success);
       }
     });
   }, 1000);
@@ -73,7 +74,7 @@ export async function initWebServer() {
     users.forEach(async (user) => {
       await Users.updateOne(
         { _id: user._id },
-        { $set: { products: user.products } }
+        { $set: { products: user.products,success: user.success } }
       );
     });
   }, 1000 * 60 * 3);

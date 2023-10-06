@@ -17,7 +17,7 @@
 
 <script setup lang="ts">
 import { Product, Products } from '../../../../server/src/global/implements';
-import { computed, defineEmits, defineProps } from 'vue';
+import { computed } from 'vue';
 
 const props = defineProps<{
     start: boolean,
