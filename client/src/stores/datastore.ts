@@ -167,7 +167,6 @@ export const useEchangeStore = defineStore('Echange', {
       })
     },
     putEchange(data) {
-      console.log(data)
       axios.put(`${import.meta.env.VITE_APP_BACKEND_URL}/echange/${data.id}`, data).then((response) => {
         this.echange.push(response.data)
       })

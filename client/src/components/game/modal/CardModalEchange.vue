@@ -19,8 +19,11 @@ const props = defineProps({
 
 
 let userStore = useUserStore()
-const fromUserItem : ItemEchange = toRefs(props.echange.fromUser)
-const toUserItem : ItemEchange = toRefs(props.echange?.toUser)
+const fromUserItem : ItemEchange = props.echange.fromUser
+const toUserItem : ItemEchange = props.echange?.toUser
+
+
+console.log(ProductsExtensions.GetImage("Stone"))
 const emit = defineEmits<{
   changeToogle: [echange: Echange]
 }>();
@@ -47,10 +50,13 @@ function getTotalPriceItem(){
           {{ fromUserItem.quantity }}
         </div>
         <img
-            class="h-[1rem] rounded-lg"
+            class="h-[2rem] rounded-lg"
             :src="ProductsExtensions.GetImage(fromUserItem.productName)"
             alt="card 1"
         />
+      </div>
+      <div>
+        <img src="src/assets/img/6957ux-flèches.jpeg" class="w-8 h-8">
       </div>
 
       <div class="flex flex-row">
@@ -58,7 +64,7 @@ function getTotalPriceItem(){
         {{ toUserItem.quantity }}
       </div>
       <img
-          class="h-[1rem] rounded-lg"
+          class="h-[2rem] rounded-lg"
           :src="ProductsExtensions.GetImage(toUserItem.productName)"
           alt="card 1"
       />

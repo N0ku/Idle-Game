@@ -2,10 +2,12 @@
 
 <div class="fixed left-40 top-0 z-50">
   <div>Exchange</div>
+
   <button
       @click="onToggle"
       class="border border-black w-16 h-16 shadow-sm font-medium rounded-full hover:shadow-lg hover:bg-purple-600 "
   >
+   <img src="../../../assets/img/change2.jpeg" class="border border-black rounded-full">
   </button>
 </div>
 
@@ -25,7 +27,7 @@
                     @click="openSell"
                     class=" mr-2 bg-purple-500 border border-purple-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-md hover:shadow-lg hover:bg-purple-600"
                 >
-                  Vendre un objet
+                  Echanger un objet
                 </button>
               </div>
               <button
@@ -37,13 +39,12 @@
             </div>
             <div class="mt-8 flex flex-col justify-center w-full">
               <h2 class="text-3xl">Echange en attente</h2>
-              <div class="w-full h-auto flex flex-col overflow-auto">
-                <div class="overflow-auto">
+              <div class="w-full flex flex-col overflow-auto">
+
                   <div class="w-54 h-15 m-2" v-for="(echange, index) in allEchanges" :key="index">
                     <CardModalEchange :echange="echange" @changeToogle="handleEchange"/>
-                  </div>
+
                 </div>
-                <!-- Ajoutez la classe overflow-auto ici -->
               </div>
             </div>
           </div>
@@ -56,7 +57,7 @@
 <script setup lang="ts">
 
 
-import {defineProps, onMounted, onUnmounted, reactive} from "vue";
+import {defineEmits, defineProps, onMounted, onUnmounted, reactive} from "vue";
 import {Echange, ItemEchange} from "../../../../../server/src/global/classes/Echange";
 import {Products} from "../../../../../server/src/global/enums/enumFactory";
 import CardDrawer from "@/components/game/drawer/CardDrawer.vue";
@@ -66,9 +67,11 @@ import {useEchangeStore, useUserStore} from "@/stores/datastore";
 import {User} from "../../../../../server/src/global/classes/User";
 import {Factory} from "../../../../../server/src/global/classes/Factory";
 import {Product} from "../../../../../server/src/global/classes/Products";
+import { createToaster } from "@meforma/vue-toaster/";
 
 let isOpen = reactive({value : false})
 let isSell = reactive({value : false})
+
 
 const props = defineProps({
   allProducts: {
@@ -76,10 +79,17 @@ const props = defineProps({
   }
 })
 
+const emit = defineEmits<{
+  giveEvent: []
+}>();
+
 let echangeStore = useEchangeStore()
 let allEchanges : Echange[] = reactive( []);
 
 let userStore = useUserStore()
+
+const toaster = createToaster({ /* options */ });
+
 
 onMounted(() => {
   echangeStore.getAllEchange().then((response) => {
@@ -88,6 +98,7 @@ onMounted(() => {
          return
        }
       allEchanges.push(new Echange(item._id,item.fromUser, item.toUser))
+
     })
   })
   /*allEchanges.forEach((echange) => {
@@ -99,15 +110,18 @@ const handleEchange  = (data : Echange) => {
 
   let productToUser = props.allProducts?.find(product => {return product.name == data.echange.toUser.productName});
 
-  if(productToUser == undefined || productToUser.quantity < data.echange.toUser.quantity){ console.log('Pas asssez de ressource'); return;}
+  if(productToUser == undefined || productToUser.quantity < data.echange.toUser.quantity){ toaster.show('Pas assez de ressource'); return;}
 
   let newEchange : Echange = new Echange(data.echange.id, data.echange.fromUser,data.echange.toUser)
   console.log(newEchange)
   newEchange.toUser.userId  = userStore.getId
   let success = echangeStore.putEchange(newEchange)
-
+  toaster.show('+' + data.echange.fromUser.quantity + "  " +data.echange.fromUser.productName )
+  toaster.show('-' + data.echange.toUser.quantity + "  " +data.echange.toUser.productName )
   if(success){
+
     const indexToRemove = allEchanges.findIndex(echange => echange.id === data.echange.id)
+
     console.log(indexToRemove)
 
   }
@@ -117,6 +131,9 @@ const handleEchange  = (data : Echange) => {
 }
 function onToggle() {
   console.log('r')
+
+
+
   isOpen.value = !isOpen.value;
 }
 
@@ -129,6 +146,7 @@ const handleItems = (data) => {
   console.log(data
   )
   echangeStore.addEchange(data)
+  toaster.show('Echange mis en ligne')
   isSell.value = false
 };
 

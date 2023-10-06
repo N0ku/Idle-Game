@@ -8,7 +8,7 @@ export class Trade{
     price: number
     sellerId : string
     buyerId? : string | null
-    createdAt : string
+    createdAt: string;
 
 
     constructor(id: string, product: Products, quantity: number, price: number, sellerId: string, buyerId? : string | null) {
