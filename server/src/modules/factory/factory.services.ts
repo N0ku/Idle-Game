@@ -6,11 +6,13 @@ import { db } from "../../db/mongo";
 export async function createFactory(body: Factory) {
   
   const Factories: Collection<Factory> = db!.collection("factories");
+  
   body.userId = new ObjectId(body.userId);
 
   await Factories.insertOne(body);
 
   const result = await Factories.findOne(body);
+  
 
   return result;
 }
@@ -48,10 +50,10 @@ export async function deleteFactory(id: ObjectId) {
 }
 
 
-export async function getFactoriesByUserId(id: string) {
+export async function getFactoriesByUserId(id: ObjectId) {
   const Factories: Collection<Factory> = db!.collection("factories");  
 
-  const factories = await Factories.find({ userId: new ObjectId(id) }).toArray();  
+  const factories = await Factories.find({ userId: id }).toArray();  
 
   return { factories };
 }

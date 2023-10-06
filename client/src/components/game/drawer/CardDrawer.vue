@@ -15,8 +15,6 @@ const props = defineProps({
   product: Product,
   trade : Trade
 })
-console.log(props.trade?.price)
-console.log(props.trade?.createdAt)
 </script>
 
 <template>

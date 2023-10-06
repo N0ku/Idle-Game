@@ -108,7 +108,6 @@ export const useUserStore = defineStore('User', {
         .get(`${import.meta.env.VITE_APP_BACKEND_URL}/factories/user/${id}`)
         .then((response) => {
           this.factories = response.data    
-          console.log(response.data);
                     
         })
     },

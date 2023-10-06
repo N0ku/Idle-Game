@@ -81,9 +81,6 @@ function handleFormSubmit() {
         const successMessage =
           props.page === 'register' ? 'Account created successfully !' : 'Login !'
 
-
-
-
         Swal.fire({
           icon: 'success',
           title: 'Succès',
@@ -105,16 +102,13 @@ function handleFormSubmit() {
                     userStore.setSells({ sells: user.sells })
                     userStore.setMoney({ money: user.money })
                     userStore.setFactories({ factories: response.data.factories })
-                    console.log(user);
-
+                    router.push('/game')
                   })
 
-                router.push('/game')
               }
               // Data has been fetched, hide the loader
             })
             // Rediriger vers la page '/game'
-            router.push('/game')
           }
         })
 
