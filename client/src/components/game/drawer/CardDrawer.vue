@@ -7,14 +7,18 @@ import {
 } from '../../../../../server/src/global/implements'
 import {Trade} from "../../../../../server/src/global/interface/Trade";
 
+
+
 const props = defineProps({
   mode : String,
   factory : Factory,
   product: Product,
   trade : Trade
 })
-console.log(props.trade?.price)
-console.log(props.trade?.createdAt)
+
+function getTotalPriceItem(){
+  return ProductsExtensions.GetPrice(props.product?.name) * props.product?.quantity;
+}
 </script>
 
 <template>
@@ -34,7 +38,7 @@ console.log(props.trade?.createdAt)
       <span>{{props.product?.quantity}}</span>
     </div>
     <div class="text-sm text-green-800 grid content-center">
-      <span>{{ProductsExtensions.GetPrice(props.product?.name)}} $</span>
+      <span>{{getTotalPriceItem()}} $</span>
     </div>
   </div>
 

@@ -1,6 +1,7 @@
 <template>
   <div class="game-container">
     <ButtonMarketPlace @open-marketplace="openMarketPlace" class="z-50" />
+    <ModalChange :user="user"/>
 
     <StartSlider
       :start="start"
@@ -23,13 +24,23 @@ import { useUserStore } from '@/stores/datastore'
 import MarketPlace from '@/components/menu/MarketPlace.vue'
 import type { Item } from '@/types/Item'
 import { ref, reactive } from 'vue'
-import { Factory, Products, TypeFactory } from '../../../server/src/global/implements'
+import {Factory, Products, TypeFactory, User} from '../../../server/src/global/implements'
 import FactoryItem from '@/components/game/FactoryItem.vue'
+import ModalChange from "@/components/game/modal/ModalChange.vue";
 
 const userStore = useUserStore()
 
 let start = ref(false)
 let counterStep = ref(1)
+const user = new User(
+    'nom-d-utilisateur',
+    'mot-de-passe',
+     [],
+      [],
+    'efe',
+    100,
+     []
+);
 
 let handleItemClicked = (product: any): void => {
   let factoryType: TypeFactory = TypeFactory.WoodProduction
