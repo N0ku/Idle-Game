@@ -1,7 +1,7 @@
 <template>
   <div class="game-container">
     <ButtonMarketPlace @open-marketplace="openMarketPlace" class="z-50" />
-    <ModalChange :user="user" />
+    <ModalChange  :allProducts="allProducts"/>
 
     <StartSlider
       :start="start"
@@ -40,7 +40,6 @@ const userStore = useUserStore()
 
 let start = ref(false)
 let counterStep = ref(1)
-const user = new User('nom-d-utilisateur', 'mot-de-passe', [], [], 'efe', 100, [])
 
 const socket = io(`${import.meta.env.VITE_APP_BACKEND_URL}`, { transports: ['websocket'] })
 
@@ -50,6 +49,7 @@ socket.on('connect', () => {
 
 let allProducts = ref<Product[]>([])
 let totalProductPrice = 0 // Initialisez le prix total à 0
+
 
 socket.on('updateProduct', (product: Product[]) => {
   // Calculez le prix total des produits et mettez à jour le prix total
@@ -64,6 +64,7 @@ socket.on('updateProduct', (product: Product[]) => {
 
     return new Product(item.name, item.price, item.description, item.quantity)
   })
+
 
   // Calculez le nouveau montant d'argent en ajoutant le prix total des produits
   const currentMoney = userStore.getMoney

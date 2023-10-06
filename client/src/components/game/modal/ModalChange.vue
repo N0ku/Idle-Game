@@ -37,11 +37,13 @@
             </div>
             <div class="mt-8 flex flex-col justify-center w-full">
               <h2 class="text-3xl">Echange en attente</h2>
-              <div class="w-full h-full grid grid-rows-4 grid-flow-col">
-                <div class="w-54 h-15  m-2" v-for="(echange, index) in change" :key="index">
-                  <CardModalEchange :echange="echange"/>
+              <div class="w-full h-auto flex flex-col overflow-auto">
+                <div class="overflow-auto">
+                  <div class="w-54 h-15 m-2" v-for="(echange, index) in allEchanges" :key="index">
+                    <CardModalEchange :echange="echange" @changeToogle="handleEchange"/>
+                  </div>
                 </div>
-
+                <!-- Ajoutez la classe overflow-auto ici -->
               </div>
             </div>
           </div>
@@ -54,32 +56,65 @@
 <script setup lang="ts">
 
 
-import {onMounted, onUnmounted, reactive} from "vue";
+import {defineProps, onMounted, onUnmounted, reactive} from "vue";
 import {Echange, ItemEchange} from "../../../../../server/src/global/classes/Echange";
 import {Products} from "../../../../../server/src/global/enums/enumFactory";
 import CardDrawer from "@/components/game/drawer/CardDrawer.vue";
 import CardModalEchange from "@/components/game/modal/CardModalEchange.vue";
 import LittleModal from "@/components/game/modal/LittleModal.vue";
-import {useEchangeStore} from "@/stores/datastore";
+import {useEchangeStore, useUserStore} from "@/stores/datastore";
+import {User} from "../../../../../server/src/global/classes/User";
+import {Factory} from "../../../../../server/src/global/classes/Factory";
+import {Product} from "../../../../../server/src/global/classes/Products";
 
 let isOpen = reactive({value : false})
 let isSell = reactive({value : false})
 
-
+const props = defineProps({
+  allProducts: {
+    type: Array as () => Product[]
+  }
+})
 
 let echangeStore = useEchangeStore()
-let echanges = reactive({ value: [] });
+let allEchanges : Echange[] = reactive( []);
 
+let userStore = useUserStore()
 
 onMounted(() => {
-  const allEchanges = echangeStore.getAllEchange();
-  console.log(allEchanges)
-  allEchanges.forEach((echange) => {
+  echangeStore.getAllEchange().then((response) => {
+     response.data.echange.map((item : Echange) => {
+       if(userStore.getId === item.fromUser.userId || item.toUser.userId != null){
+         return
+       }
+      allEchanges.push(new Echange(item._id,item.fromUser, item.toUser))
+    })
+  })
+  /*allEchanges.forEach((echange) => {
   echanges.value.push(echange);
-  });
+  });*/
 });
 
+const handleEchange  = (data : Echange) => {
 
+  let productToUser = props.allProducts?.find(product => {return product.name == data.echange.toUser.productName});
+
+  if(productToUser == undefined || productToUser.quantity < data.echange.toUser.quantity){ console.log('Pas asssez de ressource'); return;}
+
+  let newEchange : Echange = new Echange(data.echange.id, data.echange.fromUser,data.echange.toUser)
+  console.log(newEchange)
+  newEchange.toUser.userId  = userStore.getId
+  let success = echangeStore.putEchange(newEchange)
+
+  if(success){
+    const indexToRemove = allEchanges.findIndex(echange => echange.id === data.echange.id)
+    console.log(indexToRemove)
+
+  }
+
+
+
+}
 function onToggle() {
   console.log('r')
   isOpen.value = !isOpen.value;
@@ -92,7 +127,6 @@ function openSell() {
 
 const handleItems = (data) => {
   console.log(data
-
   )
   echangeStore.addEchange(data)
   isSell.value = false
