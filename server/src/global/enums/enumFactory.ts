@@ -77,7 +77,7 @@ export class TypeFactoryExtensions {
       case TypeFactory.WeedProduction:
         return "src/assets/img/factories/weed_factories.png";
       case TypeFactory.CBDProduction:
-        return "src/assets/img/factories/cbd_factories.png";
+        return "src/assets/img/factories/cdb_factories.png";
       case TypeFactory.WaterProduction:
         return "src/assets/img/factories/water_factories.png";
       case TypeFactory.FertilizerProduction:
