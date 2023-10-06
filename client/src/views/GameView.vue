@@ -15,7 +15,6 @@
     <MarketPlace v-if="showMarketPlace" @close-marketplace="closeMarketPlace"> </MarketPlace>
   </div>
 </template>
-
 <script setup lang="ts">
 import ButtonMarketPlace from '../components/game/ButtonMarketPlace.vue'
 import StartSlider from '../components/game/StartSlider.vue'
@@ -23,17 +22,34 @@ import DrawerGlobalView from '@/components/game/drawer/DrawerGlobalView.vue'
 import { useUserStore } from '@/stores/datastore'
 import MarketPlace from '@/components/menu/MarketPlace.vue'
 import { ref, reactive } from 'vue'
-import { Factory, Products, TypeFactory,Product } from '../../../server/src/global/implements'
+import { Factory, Products, TypeFactory, Product } from '../../../server/src/global/implements'
 import FactoryContainer from '@/components/game/factory/FactoryContainer.vue'
+import io from 'socket.io-client';
+import { onUnmounted } from 'vue'
 
 const userStore = useUserStore()
-
 
 let start = ref(false)
 let counterStep = ref(1)
 
+const socket = io(`${import.meta.env.VITE_APP_BACKEND_URL}`, { transports: ['websocket'] });
+
+socket.on('connect', () => {
+  socket.emit('userId', userStore.getId);
+});
+
+socket.on('updateProduct', (product) => {
+  console.log(product);
+});
+
+onUnmounted(() => {
+  socket.emit('disconnect', userStore.getId);
+  socket.disconnect();
+});
+ 
+
 let handleItemClicked = (product: any): void => {
-  
+
   let factoryType: TypeFactory = TypeFactory.WoodProduction
   let newFactory: Factory = new Factory(
     product.name,
@@ -127,6 +143,7 @@ let handleItemClicked = (product: any): void => {
     start.value = false
   }
 }
+
 let showMarketPlace = ref(false)
 
 const openMarketPlace = () => {
@@ -157,6 +174,7 @@ if (factories.length === 0) {
 }
 
 </script>
+
 
 <style lang="scss">
 .game-container {
