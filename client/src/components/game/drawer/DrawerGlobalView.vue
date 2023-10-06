@@ -97,9 +97,9 @@ function handleView(viewChoice: string) {
                 Ressources
               </div>
             </div>
-            <div class="w-9/12 overflow-x-auto grid grid-rows-4 grid-flow-col gap-2">
+            <div class="w-9/12 overflow-x-auto grid grid-rows-6 grid-flow-col gap-2">
               <!--  -->
-              <div class="w-32 h-10 m-2" v-for="(product, index) in props.allProducts" :key="index">
+              <div class="w-auto h-10 m-2" v-for="(product, index) in props.allProducts" :key="index">
                 <CardDrawer mode="ressource" :product="product" />
               </div>
             </div>
