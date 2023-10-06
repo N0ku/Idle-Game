@@ -10,7 +10,7 @@
     />
 
     <FactoryContainer v-if="!start" :factories="allFactories" />
-    <DrawerGlobalView v-if="!start" :factories="allFactories" />
+    <DrawerGlobalView v-if="!start" :factories="allFactories" :allProducts="allProducts" />
 
     <MarketPlace v-if="showMarketPlace" @close-marketplace="closeMarketPlace"> </MarketPlace>
   </div>
@@ -22,9 +22,15 @@ import DrawerGlobalView from '@/components/game/drawer/DrawerGlobalView.vue'
 import { useUserStore } from '@/stores/datastore'
 import MarketPlace from '@/components/menu/MarketPlace.vue'
 import { ref, reactive } from 'vue'
-import { Factory, Products, TypeFactory, Product } from '../../../server/src/global/implements'
+import {
+  Factory,
+  Products,
+  TypeFactory,
+  Product,
+  ProductsExtensions
+} from '../../../server/src/global/implements'
 import FactoryContainer from '@/components/game/factory/FactoryContainer.vue'
-import io from 'socket.io-client';
+import io from 'socket.io-client'
 import { onUnmounted } from 'vue'
 
 const userStore = useUserStore()
@@ -32,24 +38,45 @@ const userStore = useUserStore()
 let start = ref(false)
 let counterStep = ref(1)
 
-const socket = io(`${import.meta.env.VITE_APP_BACKEND_URL}`, { transports: ['websocket'] });
+const socket = io(`${import.meta.env.VITE_APP_BACKEND_URL}`, { transports: ['websocket'] })
 
 socket.on('connect', () => {
-  socket.emit('userId', userStore.getId);
+  socket.emit('userId', userStore.getId)
+})
+
+let allProducts = ref<Product[]>([]);
+let totalProductPrice = 0; // Initialisez le prix total à 0
+
+socket.on('updateProduct', (product: Product[]) => {
+  // Calculez le prix total des produits et mettez à jour le prix total
+  totalProductPrice = product.reduce((total, item) => {
+    const productPrice = ProductsExtensions.GetPrice(item.name, item.quantity);
+    return total + productPrice;
+  }, 0);
+
+  allProducts.value = product.map((item) => {
+    // Vous pouvez maintenant utiliser le prix total ici
+    const productPrice = ProductsExtensions.GetPrice(item.name, item.quantity);
+
+    return new Product(item.name, item.price, item.description, item.quantity);
+  });
+
+  // Calculez le nouveau montant d'argent en ajoutant le prix total des produits
+  const currentMoney = userStore.getMoney;
+  const newMoney = currentMoney + totalProductPrice;
+
+  // Mettez à jour l'argent et les produits dans le store
+  userStore.setMoney({ money: newMoney });
+  userStore.setProducts({ products: allProducts.value });
 });
 
-socket.on('updateProduct', (product) => {
-  console.log(product);
-});
 
 onUnmounted(() => {
-  socket.emit('disconnect', userStore.getId);
-  socket.disconnect();
-});
- 
+  socket.emit('disconnect', userStore.getId)
+  socket.disconnect()
+})
 
 let handleItemClicked = (product: any): void => {
-
   let factoryType: TypeFactory = TypeFactory.WoodProduction
   let newFactory: Factory = new Factory(
     product.name,
@@ -155,7 +182,6 @@ const closeMarketPlace = () => {
 }
 
 const factories = reactive<Factory[]>(userStore.getFactories)
-const products = reactive<Product[]>(userStore.getProducts)
 
 const allFactories = factories.map(
   (item) =>
@@ -169,12 +195,11 @@ const allFactories = factories.map(
       item.id_localisation
     )
 )
+
 if (factories.length === 0) {
   start.value = true
 }
-
 </script>
-
 
 <style lang="scss">
 .game-container {
