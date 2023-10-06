@@ -3,15 +3,10 @@
     <ButtonMarketPlace @open-marketplace="openMarketPlace" class="z-50" />
     <ModalChange :user="user" />
 
-    <StartSlider
-      :start="start"
-      :currentStep="counterStep"
-      @itemClicked="handleItemClicked"
-      v-if="start"
-    />
+    <StartSlider :start="start" :currentStep="counterStep" @itemClicked="handleItemClicked" v-if="start" />
 
-    <FactoryContainer v-if="!start" :factories="allFactories" />
-    <DrawerGlobalView v-if="!start" :factories="allFactories" :allProducts="allProducts" />
+    <FactoryContainer v-if="!start" :factories="factories" />
+    <DrawerGlobalView v-if="!start" :factories="factories" :allProducts="allProducts" />
 
     <MarketPlace v-if="showMarketPlace" @close-marketplace="closeMarketPlace"> </MarketPlace>
   </div>
@@ -33,7 +28,7 @@ import {
 } from '../../../server/src/global/implements'
 import FactoryContainer from '@/components/game/factory/FactoryContainer.vue'
 import io from 'socket.io-client'
-import { onUnmounted } from 'vue'
+import { onUnmounted, computed } from 'vue'
 import ModalChange from '@/components/game/modal/ModalChange.vue'
 
 const userStore = useUserStore()
@@ -42,44 +37,37 @@ let start = ref(false)
 let counterStep = ref(1)
 const user = new User('nom-d-utilisateur', 'mot-de-passe', [], [], 'efe', 100, [])
 
-const socket = io(`${import.meta.env.VITE_APP_BACKEND_URL}`, { transports: ['websocket'] })
+const socket = io(import.meta.env.VITE_APP_BACKEND_URL, { transports: ['websocket'] })
 
 socket.on('connect', () => {
   socket.emit('userId', userStore.getId)
 })
 
 let allProducts = ref<Product[]>([])
-let totalProductPrice = 0 // Initialisez le prix total à 0
+let totalProductPrice = 0
 
 socket.on('updateProduct', (product: Product[]) => {
-  // Calculez le prix total des produits et mettez à jour le prix total
   totalProductPrice = product.reduce((total, item) => {
     const productPrice = ProductsExtensions.GetPrice(item.name, item.quantity)
     return total + productPrice
   }, 0)
 
   allProducts.value = product.map((item) => {
-    // Vous pouvez maintenant utiliser le prix total ici
     const productPrice = ProductsExtensions.GetPrice(item.name, item.quantity)
-
     return new Product(item.name, item.price, item.description, item.quantity)
   })
 
-  // Calculez le nouveau montant d'argent en ajoutant le prix total des produits
   const currentMoney = userStore.getMoney
   const newMoney = currentMoney + totalProductPrice
 
-  // Mettez à jour l'argent et les produits dans le store
   userStore.setMoney({ money: newMoney })
   userStore.setProducts({ products: allProducts.value })
 })
 
 socket.on('updateSuccess', (success) => {
-  if (userStore.getSuccess) {
-    if (!userStore.getSuccess.includes(success)) {
-      userStore.addSuccess({ success: success })
-      console.log(success)
-    }
+  if (userStore.getSuccess && !userStore.getSuccess.includes(success)) {
+    userStore.addSuccess({ success })
+    console.log(success)
   }
 })
 
@@ -89,16 +77,8 @@ onUnmounted(() => {
 })
 
 let handleItemClicked = (product: any): void => {
-  let factoryType: TypeFactory = TypeFactory.WoodProduction
-  let newFactory: Factory = new Factory(
-    product.name,
-    factoryType,
-    userStore.getId,
-    10,
-    1,
-    undefined,
-    counterStep.value
-  )
+  let factoryType: TypeFactory
+  let newFactory: Factory
 
   switch (product.id) {
     case Products.Wood:
@@ -176,10 +156,26 @@ let handleItemClicked = (product: any): void => {
     default:
       break
   }
+
   userStore.addFactory({ factory: newFactory })
+  factories.value = userStore.getFactories
+  factoriesCreated.value.push(newFactory)
+
   counterStep.value++
   if (counterStep.value > 3) {
     start.value = false
+    allFactories.value = factoriesCreated.value.map(
+      (item) =>
+        new Factory(
+          item.productName,
+          item.factoryType,
+          item.userId,
+          item.production,
+          item.level,
+          item._id,
+          item.id_localisation
+        )
+    )
   }
 }
 
@@ -193,22 +189,25 @@ const closeMarketPlace = () => {
   showMarketPlace.value = false
 }
 
-const factories = reactive<Factory[]>(userStore.getFactories)
+const factories = computed(() => {
+  return userStore.getFactories.map(
+    (item) =>
+      new Factory(
+        item.productName,
+        item.factoryType,
+        item.userId,
+        item.production,
+        item.level,
+        item._id,
+        item.id_localisation
+      )
+  )
+})
 
-const allFactories = factories.map(
-  (item) =>
-    new Factory(
-      item.productName,
-      item.factoryType,
-      item.userId,
-      item.production,
-      item.level,
-      item._id,
-      item.id_localisation
-    )
-)
+const products = ref(reactive<Product[]>(userStore.getProducts))
+const factoriesCreated = ref<Factory[]>([])
 
-if (factories.length === 0) {
+if (factories.value.length === 0) {
   start.value = true
 }
 </script>
