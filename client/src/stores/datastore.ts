@@ -53,7 +53,6 @@ export const useUserStore = defineStore('User', {
     getSuccess(state): Success[] {
       return state.success
     }
-
   },
   actions: {
     setFactories({ factories }: { factories: Factory[] }) {
@@ -106,8 +105,11 @@ export const useUserStore = defineStore('User', {
       axios
         .put(`${import.meta.env.VITE_APP_BACKEND_URL}/factories/${factory.id}`, factory)
         .then((response) => {
-          this.fetchUser(response.data.id)
-        })
+          this.factories = this.factories.map((factory) =>
+            factory.id === response.data.factory.id ? response.data.factory : factory
+          )
+        }) 
+      
     },
 
     async fetchUserFactories(id: string) {
@@ -168,7 +170,6 @@ export const useEchangeStore = defineStore('Echange', {
     },
     getAllEchange(){
       axios.get(`${import.meta.env.VITE_APP_BACKEND_URL}/echanges`).then((response) => {
-        console.log(response)
           return response.data
       })}
   }
