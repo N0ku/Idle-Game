@@ -1,9 +1,14 @@
 <template>
   <div class="game-container">
     <ButtonMarketPlace @open-marketplace="openMarketPlace" class="z-50" />
-    <ModalChange :user="user"/>
+    <ModalChange :user="user" />
 
-    <StartSlider :start="start" :currentStep="counterStep" @itemClicked="handleItemClicked" v-if="start" />
+    <StartSlider
+      :start="start"
+      :currentStep="counterStep"
+      @itemClicked="handleItemClicked"
+      v-if="start"
+    />
 
     <FactoryContainer v-if="!start" :factories="allFactories" />
     <DrawerGlobalView v-if="!start" :factories="allFactories" :allProducts="allProducts" />
@@ -23,25 +28,19 @@ import {
   Products,
   TypeFactory,
   Product,
-  ProductsExtensions
+  ProductsExtensions,
+  User
 } from '../../../server/src/global/implements'
 import FactoryContainer from '@/components/game/factory/FactoryContainer.vue'
 import io from 'socket.io-client'
 import { onUnmounted } from 'vue'
+import ModalChange from '@/components/game/modal/ModalChange.vue'
 
 const userStore = useUserStore()
 
 let start = ref(false)
 let counterStep = ref(1)
-const user = new User(
-    'nom-d-utilisateur',
-    'mot-de-passe',
-     [],
-      [],
-    'efe',
-    100,
-     []
-);
+const user = new User('nom-d-utilisateur', 'mot-de-passe', [], [], 'efe', 100, [])
 
 const socket = io(`${import.meta.env.VITE_APP_BACKEND_URL}`, { transports: ['websocket'] })
 
@@ -49,41 +48,40 @@ socket.on('connect', () => {
   socket.emit('userId', userStore.getId)
 })
 
-let allProducts = ref<Product[]>([]);
-let totalProductPrice = 0; // Initialisez le prix total à 0
+let allProducts = ref<Product[]>([])
+let totalProductPrice = 0 // Initialisez le prix total à 0
 
 socket.on('updateProduct', (product: Product[]) => {
   // Calculez le prix total des produits et mettez à jour le prix total
   totalProductPrice = product.reduce((total, item) => {
-    const productPrice = ProductsExtensions.GetPrice(item.name, item.quantity);
-    return total + productPrice;
-  }, 0);
+    const productPrice = ProductsExtensions.GetPrice(item.name, item.quantity)
+    return total + productPrice
+  }, 0)
 
   allProducts.value = product.map((item) => {
     // Vous pouvez maintenant utiliser le prix total ici
-    const productPrice = ProductsExtensions.GetPrice(item.name, item.quantity);
+    const productPrice = ProductsExtensions.GetPrice(item.name, item.quantity)
 
-    return new Product(item.name, item.price, item.description, item.quantity);
-  });
+    return new Product(item.name, item.price, item.description, item.quantity)
+  })
 
   // Calculez le nouveau montant d'argent en ajoutant le prix total des produits
-  const currentMoney = userStore.getMoney;
-  const newMoney = currentMoney + totalProductPrice;
+  const currentMoney = userStore.getMoney
+  const newMoney = currentMoney + totalProductPrice
 
   // Mettez à jour l'argent et les produits dans le store
-  userStore.setMoney({ money: newMoney });
-  userStore.setProducts({ products: allProducts.value });
-});
-
+  userStore.setMoney({ money: newMoney })
+  userStore.setProducts({ products: allProducts.value })
+})
 
 socket.on('updateSuccess', (success) => {
   if (userStore.getSuccess) {
     if (!userStore.getSuccess.includes(success)) {
       userStore.addSuccess({ success: success })
-      console.log(success);
+      console.log(success)
     }
   }
-});
+})
 
 onUnmounted(() => {
   socket.emit('disconnect', userStore.getId)
