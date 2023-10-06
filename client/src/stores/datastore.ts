@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { UserStage, Factory, Product, User, Success } from '../../../server/src/global/implements'
 import axios from 'axios'
-import {Echange, EchangeAll, ItemEchange} from "../../../server/src/global/classes/Echange";
+import { Echange, EchangeAll, ItemEchange } from '../../../server/src/global/classes/Echange'
 
 ////////////////////////////////////////////////////////////////
 
@@ -80,8 +80,7 @@ export const useUserStore = defineStore('User', {
       this.products = products
     },
     setSuccess({ success }: { success: Success[] }) {
-      this.success = success      
-      
+      this.success = success
     },
     addSuccess({ success }: { success: Success }) {
       this.success.push(success)
@@ -109,8 +108,7 @@ export const useUserStore = defineStore('User', {
           this.factories = this.factories.map((factory) =>
             factory.id === response.data.factory.id ? response.data.factory : factory
           )
-        }) 
-      
+        })
     },
 
     async fetchUserFactories(id: string) {
@@ -147,21 +145,20 @@ export const useUserStore = defineStore('User', {
       axios
         .put(`${import.meta.env.VITE_APP_BACKEND_URL}/users/${user.id}`, user)
         .then((response) => {
-          return this.fetchUser(response.data.id)
+          return response.data.id
         })
     }
   }
 })
 
-
 export const useEchangeStore = defineStore('Echange', {
   state: (): EchangeAll => ({
-    echange : []
+    echange: []
   }),
   getters: {
     getEchange(state): Echange[] {
       return state.echange
-    },
+    }
   },
   actions: {
     addEchange({ echange }: { echange: Echange }) {
@@ -169,9 +166,10 @@ export const useEchangeStore = defineStore('Echange', {
         this.echange.push(response.data)
       })
     },
-    getAllEchange(){
+    getAllEchange() {
       axios.get(`${import.meta.env.VITE_APP_BACKEND_URL}/echanges`).then((response) => {
-          return response.data
-      })}
+        return response.data
+      })
+    }
   }
 })

@@ -6,7 +6,7 @@
     <StartSlider :start="start" :currentStep="counterStep" @itemClicked="handleItemClicked" v-if="start" />
 
     <FactoryContainer v-if="!start" :factories="factories" />
-    <DrawerGlobalView v-if="!start" :factories="factories" :allProducts="allProducts" :success="allSuccess" />
+    <DrawerGlobalView v-if="!start" :factories="factories" :allProducts="allProducts" />
 
     <MarketPlace v-if="showMarketPlace" @close-marketplace="closeMarketPlace"> </MarketPlace>
   </div>
@@ -24,8 +24,7 @@ import {
   TypeFactory,
   Product,
   ProductsExtensions,
-  User,
-Success
+  User
 } from '../../../server/src/global/implements'
 import FactoryContainer from '@/components/game/factory/FactoryContainer.vue'
 import io from 'socket.io-client'
@@ -46,7 +45,6 @@ socket.on('connect', () => {
 
 let allProducts = ref<Product[]>([])
 let totalProductPrice = 0
-let allSuccess = ref<Success[]>(userStore.getSuccess);
 
 socket.on('updateProduct', (product: Product[]) => {
   totalProductPrice = product.reduce((total, item) => {
@@ -66,9 +64,10 @@ socket.on('updateProduct', (product: Product[]) => {
   userStore.setProducts({ products: allProducts.value })
 })
 
-socket.on('updateSuccess', (success) => {  
-  if (userStore.getSuccess !== success) {
-    userStore.setSuccess({ success: success })
+socket.on('updateSuccess', (success) => {
+  if (userStore.getSuccess && !userStore.getSuccess.includes(success)) {
+    userStore.addSuccess({ success })
+
   }
 })
 

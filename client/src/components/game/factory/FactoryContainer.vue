@@ -88,13 +88,13 @@ img {
 import { Factory, TypeFactoryExtensions, User } from '../../../../../server/src/global/implements'
 import { useUserStore } from '@/stores/datastore'
 import ItemRequired from './ItemRequired.vue'
+import { log } from 'console'
 const props = defineProps({
   factories: {
     type: Array as () => Factory[]
   }
 })
 const userStore = useUserStore()
-
 function toggleUpgrade(factory: Factory) {
   const rawLevel = factory.getLevel()
   const currentLevel = typeof rawLevel === 'number' ? rawLevel : 1
@@ -110,9 +110,44 @@ function toggleUpgrade(factory: Factory) {
   )
 
   userStore.updateFactory({ factory: upgradedFactory })
-  console.log(TypeFactoryExtensions.GetPriceUpgrade(factory))
+  //Enleve l'argent
+  userStore.setMoney({
+    money: userStore.getMoney - TypeFactoryExtensions.GetPriceUpgrade(factory)
+  })
 
-  // new User(userStore.username,userStore.password,userStore.getFactories,[],)
-  // userStore.updateUser(userStore.getId)
+  //Enleve les ressources
+  if (currentLevel >= 5) {
+    const requiredProducts = TypeFactoryExtensions.getRequiredProductsForUpgrade(factory)
+    const userProducts = userStore.getProducts
+    // Parcourez les produits nécessaires pour la mise à niveau
+    for (const requiredProduct of requiredProducts) {
+      const productName = requiredProduct.name
+      const requiredQuantity = requiredProduct.quantity
+
+      // Recherchez le produit correspondant dans userStore.getProducts
+      const productIndex = userProducts.findIndex((product) => product.name === productName)
+
+      if (productIndex !== -1) {
+        // Si le produit est trouvé, déduisez la quantité nécessaire
+        userProducts[productIndex].quantity = userProducts[productIndex].quantity - requiredQuantity
+      } else {
+        // Gérer le cas où le produit n'est pas trouvé dans userStore.getProducts
+        console.warn(`Produit "${productName}" non trouvé dans userStore.getProducts`)
+      }
+    }
+    userStore.setProducts({ products: userProducts })
+  }
+
+  const myUser: User = new User(
+    userStore.getUsername,
+    userStore.password,
+    userStore.getFactories,
+    userStore.getSuccess,
+    userStore.getId,
+    userStore.getMoney,
+    userStore.getProducts
+  )
+
+  userStore.updateUser({ user: myUser })
 }
 </script>
