@@ -13,6 +13,10 @@ const props = defineProps({
   product: Product,
   trade: Trade
 })
+
+function getTotalPriceItem(){
+  return ProductsExtensions.GetPrice(props.product?.name) * props.product?.quantity;
+}
 </script>
 
 <template>

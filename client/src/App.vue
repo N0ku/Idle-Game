@@ -15,20 +15,19 @@ const hasValidToken = Cookies.get('token_little_garden')
 if (hasValidToken) {
   isLoading.value = true
 
-  axios
-    .get(`${import.meta.env.VITE_APP_BACKEND_URL}/users/token/${hasValidToken}`)
-    .then((response) => {
-      const user = response.data.user
-      if (user) {
-        axios
-          .get(`${import.meta.env.VITE_APP_BACKEND_URL}/factories/user/${user._id}`)
-          .then((response) => {
-            userStore.setId({ id: user._id })
-            userStore.setUsername({ name: user.username })
-            userStore.setPurchases({ purchases: user.purchases })
-            userStore.setSells({ sells: user.sells })
-            userStore.setMoney({ money: user.money })
-            userStore.setFactories({ factories: response.data.factories })
+  axios.get(`${import.meta.env.VITE_APP_BACKEND_URL}/users/token/${hasValidToken}`).then((response) => {
+    const user = response.data.user
+    if (user) {
+      axios
+        .get(`${import.meta.env.VITE_APP_BACKEND_URL}/factories/user/${user._id}`)
+        .then((response) => {
+          userStore.setId({ id: user._id })
+          userStore.setUsername({ name: user.username })
+          userStore.setPurchases({ purchases: user.purchases })
+          userStore.setSells({ sells: user.sells })
+          userStore.setMoney({ money: user.money })
+          userStore.setFactories({ factories: response.data.factories })
+          userStore.setSuccess({ success: response.data.success })
 
             isLoading.value = false
           })

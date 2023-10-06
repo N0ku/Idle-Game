@@ -1,13 +1,9 @@
 <template>
   <div class="game-container">
     <ButtonMarketPlace @open-marketplace="openMarketPlace" class="z-50" />
+    <ModalChange :user="user"/>
 
-    <StartSlider
-      :start="start"
-      :currentStep="counterStep"
-      @itemClicked="handleItemClicked"
-      v-if="start"
-    />
+    <StartSlider :start="start" :currentStep="counterStep" @itemClicked="handleItemClicked" v-if="start" />
 
     <FactoryContainer v-if="!start" :factories="allFactories" />
     <DrawerGlobalView v-if="!start" :factories="allFactories" :allProducts="allProducts" />
@@ -37,6 +33,15 @@ const userStore = useUserStore()
 
 let start = ref(false)
 let counterStep = ref(1)
+const user = new User(
+    'nom-d-utilisateur',
+    'mot-de-passe',
+     [],
+      [],
+    'efe',
+    100,
+     []
+);
 
 const socket = io(`${import.meta.env.VITE_APP_BACKEND_URL}`, { transports: ['websocket'] })
 
@@ -70,6 +75,15 @@ socket.on('updateProduct', (product: Product[]) => {
   userStore.setProducts({ products: allProducts.value });
 });
 
+
+socket.on('updateSuccess', (success) => {
+  if (userStore.getSuccess) {
+    if (!userStore.getSuccess.includes(success)) {
+      userStore.addSuccess({ success: success })
+      console.log(success);
+    }
+  }
+});
 
 onUnmounted(() => {
   socket.emit('disconnect', userStore.getId)
