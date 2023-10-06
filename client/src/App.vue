@@ -39,7 +39,6 @@ if (hasValidToken) {
 }
 else {
   isLoading.value = false; // No token, hide the loader
-  router.push('/login')
 }
 
 </script>
