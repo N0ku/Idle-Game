@@ -39,7 +39,7 @@
             </div>
             <div class="mt-8 flex flex-col justify-center w-full">
               <h2 class="text-3xl">Echange en attente</h2>
-              <div class="w-full flex flex-col overflow-auto">
+              <div class="w-full  h-60 flex flex-col overflow-auto">
 
                   <div class="w-54 h-15 m-2" v-for="(echange, index) in allEchanges" :key="index">
                     <CardModalEchange :echange="echange" @changeToogle="handleEchange"/>
