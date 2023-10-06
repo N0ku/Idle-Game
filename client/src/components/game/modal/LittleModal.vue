@@ -11,7 +11,7 @@
       </div>
 
       <div>
-        ICONE
+        <img src="src/assets/img/6957ux-flèches.jpeg" class="w-8 h-8 rotate-90 ml-12">
       </div>
 
       <div class="w-full  bg-white text-black flex flex-row ">
