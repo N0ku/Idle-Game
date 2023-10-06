@@ -168,7 +168,7 @@ export const useEchangeStore = defineStore('Echange', {
     },
     getAllEchange(){
       axios.get(`${import.meta.env.VITE_APP_BACKEND_URL}/echanges`).then((response) => {
-        consoole.log(response)
+        console.log(response)
           return response.data
       })}
   }
