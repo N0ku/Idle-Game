@@ -177,9 +177,24 @@ let handleItemClicked = (product: any): void => {
       break
   }
   userStore.addFactory({ factory: newFactory })
+  factories.value = userStore.getFactories 
+  factoriesCreated.value.push(newFactory)
+  
   counterStep.value++
   if (counterStep.value > 3) {
     start.value = false
+    allFactories.value = factoriesCreated.value.map(
+      (item) =>
+        new Factory(
+          item.productName,
+          item.factoryType,
+          item.userId,
+          item.production,
+          item.level,
+          item._id,
+          item.id_localisation
+        )
+    )
   }
 }
 
@@ -193,9 +208,12 @@ const closeMarketPlace = () => {
   showMarketPlace.value = false
 }
 
-const factories = reactive<Factory[]>(userStore.getFactories)
+const factories = ref(userStore.getFactories)
+const products = ref(reactive<Product[]>(userStore.getProducts))
+const factoriesCreated = ref<Factory[]>([])
 
-const allFactories = factories.map(
+
+var allFactories = ref(factories.value.map(
   (item) =>
     new Factory(
       item.productName,
@@ -206,9 +224,8 @@ const allFactories = factories.map(
       item._id,
       item.id_localisation
     )
-)
-
-if (factories.length === 0) {
+))
+if (factories.value.length === 0) {
   start.value = true
 }
 </script>

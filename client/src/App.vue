@@ -42,6 +42,7 @@ if (hasValidToken) {
     router.push('/')
   } // No token, hide the loader
 }
+
 </script>
 
 <template>
