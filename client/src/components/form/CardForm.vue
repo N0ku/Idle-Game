@@ -94,15 +94,15 @@ function handleFormSubmit() {
               const user = response.data.user
               if (user) {
                 axios
-                  .get(`${import.meta.env.VITE_APP_BACKEND_URL}/factories/user/${user._id}`)
-                  .then((response) => {
+                .get(`${import.meta.env.VITE_APP_BACKEND_URL}/factories/user/${user._id}`)
+                .then((response) => {
                     userStore.setId({ id: user._id })
                     userStore.setUsername({ name: user.username })
                     userStore.setPurchases({ purchases: user.purchases })
                     userStore.setSells({ sells: user.sells })
                     userStore.setMoney({ money: user.money })
                     userStore.setFactories({ factories: response.data.factories })
-                    userStore.setSuccess({ success: response.data.success })
+                    userStore.setSuccess({ success: user.success })
                     router.push('/game')
                   })
 

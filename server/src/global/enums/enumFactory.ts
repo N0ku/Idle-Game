@@ -71,7 +71,7 @@ export class TypeFactoryExtensions {
   public static GetImage(product: TypeFactory | undefined) {
     switch (product) {
       case TypeFactory.WoodProduction:
-        return "src/assets/img/wood.png";
+        return "src/assets/img/factories/wood.png";
       case TypeFactory.StoneProduction:
         return "src/assets/img/factories/stone_factories.png";
       case TypeFactory.WeedProduction:
@@ -104,7 +104,7 @@ export class TypeFactoryExtensions {
         return;
     }
   }
-  public static GetPriceUpgrade(factory: Factory) {
+  public static GetPriceUpgrade(factory: Factory):number {
     const rawLevel = factory.getLevel();
     const level = typeof rawLevel === "number" ? rawLevel : 1;
     switch (factory.getFactoryType()) {

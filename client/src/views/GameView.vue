@@ -45,7 +45,6 @@ socket.on('connect', () => {
 let allProducts = ref<Product[]>([])
 let totalProductPrice = 0
 
-
 socket.on('updateProduct', (product: Product[]) => {
   totalProductPrice = product.reduce((total, item) => {
     const productPrice = ProductsExtensions.GetPrice(item.name, item.quantity)

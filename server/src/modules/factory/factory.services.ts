@@ -36,9 +36,12 @@ export async function getFactoryById(id: ObjectId) {
 export async function updateFactory(id: ObjectId, body: Factory) {
   const Factories: Collection<Factory> = db!.collection("factories");
 
-  await Factories.updateOne({ _id: new ObjectId(id) }, { $set: body });
+  body.userId = new ObjectId(body.userId);
 
-  return { success: true };
+  await Factories.updateOne({ _id: new ObjectId(id) }, { $set: body });
+  const factory = await Factories.findOne({ _id: new ObjectId(id) }); 
+
+  return { factory };
 }
 
 export async function deleteFactory(id: ObjectId) {

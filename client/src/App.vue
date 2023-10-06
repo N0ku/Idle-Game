@@ -30,7 +30,8 @@ if (hasValidToken) {
           userStore.setSells({ sells: user.sells })
           userStore.setMoney({ money: user.money })
           userStore.setFactories({ factories: response.data.factories })
-          userStore.setSuccess({ success: response.data.success })
+          userStore.setSuccess({ success: user.success })
+          
 
             isLoading.value = false
           })
