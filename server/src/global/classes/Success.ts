@@ -1,23 +1,26 @@
+import { Products, TypeFactory } from "../implements";
+
 export class Success{
-    id?: string | undefined;
     name: string;
     description: string;
     illustration: string
+    conditionType: Products | TypeFactory;
+    amountCondition: number;
 
-    constructor(id: string | undefined, name: string, description: string, illustration: string) {
-        this.id = id;
+    constructor( name: string, description: string, illustration: string, conditionType: Products | TypeFactory, amountCondition: number) {
         this.name = name;
         this.description = description;
         this.illustration = illustration;
+        this.conditionType = conditionType;
+        this.amountCondition = amountCondition;
     }
 
     static fromJSON(json: any): Success {
-        return new Success(json.id, json.name, json.description, json.illustration);
+        return new Success( json.name, json.description, json.illustration, json.conditionType, json.amountCondition);
     }
 
     toJSON(): any {
         return {
-            id: this.id,
             name: this.name,
             description: this.description,
             illustration: this.illustration
@@ -27,6 +30,8 @@ export class Success{
     getSucces(): Success{
         return this;
     }
+
+
 
     getName(): string{
         return this.name;
@@ -40,10 +45,6 @@ export class Success{
         return this.illustration;
     }
 
-    setId(id: string){
-        this.id = id;
-    }
-
     setName(name: string){
         this.name = name;
     }
@@ -54,6 +55,22 @@ export class Success{
 
     setIllustration(illustration: string){
         this.illustration = illustration;
+    }
+
+    getConditionType(): Products | TypeFactory | undefined{
+        return this.conditionType;
+    }
+
+    setConditionType(conditionType: Products | TypeFactory){
+        this.conditionType = conditionType;
+    }
+
+    getAmountCondition(): number | undefined{
+        return this.amountCondition;
+    }
+
+    setAmountCondition(amountCondition: number){
+        this.amountCondition = amountCondition;
     }
 
     toString(): string{

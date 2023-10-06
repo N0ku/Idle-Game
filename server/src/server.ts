@@ -7,6 +7,7 @@ import { isLogin } from "./modules/auth/auth.middleware";
 import { factoryRoutes } from "./modules/factory/factory.controller";
 import { userRoutes } from "./modules/user/user.controller";
 import { productRoutes } from "./modules/product/product.controller";
+import {EcahgneRoutes} from "@/modules/echange/echange.contoller";
 import { db } from "./db/mongo";
 import { User } from "./global/implements";
 import { increaseResources } from "./modules/IncreaseProducts";
@@ -39,6 +40,7 @@ export async function initWebServer() {
   factoryRoutes(app);
   userRoutes(app);
   productRoutes(app);
+  EcahgneRoutes(app);
 
   // All connected client on the website
   const clients = new Map();
@@ -62,6 +64,7 @@ export async function initWebServer() {
     users.forEach((user) => {
       if (clients.has(user._id.toString())) {
         clients.get(user._id.toString())?.emit("updateProduct", user.products);
+        clients.get(user._id.toString())?.emit("updateSuccess", user.success);
       }
     });
   }, 1000);
@@ -73,7 +76,7 @@ export async function initWebServer() {
     users.forEach(async (user) => {
       await Users.updateOne(
         { _id: user._id },
-        { $set: { products: user.products } }
+        { $set: { products: user.products,success: user.success } }
       );
     });
   }, 1000 * 60 * 3);

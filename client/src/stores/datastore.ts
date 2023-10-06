@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
-import { UserStage, Factory, Product } from '../../../server/src/global/implements'
+import { UserStage, Factory, Product, User, Success } from '../../../server/src/global/implements'
 import axios from 'axios'
+import {Echange, EchangeAll, ItemEchange} from "../../../server/src/global/classes/Echange";
 
 ////////////////////////////////////////////////////////////////
 
@@ -20,6 +21,7 @@ export const useUserStore = defineStore('User', {
     factories: [],
     money: 0,
     products: [],
+    success: [],
     purchases: undefined,
     sells: undefined
   }),
@@ -47,7 +49,11 @@ export const useUserStore = defineStore('User', {
     },
     getProducts(state): Product[] {
       return state.products
+    },
+    getSuccess(state): Success[] {
+      return state.success
     }
+
   },
   actions: {
     setFactories({ factories }: { factories: Factory[] }) {
@@ -74,6 +80,12 @@ export const useUserStore = defineStore('User', {
     setProducts({ products }: { products: Product[] }) {
       this.products = products
     },
+    setSuccess({ success }: { success: Success[] }) {
+      this.success = success
+    },
+    addSuccess({ success }: { success: Success }) {
+      this.success.push(success)
+    },
     addFactory({ factory }: { factory: Factory }) {
       axios.post(`${import.meta.env.VITE_APP_BACKEND_URL}/factories`, factory).then((response) => {
         this.factories.push(response.data)
@@ -94,22 +106,14 @@ export const useUserStore = defineStore('User', {
       axios
         .put(`${import.meta.env.VITE_APP_BACKEND_URL}/factories/${factory.id}`, factory)
         .then((response) => {
-          this.factories = this.factories.map((factory) => {
-            if (factory.id === response.data.id) {
-              return response.data
-            }
-            return factory
-          })
+          this.fetchUser(response.data.id)
         })
     },
 
     async fetchUserFactories(id: string) {
-      axios
-        .get(`${import.meta.env.VITE_APP_BACKEND_URL}/factories/user/${id}`)
-        .then((response) => {
-          this.factories = response.data    
-                    
-        })
+      axios.get(`${import.meta.env.VITE_APP_BACKEND_URL}/factories/user/${id}`).then((response) => {
+        this.factories = response.data
+      })
     },
     async fetchPurchase() {
       axios.get(`${import.meta.env.VITE_APP_BACKEND_URL}/purchase/${this.id}`).then((response) => {
@@ -130,10 +134,42 @@ export const useUserStore = defineStore('User', {
         this.password = user.password
         this.money = user.money
         this.products = user.products
+        this.success = user.success
         this.fetchUserFactories(user._id)
         /*        this.fetchPurchase()
         this.fetchSells() */
       })
+    },
+    updateUser({ user }: { user: User }) {
+      axios
+        .put(`${import.meta.env.VITE_APP_BACKEND_URL}/users/${user.id}`, user)
+        .then((response) => {
+          return this.fetchUser(response.data.id)
+        })
     }
+  }
+})
+
+
+export const useEchangeStore = defineStore('Echange', {
+  state: (): EchangeAll => ({
+    echange : []
+  }),
+  getters: {
+    getEchange(state): Echange[] {
+      return state.echange
+    },
+  },
+  actions: {
+    addEchange({ echange }: { echange: Echange }) {
+      axios.post(`${import.meta.env.VITE_APP_BACKEND_URL}/echange`, echange).then((response) => {
+        this.echange.push(response.data)
+      })
+    },
+    getAllEchange(){
+      axios.get(`${import.meta.env.VITE_APP_BACKEND_URL}/echanges`).then((response) => {
+        console.log(response)
+          return response.data
+      })}
   }
 })
