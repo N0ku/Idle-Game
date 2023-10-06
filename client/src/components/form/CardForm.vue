@@ -102,6 +102,7 @@ function handleFormSubmit() {
                     userStore.setSells({ sells: user.sells })
                     userStore.setMoney({ money: user.money })
                     userStore.setFactories({ factories: response.data.factories })
+                    userStore.setSuccess({ success: response.data.success })
                     router.push('/game')
                   })
 

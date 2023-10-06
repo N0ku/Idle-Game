@@ -34,3 +34,7 @@ export class Echange{
 
 
 }
+
+export interface EchangeAll{
+   echange : Echange[];
+}

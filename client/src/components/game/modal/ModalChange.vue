@@ -59,12 +59,18 @@ import {Products} from "../../../../../server/src/global/enums/enumFactory";
 import CardDrawer from "@/components/game/drawer/CardDrawer.vue";
 import CardModalEchange from "@/components/game/modal/CardModalEchange.vue";
 import LittleModal from "@/components/game/modal/LittleModal.vue";
+import {useEchangeStore} from "@/stores/datastore";
 
 let isOpen = reactive({value : false})
 let isSell = reactive({value : false})
 
-let store : Store
+
+
+let echangeStore = useEchangeStore()
 let itemTochange : ItemEchange = new ItemEchange(Products.Water, 20, 'efef')
+let echanges : Echange[] = echangeStore.getAllEchange()
+console.log(echanges)
+
 
 let change : Echange[] = [new Echange('efe', itemTochange, itemTochange),new Echange('efe', itemTochange, itemTochange)]
 function onToggle() {
@@ -81,6 +87,7 @@ const handleItems = (data) => {
   console.log(data
 
   )
+  echangeStore.addEchange(data)
   isSell.value = false
 };
 

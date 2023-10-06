@@ -3,12 +3,7 @@
     <ButtonMarketPlace @open-marketplace="openMarketPlace" class="z-50" />
     <ModalChange :user="user"/>
 
-    <StartSlider
-      :start="start"
-      :currentStep="counterStep"
-      @itemClicked="handleItemClicked"
-      v-if="start"
-    />
+    <StartSlider :start="start" :currentStep="counterStep" @itemClicked="handleItemClicked" v-if="start" />
 
     <FactoryContainer v-if="!start" :factories="allFactories" />
     <DrawerGlobalView v-if="!start" :factories="allFactories" />
@@ -16,7 +11,6 @@
     <MarketPlace v-if="showMarketPlace" @close-marketplace="closeMarketPlace"> </MarketPlace>
   </div>
 </template>
-
 <script setup lang="ts">
 import ButtonMarketPlace from '../components/game/ButtonMarketPlace.vue'
 import StartSlider from '../components/game/StartSlider.vue'
@@ -26,10 +20,10 @@ import MarketPlace from '@/components/menu/MarketPlace.vue'
 import { ref, reactive } from 'vue'
 import { Factory, Products, TypeFactory,Product, User } from '../../../server/src/global/implements'
 import FactoryContainer from '@/components/game/factory/FactoryContainer.vue'
-import ModalChange from "@/components/game/modal/ModalChange.vue";
+import io from 'socket.io-client';
+import { onUnmounted } from 'vue'
 
 const userStore = useUserStore()
-
 
 let start = ref(false)
 let counterStep = ref(1)
@@ -42,6 +36,31 @@ const user = new User(
     100,
      []
 );
+
+const socket = io(`${import.meta.env.VITE_APP_BACKEND_URL}`, { transports: ['websocket'] });
+
+socket.on('connect', () => {
+  socket.emit('userId', userStore.getId);
+});
+
+socket.on('updateProduct', (product) => {
+  console.log(product);
+});
+
+socket.on('updateSuccess', (success) => {
+  if (userStore.getSuccess) {
+    if (!userStore.getSuccess.includes(success)) {
+      userStore.addSuccess({ success: success })
+      console.log(success);
+    }
+  }
+});
+
+onUnmounted(() => {
+  socket.emit('disconnect', userStore.getId);
+  socket.disconnect();
+});
+
 
 let handleItemClicked = (product: any): void => {
 
@@ -138,6 +157,7 @@ let handleItemClicked = (product: any): void => {
     start.value = false
   }
 }
+
 let showMarketPlace = ref(false)
 
 const openMarketPlace = () => {
@@ -168,6 +188,7 @@ if (factories.length === 0) {
 }
 
 </script>
+
 
 <style lang="scss">
 .game-container {

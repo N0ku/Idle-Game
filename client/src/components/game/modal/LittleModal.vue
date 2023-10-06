@@ -56,7 +56,7 @@ let quantityTo : number = 0
 const sendItemsToChange = () => {
   //TODO regarder la quantity des user pour le stock mais peut etre faire ca après le emit
   if(quantityFrom <= 0 || quantityTo <= 0){return;}
- let  itemFrom : ItemEchange = new ItemEchange(selectedOptionFrom, quantityFrom, 'dvve')
+ let  itemFrom : ItemEchange = new ItemEchange(selectedOptionFrom, quantityFrom, 'fef')
   let itemTo : ItemEchange = new ItemEchange(selectedOptionTo, quantityTo, null)
   let echange : Echange = new Echange('dv',itemFrom,itemTo)
   emit('changeEvent', { echange });

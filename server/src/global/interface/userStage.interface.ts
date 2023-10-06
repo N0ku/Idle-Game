@@ -1,4 +1,4 @@
-import type { Factory, Product } from "../implements";
+import type { Factory, Product, Success } from "../implements";
 
 export interface UserStage {
     id: string;
@@ -8,6 +8,7 @@ export interface UserStage {
     factories: Factory[];
     products: Product[];
     money: number;
+    success: Success[];
     purchases: undefined;
     sells: undefined;
 }
