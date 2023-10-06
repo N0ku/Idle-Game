@@ -1,7 +1,9 @@
 
 import {Express, Request, Response} from "express";
-import {addEchange, getAllEchange} from "@/modules/echange/echange.services";
+import {addEchange, getAllEchange, updateEchange} from "@/modules/echange/echange.services";
 import {Echange} from "@/global/classes/Echange";
+import {ObjectId} from "mongodb";
+
 
 export function EcahgneRoutes(app: Express) {
     app.get(
@@ -19,6 +21,14 @@ export function EcahgneRoutes(app: Express) {
             } catch (error) {
                 console.log(error);
             }
+        }
+    );
+
+    app.put(
+        "/echange/:id",
+        async (req: Request<{ id: ObjectId }, unknown, Echange>, res: Response) => {
+            const result = await updateEchange(req.params.id, req.body);
+            res.json(result);
         }
     );
 
