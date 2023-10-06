@@ -15,7 +15,7 @@ export async function updateUser(id: ObjectId, body: User) {
 
   await Users.updateOne({ _id: new ObjectId(id) }, { $set: body });
 
-  return { success: true };
+  return { success: true, id: id };
 }
 
 export async function addFactoryToUser(id: ObjectId, body: Factory) {
@@ -30,9 +30,9 @@ export async function addFactoryToUser(id: ObjectId, body: Factory) {
 }
 
 export async function getUserByToken(token: string) {
-  
+
   const Users = db!.collection<User>("users");
   const user = await Users.findOne({ token: token });
-  
+
   return { user };
 }
