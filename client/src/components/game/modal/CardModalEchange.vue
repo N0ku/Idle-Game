@@ -7,7 +7,8 @@ import {
 } from '../../../../../server/src/global/implements'
 import {Trade} from "../../../../../server/src/global/interface/Trade";
 import {Echange, ItemEchange} from "../../../../../server/src/global/classes/Echange";
-import {toRefs} from "vue";
+import {defineEmits, toRefs} from "vue";
+import {useUserStore} from "@/stores/datastore";
 
 
 
@@ -16,9 +17,20 @@ const props = defineProps({
 })
 
 
-const fromUserItem : ItemEchange = toRefs(props.echange.fromUser)
-const toUserItem : ItemEchange = toRefs(props.echange?.toUser)
 
+let userStore = useUserStore()
+const fromUserItem : ItemEchange = props.echange.fromUser
+const toUserItem : ItemEchange = props.echange?.toUser
+
+
+console.log(ProductsExtensions.GetImage("Stone"))
+const emit = defineEmits<{
+  changeToogle: [echange: Echange]
+}>();
+
+function toogleEchange( echange : Echange){
+  emit('changeToogle', { echange });
+}
 
 function getTotalPriceItem(){
   return ProductsExtensions.GetPrice(props.product?.name) * props.product?.quantity;
@@ -38,10 +50,13 @@ function getTotalPriceItem(){
           {{ fromUserItem.quantity }}
         </div>
         <img
-            class="h-[1rem] rounded-lg"
+            class="h-[2rem] rounded-lg"
             :src="ProductsExtensions.GetImage(fromUserItem.productName)"
             alt="card 1"
         />
+      </div>
+      <div>
+        <img src="src/assets/img/6957ux-flèches.jpeg" class="w-8 h-8">
       </div>
 
       <div class="flex flex-row">
@@ -49,7 +64,7 @@ function getTotalPriceItem(){
         {{ toUserItem.quantity }}
       </div>
       <img
-          class="h-[1rem] rounded-lg"
+          class="h-[2rem] rounded-lg"
           :src="ProductsExtensions.GetImage(toUserItem.productName)"
           alt="card 1"
       />
@@ -59,6 +74,7 @@ function getTotalPriceItem(){
       <span>{{ props.echange.createdAt }}</span>
     </div>
     <button
+        @click="toogleEchange(props.echange)"
         class="bg-green-500 border w-28 border-green-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-md hover:shadow-lg hover:bg-green-600"
     >Echanger</button>
   </div>

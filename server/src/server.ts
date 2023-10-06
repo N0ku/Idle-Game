@@ -41,6 +41,7 @@ export async function initWebServer() {
   userRoutes(app);
   productRoutes(app);
   EcahgneRoutes(app);
+  EcahgneRoutes(app);
 
   // All connected client on the website
   const clients = new Map();

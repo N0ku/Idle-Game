@@ -6,7 +6,7 @@
       <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
         <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
           <div class="w-full md:w-1/2">
-            <form class="flex items-center">
+            <form class="flex items-center" @submit.prevent="handleSubmit">
               <label for="simple-search" class="sr-only">Search</label>
               <div class="relative w-full">
                 <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -17,7 +17,7 @@
                       clip-rule="evenodd" />
                   </svg>
                 </div>
-                <input type="text" id="simple-search"
+                <input type="text" id="simple-search" v-model="input.value"
                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                   placeholder="Search" required="false">
               </div>
@@ -60,7 +60,8 @@
                     all</a>
                 </div>
               </div>
-              <button id="filterDropdownButton" data-dropdown-toggle="filterDropdown"
+
+              <button id="filterDropdownButton" data-dropdown-toggle="filterDropdown" @click="handleFilterClicked"
                 class="w-full md:w-auto flex items-center justify-center py-2 px-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
                 type="button">
                 <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-4 w-4 mr-2 text-gray-400"
@@ -76,101 +77,28 @@
                     d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
                 </svg>
               </button>
-              <div id="filterDropdown" class="z-10 hidden w-56 p-3 bg-white rounded-lg shadow dark:bg-gray-700">
-                <h6 class="mb-3 text-sm font-medium text-gray-900 dark:text-white">Category</h6>
+              <div id="filterDropdown" class="z-10 w-56 p-3 bg-white rounded-lg shadow dark:bg-gray-700"
+                v-if="filterDropdown">
+                <h6 class="mb-3 text-sm font-medium text-gray-900 dark:text-white">Product Name</h6>
                 <ul class="space-y-2 text-sm" aria-labelledby="filterDropdownButton">
-                  <li class="flex items-center">
-                    <input id="apple" type="checkbox" value="">
-                    class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500
+                  <li class="flex items-center" v-for="(item, index) in ProductsType" v-bind:key="index">
+                    <input id="apple" type="checkbox" value="" class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500
                     dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600
                     dark:border-gray-500">
-                    <label for="apple" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">Apple
-                      (56)</label>
-                  </li>
-                  <li class="flex items-center">
-                    <input id="fitbit" type="checkbox" value="">
-                    class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500
-                    dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600
-                    dark:border-gray-500">
-                    <label for="fitbit" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">Fitbit
-                      (56)</label>
-                  </li>
-                  <li class="flex items-center">
-                    <input id="dell" type="checkbox" value="">
-                    class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500
-                    dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600
-                    dark:border-gray-500">
-                    <label for="dell" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">Dell (56)</label>
-                  </li>
-                  <li class="flex items-center">
-                    <input id="asus" type="checkbox" value="" checked>
-                    class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500
-                    dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600
-                    dark:border-gray-500">
-                    <label for="asus" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">Asus (97)</label>
-                  </li>
-                  <li class="flex items-center">
-                    <input id="logitech" type="checkbox" value="" checked>
-                    class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500
-                    dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600
-                    dark:border-gray-500">
-                    <label for="logitech" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">Logitech
-                      (97)</label>
-                  </li>
-                  <li class="flex items-center">
-                    <input id="msi" type="checkbox" value="" checked>
-                    class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500
-                    dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600
-                    dark:border-gray-500">
-                    <label for="msi" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">MSI (97)</label>
-                  </li>
-                  <li class="flex items-center">
-                    <input id="bosch" type="checkbox" value="" checked>
-                    class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500
-                    dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600
-                    dark:border-gray-500">
-                    <label for="bosch" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">Bosch
-                      (176)</label>
-                  </li>
-                  <li class="flex items-center">
-                    <input id="sony" type="checkbox" value=""
-                      class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                    <label for="sony" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">Sony (234)</label>
-                  </li>
-                  <li class="flex items-center">
-                    <input id="samsung" type="checkbox" value="" checked>
-                    class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500
-                    dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600
-                    dark:border-gray-500">
-                    <label for="samsung" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">Samsung
-                      (76)</label>
-                  </li>
-                  <li class="flex items-center">
-                    <input id="canon" type="checkbox" value="">
-                    class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500
-                    dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600
-                    dark:border-gray-500">
-                    <label for="canon" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">Canon
-                      (49)</label>
-                  </li>
-                  <li class="flex items-center">
-                    <input id="microsoft" type="checkbox" value="">
-                    class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500
-                    dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600
-                    dark:border-gray-500">
-                    <label for="microsoft" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">Microsoft
-                      (45)</label>
-                  </li>
-                  <li class="flex items-center">
-                    <input id="razor" type="checkbox" value="">
-                    class="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500
-                    dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600
-                    dark:border-gray-500">
-                    <label for="razor" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">Razor
-                      (49)</label>
+                    <label for="apple" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">{{ item
+                    }}</label>
                   </li>
                 </ul>
               </div>
+              <button type="button"
+                class="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+                @click="$emit('close-marketplace')">
+                <span class="sr-only">Close menu</span>
+                <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                  stroke="currentColor" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
             </div>
           </div>
         </div>
@@ -207,7 +135,8 @@
                     </svg>
                   </button>
                   <div
-                    class="z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600" v-if="showDropdown === index">
+                    class="z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600"
+                    v-if="showDropdown === index">
                     <ul class="py-1 text-sm" aria-labelledby="item.productName">
                       <li>
                         <button type="button" data-modal-target="updateProductModal" @click="handleUpdateProductClicked"
@@ -257,9 +186,9 @@
           aria-label="Table navigation">
           <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
             Showing
-            <span class="font-semibold text-gray-900 dark:text-white">1-10</span>
+            <span class="font-semibold text-gray-900 dark:text-white">1-1</span>
             of
-            <span class="font-semibold text-gray-900 dark:text-white">1000</span>
+            <span class="font-semibold text-gray-900 dark:text-white">1</span>
           </span>
           <ul class="inline-flex items-stretch -space-x-px">
             <li>
@@ -276,15 +205,7 @@
             </li>
             <li>
               <a href="#"
-                class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">1</a>
-            </li>
-            <li>
-              <a href="#"
-                class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">2</a>
-            </li>
-            <li>
-              <a href="#" aria-current="page"
-                class="flex items-center justify-center text-sm z-10 py-2 px-3 leading-tight text-primary-600 bg-primary-50 border border-primary-300 hover:bg-primary-100 hover:text-primary-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">3</a>
+                class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:text-white">1</a>
             </li>
             <li>
               <a href="#"
@@ -292,7 +213,7 @@
             </li>
             <li>
               <a href="#"
-                class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">100</a>
+                class="flex items-center justify-center text-sm py-2 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">1</a>
             </li>
             <li>
               <a href="#"
@@ -562,7 +483,7 @@
   </section>
 </template>
 <script lang="ts">
-import { ref } from 'vue';
+import { ref, reactive, computed } from 'vue';
 import { Trade } from '../../../../server/src/global/interface/Trade';
 import { Products } from '../../../../server/src/global/implements';
 
@@ -573,6 +494,20 @@ export default {
     const readProductModal = ref(false);
     const deleteModal = ref(false);
     const showDropdown = ref(-1);
+    const filterDropdown = ref(false);
+
+    const input = reactive({
+      value: "",
+    })
+
+    const handleSubmit = () => {
+      console.log('handle submit')
+      // on filtre les Sells en fonction de l'input voir si il y a une correspondance entre le nom du produit et l'input
+     Sells.value = Sells.value.filter((sell) => sell.productName.toLowerCase().includes(input.value.toLowerCase()))
+      
+      // on reset le formulaire
+      input.value = ""
+    }
 
 
     const handleUpdateProductClicked = (): void => {
@@ -595,6 +530,10 @@ export default {
       showDropdown.value = index;
     }
 
+    const handleFilterClicked = (): void => {
+      filterDropdown.value = !filterDropdown.value;
+    }
+
     const handleCloseModal = (): void => {
       createProductModal.value = false;
       updateProductModal.value = false;
@@ -602,7 +541,7 @@ export default {
       deleteModal.value = false;
     }
 
-    const Sells = [
+    const Sells = ref([
       new Trade("", Products.Stone, 2000, 100, "", new Date().toDateString()),
       new Trade("", Products.Stone, 2000, 100, "", new Date().toDateString()),
       new Trade("", Products.Weed, 2000, 100, "", new Date().toDateString()),
@@ -611,6 +550,14 @@ export default {
       new Trade("", Products.CBD, 2000, 100, "", new Date().toDateString()),
       new Trade("", Products.Water, 2000, 100, "", new Date().toDateString()),
       new Trade("", Products.Water, 2000, 100, "", new Date().toDateString()),
+    ]);
+
+    const ProductsType = [
+      Products.Stone,
+      Products.Weed,
+      Products.CBD,
+      Products.Water,
+      Products.Wood
     ];
 
 
@@ -626,7 +573,12 @@ export default {
       handleCloseModal,
       showDropdown,
       handleShowDropdown,
-      Sells
+      Sells,
+      handleFilterClicked,
+      filterDropdown,
+      ProductsType,
+      input,
+      handleSubmit
     };
   }
 }
@@ -643,6 +595,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: rgba(0, 0, 0, 0.255);
 }
 
 #createProductModal {
@@ -651,5 +604,4 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-</style>
+}</style>

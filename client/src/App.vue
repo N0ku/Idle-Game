@@ -6,6 +6,9 @@ import axios from 'axios'
 import { useRouter } from 'vue-router'
 import { useUserStore } from './stores/datastore'
 
+
+
+
 const isLoading = ref(false)
 
 const router = useRouter()
@@ -43,7 +46,6 @@ if (hasValidToken) {
     router.push('/')
   } // No token, hide the loader
 }
-
 </script>
 
 <template>
