@@ -13,15 +13,13 @@ import { Trade } from '../../../../../server/src/global/interface/Trade'
 const props = defineProps({
   factories: {
     type: Array as () => Factory[]
+  },
+  allProducts: {
+    type: Array as () => Product[]
   }
 })
 
-const allProduct: Product[] = [
-  new Product(Products.Wood, 10.0, 'Wood product', 100),
-  new Product(Products.Stone, 15.0, 'Stone product', 50),
-  new Product(Products.Weed, 20.0, 'Weed product', 25),
-  new Product(Products.Water, 20.0, 'Water product', 25)
-]
+
 
 const fullSell: Trade[] = [
   new Trade('dzdzdzd', Products.Wood, 30, 20, '877Ec-zdzd-zdz', 'zfezfzefef'),
@@ -117,7 +115,7 @@ function handleView(viewChoice: string) {
             </div>
             <div class="w-9/12 overflow-x-auto grid grid-rows-4 grid-flow-col gap-2">
               <!--  -->
-              <div class="w-32 h-10 m-2" v-for="(product, index) in allProduct" :key="index">
+              <div class="w-32 h-10 m-2" v-for="(product, index) in props.allProducts" :key="index">
                 <CardDrawer mode="ressource" :product="product" />
               </div>
             </div>

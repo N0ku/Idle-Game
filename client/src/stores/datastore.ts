@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { UserStage, Factory, Product, Success } from '../../../server/src/global/implements'
+import { UserStage, Factory, Product, User, Success } from '../../../server/src/global/implements'
 import axios from 'axios'
 import {Echange, EchangeAll, ItemEchange} from "../../../server/src/global/classes/Echange";
 
@@ -106,22 +106,14 @@ export const useUserStore = defineStore('User', {
       axios
         .put(`${import.meta.env.VITE_APP_BACKEND_URL}/factories/${factory.id}`, factory)
         .then((response) => {
-          this.factories = this.factories.map((factory) => {
-            if (factory.id === response.data.id) {
-              return response.data
-            }
-            return factory
-          })
+          this.fetchUser(response.data.id)
         })
     },
 
     async fetchUserFactories(id: string) {
-      axios
-        .get(`${import.meta.env.VITE_APP_BACKEND_URL}/factories/user/${id}`)
-        .then((response) => {
-          this.factories = response.data    
-                    
-        })
+      axios.get(`${import.meta.env.VITE_APP_BACKEND_URL}/factories/user/${id}`).then((response) => {
+        this.factories = response.data
+      })
     },
     async fetchPurchase() {
       axios.get(`${import.meta.env.VITE_APP_BACKEND_URL}/purchase/${this.id}`).then((response) => {
@@ -147,6 +139,13 @@ export const useUserStore = defineStore('User', {
         /*        this.fetchPurchase()
         this.fetchSells() */
       })
+    },
+    updateUser({ user }: { user: User }) {
+      axios
+        .put(`${import.meta.env.VITE_APP_BACKEND_URL}/users/${user.id}`, user)
+        .then((response) => {
+          return this.fetchUser(response.data.id)
+        })
     }
   }
 })
