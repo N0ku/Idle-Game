@@ -9,8 +9,9 @@
       @itemClicked="handleItemClicked"
       v-if="start"
     />
-    <DrawerGlobalView></DrawerGlobalView>
-    <FactoryItem />
+
+    <FactoryContainer v-if="!start" :factories="allFactories" />
+    <DrawerGlobalView v-if="!start" :factories="allFactories" />
 
     <MarketPlace v-if="showMarketPlace" @close-marketplace="closeMarketPlace"> </MarketPlace>
   </div>
@@ -22,13 +23,13 @@ import StartSlider from '../components/game/StartSlider.vue'
 import DrawerGlobalView from '@/components/game/drawer/DrawerGlobalView.vue'
 import { useUserStore } from '@/stores/datastore'
 import MarketPlace from '@/components/menu/MarketPlace.vue'
-import type { Item } from '@/types/Item'
 import { ref, reactive } from 'vue'
-import {Factory, Products, TypeFactory, User} from '../../../server/src/global/implements'
-import FactoryItem from '@/components/game/FactoryItem.vue'
+import { Factory, Products, TypeFactory,Product, User } from '../../../server/src/global/implements'
+import FactoryContainer from '@/components/game/factory/FactoryContainer.vue'
 import ModalChange from "@/components/game/modal/ModalChange.vue";
 
 const userStore = useUserStore()
+
 
 let start = ref(false)
 let counterStep = ref(1)
@@ -43,6 +44,7 @@ const user = new User(
 );
 
 let handleItemClicked = (product: any): void => {
+
   let factoryType: TypeFactory = TypeFactory.WoodProduction
   let newFactory: Factory = new Factory(
     product.name,
@@ -130,8 +132,6 @@ let handleItemClicked = (product: any): void => {
     default:
       break
   }
-  console.log(newFactory)
-
   userStore.addFactory({ factory: newFactory })
   counterStep.value++
   if (counterStep.value > 3) {
@@ -149,11 +149,24 @@ const closeMarketPlace = () => {
 }
 
 const factories = reactive<Factory[]>(userStore.getFactories)
-console.log(factories)
+const products = reactive<Product[]>(userStore.getProducts)
 
+const allFactories = factories.map(
+  (item) =>
+    new Factory(
+      item.productName,
+      item.factoryType,
+      item.userId,
+      item.production,
+      item.level,
+      item._id,
+      item.id_localisation
+    )
+)
 if (factories.length === 0) {
   start.value = true
 }
+
 </script>
 
 <style lang="scss">

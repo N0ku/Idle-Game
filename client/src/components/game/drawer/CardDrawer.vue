@@ -7,8 +7,6 @@ import {
 } from '../../../../../server/src/global/implements'
 import {Trade} from "../../../../../server/src/global/interface/Trade";
 
-
-
 const props = defineProps({
   mode : String,
   factory : Factory,

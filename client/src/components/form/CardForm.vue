@@ -79,9 +79,7 @@ function handleFormSubmit() {
     .then((response: AxiosResponse<any>) => {
       if (response.data.success) {
         const successMessage =
-          props.page === 'register' ? 'Account created successfully !' : 'Login !'          
-
-        userStore.fetchUser(response.data.id);
+          props.page === 'register' ? 'Account created successfully !' : 'Login !'
 
         Swal.fire({
           icon: 'success',
@@ -92,8 +90,25 @@ function handleFormSubmit() {
           if (props.page !== 'register') {
             const token = response.data.token
             document.cookie = `token_little_garden=${token};`
+            axios.get(`${import.meta.env.VITE_APP_BACKEND_URL}/users/token/${token}`).then((response) => {
+              const user = response.data.user
+              if (user) {
+                axios
+                  .get(`${import.meta.env.VITE_APP_BACKEND_URL}/factories/user/${user._id}`)
+                  .then((response) => {
+                    userStore.setId({ id: user._id })
+                    userStore.setUsername({ name: user.username })
+                    userStore.setPurchases({ purchases: user.purchases })
+                    userStore.setSells({ sells: user.sells })
+                    userStore.setMoney({ money: user.money })
+                    userStore.setFactories({ factories: response.data.factories })
+                    router.push('/game')
+                  })
+
+              }
+              // Data has been fetched, hide the loader
+            })
             // Rediriger vers la page '/game'
-            router.push('/game')
           }
         })
 

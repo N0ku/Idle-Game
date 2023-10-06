@@ -30,23 +30,23 @@ export function factoryRoutes(app: Express) {
   );
   app.get(
     "/factories/:id",
-    async (req: Request<{ id: ObjectId }, unknown, unknown>, res: Response) => {
-      const result = await getFactoryById(req.params.id);
+    async (req: Request<{ id: string }, unknown, unknown>, res: Response) => {
+      const result = await getFactoryById(new ObjectId(req.params.id));
       res.json(result);
     }
   );
   app.put(
     "/factories/:id",
-    async (req: Request<{ id: ObjectId }, unknown, Factory>, res: Response) => {
-      const result = await updateFactory(req.params.id, req.body);
+    async (req: Request<{ id: string }, unknown, Factory>, res: Response) => {
+      const result = await updateFactory(new ObjectId(req.params.id), req.body);
       res.json(result);
     }
   );
 
   app.delete(
     "/factories/:id",
-    async (req: Request<{ id: ObjectId }, unknown, unknown>, res: Response) => {
-      const result = await deleteFactory(req.params.id);
+    async (req: Request<{ id: string }, unknown, unknown>, res: Response) => {
+      const result = await deleteFactory(new ObjectId(req.params.id));
       res.json(result);
     }
   );
@@ -54,7 +54,7 @@ export function factoryRoutes(app: Express) {
   app.get(
     "/factories/user/:id",
     async (req: Request<{ id: string }, unknown, unknown>, res: Response) => {
-      const result = await getFactoriesByUserId(req.params.id);
+      const result = await getFactoriesByUserId(new ObjectId(req.params.id));
       
       res.json(result);
     }
