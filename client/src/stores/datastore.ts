@@ -80,7 +80,8 @@ export const useUserStore = defineStore('User', {
       this.products = products
     },
     setSuccess({ success }: { success: Success[] }) {
-      this.success = success
+      this.success = success      
+      
     },
     addSuccess({ success }: { success: Success }) {
       this.success.push(success)
