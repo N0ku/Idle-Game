@@ -5,8 +5,8 @@ import {Echange} from "@/global/classes/Echange";
 export async function getAllEchange() {
     const Echange = db!.collection<Echange>("echange");
 
-    const echange = await Echange.find();
-
+    const echange = await Echange.find().toArray();
+    console.log(echange)
     return { echange };
 }
 

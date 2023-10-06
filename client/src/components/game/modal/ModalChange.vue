@@ -53,7 +53,8 @@
 
 <script setup lang="ts">
 
-import {reactive} from "vue";
+
+import {onMounted, onUnmounted, reactive} from "vue";
 import {Echange, ItemEchange} from "../../../../../server/src/global/classes/Echange";
 import {Products} from "../../../../../server/src/global/enums/enumFactory";
 import CardDrawer from "@/components/game/drawer/CardDrawer.vue";
@@ -67,12 +68,18 @@ let isSell = reactive({value : false})
 
 
 let echangeStore = useEchangeStore()
-let itemTochange : ItemEchange = new ItemEchange(Products.Water, 20, 'efef')
-let echanges : Echange[] = echangeStore.getAllEchange()
-console.log(echanges)
+let echanges = reactive({ value: [] });
 
 
-let change : Echange[] = [new Echange('efe', itemTochange, itemTochange),new Echange('efe', itemTochange, itemTochange)]
+onMounted(() => {
+  const allEchanges = echangeStore.getAllEchange();
+  console.log(allEchanges)
+  allEchanges.forEach((echange) => {
+  echanges.value.push(echange);
+  });
+});
+
+
 function onToggle() {
   console.log('r')
   isOpen.value = !isOpen.value;
@@ -94,8 +101,6 @@ const handleItems = (data) => {
 
 </script>
 <style>
-
-
 .fade-enter,
 .fade-leave-to {
   opacity: 0;

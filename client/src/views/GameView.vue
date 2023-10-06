@@ -22,6 +22,7 @@ import { Factory, Products, TypeFactory,Product, User } from '../../../server/sr
 import FactoryContainer from '@/components/game/factory/FactoryContainer.vue'
 import io from 'socket.io-client';
 import { onUnmounted } from 'vue'
+import ModalChange from "@/components/game/modal/ModalChange.vue";
 
 const userStore = useUserStore()
 
